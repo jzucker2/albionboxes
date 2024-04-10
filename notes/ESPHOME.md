@@ -25,3 +25,8 @@ entity, _even_ if that entity is already prepended with the
 expanded `${friendly_name}`. This causes it to double so that 
 it reads as `Dan Desk Temp Sensor Dan Desk Temp Sensor Uptime Sensor` 
 instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
+
+## Resources
+
+* https://esphome.io/guides/faq
+* https://esphome.io/guides/getting_started_hassio
