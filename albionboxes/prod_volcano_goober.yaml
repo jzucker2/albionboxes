@@ -4,7 +4,8 @@ substitutions:
   friendly_name: Volcano Goober
   area: Living Room
   comment: "Still needs a lot of work"
-  volcano_mac_address: "EC:ED:C8:31:6C:7E"
+  # FIXME: need to fill this out a bit
+  volcano_mac_address: !secret volcano_mac_address
   autoconnect: "true"
   volcano_switch_restore_mode: RESTORE_DEFAULT_OFF
   temperature_sensor_update_interval: "60s"
