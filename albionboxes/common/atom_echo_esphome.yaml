@@ -4,6 +4,10 @@ esphome:
 #  friendly_name: ${friendly_name}
   area: ${area}
   comment: ${comment}
+  # https://esphome.io/components/esphome#project-information
   project:
-    name: m5stack.atom-echo
-    version: "1.0"
+    name: "jordan.albionboxes"
+    # FIXME: make an env var to be shared
+    version: "0.1.0"
+#    name: m5stack.atom-echo
+#    version: "1.0"

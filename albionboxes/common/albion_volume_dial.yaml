@@ -23,6 +23,10 @@ esphome:
 #  friendly_name: ${friendly_name}
   area: ${area}
   comment: ${comment}
+  project:
+    name: "jordan.albionboxes"
+    # FIXME: make an env var to be shared
+    version: "0.1.0"
   on_boot:
     then:
       - light.turn_on: backlight

@@ -5,5 +5,9 @@ esphome:
   area: ${area}
   comment: ${comment}
   project:
-    name: esphome.bluetooth-proxy
-    version: "1.0"
+    name: "jordan.albionboxes"
+    # FIXME: make an env var to be shared
+    version: "0.1.0"
+#  project:
+#    name: esphome.bluetooth-proxy
+#    version: "1.0"
