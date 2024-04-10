@@ -1,0 +1,13 @@
+light:
+  - platform: fastled_clockless
+    chipset: WS2812B
+    pin: 27
+    restore_mode: ALWAYS_OFF
+    num_leds: 1
+    rgb_order: GRB
+    id: status_led
+    name: "${friendly_name} Light"
+    effects:
+      - random:
+      - flicker:
+      - addressable_rainbow:

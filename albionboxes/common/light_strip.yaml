@@ -1,0 +1,12 @@
+light:
+  - platform: neopixelbus
+    type: GRB
+    variant: SK6812
+    pin: 2
+    num_leds: 10
+    id: led_strip
+    name: "${friendly_name} Light Strip"
+    effects:
+      - random:
+      - flicker:
+      - addressable_rainbow:

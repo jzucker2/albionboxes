@@ -1,0 +1,9 @@
+esphome:
+  name: ${node_name}
+  # for more on friendly_name issues, see https://github.com/jzucker2/goober/blob/master/notes/ESPHOME.md
+#  friendly_name: ${friendly_name}
+  area: ${area}
+  comment: ${comment}
+  project:
+    name: m5stack.atom-echo
+    version: "1.0"

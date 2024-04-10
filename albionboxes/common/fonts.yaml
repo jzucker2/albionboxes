@@ -1,0 +1,24 @@
+font:
+  # gfonts://family[@weight]
+  - file: "gfonts://Roboto"
+    id: roboto
+    size: 20
+  - file: "gfonts://Roboto"
+    id: font_roboto_small_print
+    size: 11
+    glyphs: '[]!"%()<=>+,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz/³µ'
+  - file: "gfonts://Roboto"
+    id: font_roboto_medium_small_print
+    size: 14
+    glyphs: '[]!"%()<=>+,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz/³µ'
+  - file: "gfonts://Roboto@medium"
+    id: font_roboto_medium22
+    size: 22
+    glyphs: '[]!"%()<=>+,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz/³µ'
+  - file: "gfonts://Roboto"
+    id: my_font
+    size: 20
+    glyphs: '[]!"%()<=>+,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz/³µ'
+  - file: "gfonts://Roboto"
+    id: big_time_roboto
+    size: 42
