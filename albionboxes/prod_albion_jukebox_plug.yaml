@@ -1,0 +1,51 @@
+# Uses the M5Stack Atom Socket
+# https://shop.m5stack.com/products/atom-socket-kit-hlw8023-jp-us
+# Socket pins:
+# G22 - Rx
+# G23 - Relay
+substitutions:
+  node_name: albionjukeboxplug
+  friendly_name: AlbionJukebox Plug
+  area: JZ Bedroom
+  comment: "This is the prototype for the next Burning Man jukebox"
+  relay_pin: GPIO23
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include common/atom_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+
+## Device-specific
+
+# for power monitoring:
+# * https://github.com/esphome/feature-requests/issues/1386
+# * https://esphome.io/components/sensor/hlw8012.html
+# * https://esphome.io/components/sensor/cse7766.html
+# * https://community.home-assistant.io/t/multifunctional-smart-home-controller-atom-on-esp32/297606/8
+
+# https://devices.esphome.io/devices/Generic-Relay
+switch:
+  - platform: gpio
+    name: "${friendly_name} Plug Relay"
+    pin: ${relay_pin}
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 39
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "Button tapped"
+        - logger.log: "Done with button tapped!"

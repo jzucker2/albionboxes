@@ -1,0 +1,71 @@
+substitutions:
+  node_name: pantry-rf-transmitter-goober
+  friendly_name: Goober RF Pantry Transmitter
+  area: Pantry
+  comment: "For controlling the old RF lights in the pantry"
+  pantry_restore_mode: RESTORE_DEFAULT_OFF
+  rf_rc_on_code:  "00000111000110000000000110110111"
+  rf_rc_off_code: "00000111000110000000000110010111"
+  rf_rc_protocol: "1"
+  repeat_times: "10"
+  repeat_wait_time: 0s
+
+# use `test_rf_receiver_logger.yaml` to grab RF codes
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include common/atom_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+
+## Device-specific
+# https://esphome.io/components/remote_transmitter.html#remote-setting-up-rf
+
+remote_transmitter:
+  pin: GPIO26
+  # RF uses a 100% carrier signal
+  carrier_duty_percent: 100%
+
+# https://esphome.io/components/switch/template
+switch:
+  - platform: template
+    name: ${friendly_name} Power Tx Switch
+    id: "rf_tx_power_button"
+    restore_mode: ${pantry_restore_mode}
+    optimistic: true
+    assumed_state: true
+    turn_on_action:
+      - remote_transmitter.transmit_rc_switch_raw:
+          code: ${rf_rc_on_code}
+          protocol: ${rf_rc_protocol}
+          repeat:
+            times: ${repeat_times}
+            wait_time: ${repeat_wait_time}
+    turn_off_action:
+      - remote_transmitter.transmit_rc_switch_raw:
+          code: ${rf_rc_off_code}
+          protocol: ${rf_rc_protocol}
+          repeat:
+            times: ${repeat_times}
+            wait_time: ${repeat_wait_time}
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 39
+    name: ${friendly_name} RF Transmitter Button
+    on_press:
+      then:
+        - logger.log: "Transmitter button press started"
+        - logger.log: "Transmit RF rc_switch code"
+        - switch.toggle: rf_tx_power_button
+        - logger.log: "Done with transmitter button pressed!"

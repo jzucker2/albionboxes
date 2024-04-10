@@ -1,0 +1,44 @@
+substitutions:
+  node_name: ovengassensor
+  friendly_name: Oven Gas Sensor
+  area: Living Room
+  comment: "This senses gas from the oven but is in the living room actually"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atoms3lite_device.yaml
+  light: !include common/s3_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  tvoc_sensor: !include common/tvoc_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  # Issues with internal_temp on this chip
+#  internal_temp: !include common/internal_temp.yaml
+
+# env sensors
+
+# https://esphome.io/components/i2c#i2c
+i2c:
+  - id: grove
+    sda: GPIO2
+    scl: GPIO1
+    scan: true
+
+## Device-specific
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 41
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "Start request"
+        - logger.log: "Done with request now skip any delay!"

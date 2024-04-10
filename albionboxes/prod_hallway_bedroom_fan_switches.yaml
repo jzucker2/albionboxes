@@ -1,0 +1,44 @@
+substitutions:
+  node_name: hallwaybedroomfanswitches
+  friendly_name: Hallway Bedroom Fan Switches
+  area: Hallway
+  comment: "This will go on the ceiling to control fans for the bedrooms"
+  relay_1_pin: GPIO22
+  relay_2_pin: GPIO19
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include common/atom_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+
+## Device-specific
+
+# https://devices.esphome.io/devices/Generic-Relay
+switch:
+  - platform: gpio
+    name: "${friendly_name} Relay 1"
+    pin: ${relay_1_pin}
+  - platform: gpio
+    name: "${friendly_name} Relay 2"
+    pin: ${relay_2_pin}
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 39
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "Button tapped"
+        - logger.log: "Done with button tapped!"

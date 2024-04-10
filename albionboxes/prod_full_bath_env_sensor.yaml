@@ -1,0 +1,43 @@
+substitutions:
+  node_name: fullbathenvsensor
+  friendly_name: Full Bath Env Sensor
+  area: Full Bath
+  comment: "This is the first environment sensor under the full bath sink"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include common/atom_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  env_pro_sensor: !include common/env_pro_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+
+# env sensors
+
+# https://esphome.io/components/i2c#i2c
+i2c:
+  - id: grove
+    sda: GPIO26
+    scl: GPIO32
+    scan: true
+
+## Device-specific
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 39
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "Start request"
+        - logger.log: "Done with request now skip any delay!"
