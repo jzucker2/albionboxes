@@ -1,0 +1,368 @@
+# Main docs here:
+# https://shop.m5stack.com/products/m5stack-dial-esp32-s3-smart-rotary-knob-w-1-28-round-touch-screen
+# inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
+# https://community.home-assistant.io/t/m5stack-dial-esp32-s3-smart-rotary-knob/623518/14
+# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-on
+# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-off
+# https://github.com/jzucker2/RUFUS/blob/master/notes/CURL_COMMANDS.md#volume-v2
+## increase volume by 5
+#curl -i -X POST "http://10.0.1.104:5000/api/v2/volume" \
+#    -H "Content-Type: application/json" \
+#    -d '{"zone":"living_room","action":"increase","step":5}'
+#
+## decrease volume by 5
+#curl -i -X POST "http://10.0.1.104:5000/api/v2/volume" \
+#    -H "Content-Type: application/json" \
+#    -d '{"zone":"living_room","action":"decrease","step":5}'
+
+# https://github.com/esphome/issues/issues/5427
+# https://esphome.io/guides/faq#why-am-i-getting-a-warning-about-strapping-pins
+
+# Inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
+
+## Device-specific
+
+esphome:
+  name: ${node_name}
+  # for more on friendly_name issues, see https://github.com/jzucker2/goober/blob/master/notes/ESPHOME.md
+#  friendly_name: ${friendly_name}
+  area: ${area}
+  comment: ${comment}
+  on_boot:
+    then:
+      - light.turn_on: backlight
+
+# https://esphome.io/guides/automations.html#global-variables
+globals:
+  - id: light_brightness_value
+    type: int
+    initial_value: '0'
+    restore_value: yes
+  - id: media_volume_value
+    type: float
+    initial_value: '0.0'
+    restore_value: yes
+  - id: volume_encoder_resolution
+    type: int
+    initial_value: '1'
+    restore_value: yes
+  - id: selected_color
+    type: Color
+    initial_value: very_dark_blue
+    restore_value: no
+
+color:
+  - id: my_white
+    hex: 'FFFFFF'
+  - id: black
+    hex: '000000'
+  - id: dark_green
+    hex: '013208'
+  - id: my_red
+    red: 100%
+    green: 3%
+    blue: 5%
+  - id: my_green
+    hex: 59981A
+  - id: my_blue
+    red: 3%
+    green: 5%
+    blue: 100%
+  - id: my_yellow
+    hex: FFFF00
+  - id: my_light_blue
+    hex: 145DA0
+  - id: my_light_red
+    hex: fc6d6d
+  - id: my_light_orange
+    hex: FD7F20
+  - id: my_light_yellow
+    hex: B58B00
+  - id: dark_blue
+    hex: '000040'
+  - id: dark_red
+    hex: '67091C'
+  - id: dark_grey
+    hex: '161616'
+  - id: very_dark_grey
+    hex: '101111'
+  - id: very_dark_blue
+    hex: '0C355C'
+
+image:
+  - id: color_palette
+    file: mdi:palette
+    resize: 40x40
+
+  - id: atom_icon
+    file: mdi:atom-variant
+    resize: 40x40
+
+
+  - id: volume_mute
+    file: mdi:volume-variant-off
+    resize: 40x40
+  - id: volume_mute_large
+    file: mdi:volume-variant-off
+    resize: 80x80
+  - id: volume_low
+    file: mdi:volume-low
+    resize: 40x40
+  - id: volume_medium
+    file: mdi:volume-medium
+    resize: 40x40
+  - id: volume_high
+    file: mdi:volume-high
+    resize: 40x40
+  - id: volume_high_large
+    file: mdi:volume-high
+    resize: 80x80
+
+  - id: media_play_pause
+    file: mdi:play-pause
+    resize: 40x40
+  - id: media_pause
+    file: mdi:pause
+    resize: 40x40
+  - id: media_pause_large
+    file: mdi:pause
+    resize: 80x80
+  - id: media_play
+    file: mdi:play
+    resize: 40x40
+  - id: media_play_large
+    file: mdi:play
+    resize: 80x80
+  - id: media_home
+    file: mdi:television
+    resize: 40x40
+  - id: media_back
+    file: mdi:chevron-left
+    resize: 40x40
+  - id: media_remote
+    file: mdi:remote-tv
+    resize: 40x40
+
+
+  - id: power_large
+    file: mdi:power
+    resize: 80x80
+
+
+
+  - id: infoicon
+    file: mdi:information
+    resize: 40x40
+  - id: zoneicon
+    file: mdi:air-filter
+    resize: 25x25
+  - id: volumeknob_60
+    file: mdi:knob
+    resize: 60x60
+  - id: airconicon_60
+    file: mdi:air-conditioner
+    resize: 50X50
+  - id: lighticon_60
+    file: mdi:globe-light-outline
+    resize: 60x60
+  - id: light_menu_icon
+    file: mdi:globe-light-outline
+    resize: 30x30
+  - id: audio_menu_icon
+    file: mdi:volume-high
+    resize: 30x30
+  - id: threed_printer_menu_icon
+    file: mdi:printer-3d-nozzle
+    resize: 30x30
+  - id: tv_menu_icon
+    file: mdi:television
+    resize: 30x30
+  - id: alarm_menu_icon
+    file: mdi:alarm-light
+    resize: 30x30
+  - id: settings_menu_icon
+    file: mdi:cog
+    resize: 30x30
+  - id: power_icon
+    file: mdi:power
+    resize: 30x30
+  - id: wifi_menu_item
+    file: mdi:wifi-sync
+    resize: 30x30
+  - id: qr_icon
+    file: mdi:qrcode-scan
+    resize: 30x30
+
+font:
+  - id: roboto16
+    file: "gfonts://Roboto"
+    size: 16
+
+  - id: roboto20
+    file: "gfonts://Roboto"
+    size: 20
+
+  - id: roboto24
+    file: "gfonts://Roboto"
+    size: 24
+
+  - id: roboto36
+    file: "gfonts://Roboto"
+    size: 36
+
+  - id: roboto48
+    file: "gfonts://Roboto"
+    size: 48
+
+i2c:
+  - id: bus_internal
+    sda: GPIO11
+    scl: GPIO12
+    scan: False
+    frequency: 400kHz
+
+sensor:
+  # https://esphome.io/components/sensor/rotary_encoder.html
+  - platform: rotary_encoder
+    name: "${friendly_name} Rotary Encoder"
+    id: rotaryencoder
+    max_value: 100
+    min_value: 0
+    resolution: 1
+    filters:
+      - throttle: 1s
+    pin_a:
+      number: GPIO40
+      mode:
+        input: true
+        pullup: true
+    pin_b:
+      number: GPIO41
+      mode:
+        input: true
+        pullup: true
+    accuracy_decimals: 1
+    on_value:
+      - if:
+          condition:
+            or:
+              - display.is_displaying_page: VolumePage
+          then:
+            - globals.set:
+                id: media_volume_value
+                value: !lambda 'int val = x * id(volume_encoder_resolution); return (val > 100) ? 100 : val;'
+            - homeassistant.service:
+                service: media_player.volume_set
+                data:
+                  entity_id: ${receiver_zone_media_player_entity}
+                  volume_level: !lambda 'return id(media_volume_value) / 100.0;'
+
+  - platform: homeassistant
+    name: "${friendly_name} Media Volume"
+    id: receiver_zone_volume
+    entity_id: ${receiver_zone_media_player_entity}
+    attribute: volume_level
+    on_value:
+      - logger.log:
+          format: "The media_player volume sensor reports value %f"
+          args: [ 'id(receiver_zone_volume).state' ]
+      - if:
+          condition:
+            or:
+              - display.is_displaying_page: VolumePage
+          then:
+            - lambda: |-
+                float volume = id(receiver_zone_volume).state;
+                
+                id(media_volume_value) = (volume * 100.0);
+            - component.update: my_lcd
+
+uart:
+  tx_pin: GPIO2
+  rx_pin: GPIO1
+  baud_rate: 256000
+  parity: NONE
+  stop_bits: 1
+
+spi:
+  mosi_pin: GPIO5
+  clk_pin: GPIO6
+
+rtttl:
+  output: my_speaker_output
+  id: my_rtttl
+
+light:
+  - platform: monochromatic
+    id: backlight
+    name: "${friendly_name} Display Backlight"
+    restore_mode: ALWAYS_ON
+    output: oledbacklight
+    default_transition_length: 250ms
+
+output:
+  - id: oledbacklight
+    platform: ledc
+    pin: GPIO9
+    max_power: 1
+    min_power: 0
+  - platform: ledc
+    pin: GPIO3
+    id: my_speaker_output
+
+# https://esphome.io/components/display/ili9xxx
+display:
+  - platform: ili9xxx
+    model: gc9a01a
+    id: my_lcd
+    cs_pin: GPIO7
+    dc_pin: GPIO4
+    rotation: ${display_rotation}
+    update_interval: 1s
+    reset_pin: GPIO8
+    dimensions:
+      width: 240
+      height: 240
+    # https://esphome.io/components/display/index.html
+    pages:
+      - id: VolumePage
+        lambda: |-
+          float screenheight = it.get_height();
+          float screenwidth = it.get_width();
+          float halfscreenheight = screenheight / 2;
+          float halfscreenwidth = screenwidth / 2;
+
+          // Print volume as percent
+          it.printf(halfscreenwidth, 20, id(roboto48), TextAlign::CENTER, "%.0f", id(media_volume_value));
+
+          // media_pause Circle
+          it.filled_circle(halfscreenwidth, halfscreenheight - 15, 50, my_light_blue);  
+          //if ( id(appletv_media).state == "paused" || id(appletv_media).state == "idle" ) {
+          //  it.image(halfscreenwidth, halfscreenheight - 15, media_play_large, ImageAlign::CENTER);
+          //} else {
+          //  it.image(halfscreenwidth, halfscreenheight - 15, media_pause_large, ImageAlign::CENTER);
+          //}
+
+          // Mute Toggle Circle
+          it.filled_circle(halfscreenwidth, 200, 30, my_light_blue);  
+          it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
+
+    on_page_change:
+      - to: VolumePage
+        then:
+          - sensor.rotary_encoder.set_value:
+              id: rotaryencoder
+              value: !lambda 'return id(receiver_zone_volume).state * 100.0;'
+          - component.update: my_lcd
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 42
+      inverted: true
+    name: "${friendly_name} Toggle Backlight Button"
+    on_press:
+      then:
+        - logger.log: "Test rotary goober Button Clicked"
+        - light.toggle: backlight
+        - logger.log: "Done with Test rotary goober Button clicked!"
