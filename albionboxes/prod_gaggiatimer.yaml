@@ -104,5 +104,5 @@ binary_sensor:
           delay_seconds: ${timer_length}
       - logger.log: "Done with custom button actions"
 
-dashboard_import:
-  package_import_url: github://esphome/media-players/m5stack-atom-echo.yaml@main
+#dashboard_import:
+#  package_import_url: github://esphome/media-players/m5stack-atom-echo.yaml@main

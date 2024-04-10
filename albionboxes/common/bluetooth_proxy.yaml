@@ -1,6 +1,6 @@
 # https://github.com/esphome/firmware/blob/main/bluetooth-proxy/m5stack-atom-lite.yaml
-dashboard_import:
-  package_import_url: github://esphome/bluetooth-proxies/m5stack-atom-lite.yaml@main
+#dashboard_import:
+#  package_import_url: github://esphome/bluetooth-proxies/m5stack-atom-lite.yaml@main
 
 # https://esphome.io/components/esp32_ble_tracker.html
 esp32_ble_tracker:
