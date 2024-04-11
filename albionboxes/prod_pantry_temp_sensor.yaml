@@ -6,12 +6,12 @@ substitutions:
   area: Pantry
   comment: "Temperature sensors for the various shelves and cabinets in the pantry"
   box_config_file_name: prod_pantry_temp_sensor
-  zeroth_sensor_name: "Pantry Food Cabinet Receiver Shelf"
-  first_sensor_name: "Pantry Food Cabinet UPS Shelf"
-  second_sensor_name: "Pantry Food Cabinet NAS Shelf"
-  third_sensor_name: "Pantry Food Cabinet NUC Shelf"
-  fourth_sensor_name: "Pantry Food Cabinet PS5 Shelf"
-  fifth_sensor_name: "Pantry Food Cabinet RPi Shelf"
+  zeroth_sensor_name: "Pantry Food Cabinet Top Shelf"
+  first_sensor_name: "Pantry Food Cabinet Espresso Machine Shelf"
+  second_sensor_name: "Pantry Food Cabinet Bulk Storage Shelf"
+  third_sensor_name: "Pantry Food Cabinet Microwave Shelf"
+  fourth_sensor_name: "Pantry Food Cabinet Top Box Shelf"
+  fifth_sensor_name: "Pantry Food Cabinet Bottom Box Shelf"
   oversampling_value: "16x"
   update_interval_value: "60s"
   sht_address: "0x44"
