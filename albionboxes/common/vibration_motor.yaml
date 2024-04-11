@@ -1,9 +1,0 @@
-# https://esphome.io/components/output/ledc.html
-# Configure the output
-output:
-  - platform: ledc
-    ######################################################
-    # One buzzer leg connected to GPIO12, the other to GND
-    ######################################################
-    pin: GPIO2
-    id: buzzer

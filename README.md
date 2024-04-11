@@ -8,3 +8,4 @@ Right now, it's rudimentary and tracked in:
 
 * `albionboxes/common/default_project.yaml`
 * `albionboxes/common/default_dashboard_import.yaml`
+* `albionboxes/common/albionboxes_info.yaml`
