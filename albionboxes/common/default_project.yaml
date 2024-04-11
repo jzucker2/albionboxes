@@ -3,4 +3,4 @@ name: "jordan.albionboxes"
 # FIXME: make an env var to be shared
 # This should be tag or branch name most likely
 # https://esphome.io/guides/configuration-types#substitute-include-variables
-version: "0.3.0"
+version: "0.4.0"

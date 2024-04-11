@@ -4,6 +4,7 @@ substitutions:
   area: Living Room
   comment: "I might get rid of this soon"
   box_config_file_name: prod_reading_button
+  rufus_url: !secret rufus_url
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -22,7 +23,7 @@ packages:
   # Issues with internal_temp on this chip
 #  internal_temp: !include common/internal_temp.yaml
 
-# http://10.0.1.104:5000/api/v1/activities/special-wfh
+# ${rufus_url}/api/v1/activities/special-wfh
 
 ## Device-specific
 
@@ -42,7 +43,7 @@ binary_sensor:
           - logger.log: "Double Clicked"
           - logger.log: "Vinyl request"
           - http_request.get:
-              url: http://10.0.1.104:5000/api/v1/activities/vinyl
+              url: ${rufus_url}/api/v1/activities/vinyl
               headers:
                 Content-Type: application/json
               verify_ssl: false
@@ -61,7 +62,7 @@ binary_sensor:
           - logger.log: "Single Long Clicked"
           - logger.log: "Start All off activity request"
           - http_request.get:
-              url: http://10.0.1.104:5000/api/v1/activities/all-off?kitchen=0&dining_room=0
+              url: ${rufus_url}/api/v1/activities/all-off?kitchen=0&dining_room=0
               headers:
                 Content-Type: application/json
               verify_ssl: false
@@ -80,7 +81,7 @@ binary_sensor:
           - logger.log: "Single Short Clicked"
           - logger.log: "Start living room reading activity request"
           - http_request.get:
-              url: http://10.0.1.104:5000/api/v1/activities/living-room-reading
+              url: ${rufus_url}/api/v1/activities/living-room-reading
               headers:
                 Content-Type: application/json
               verify_ssl: false
