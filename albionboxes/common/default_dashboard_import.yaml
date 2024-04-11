@@ -4,4 +4,4 @@
 dashboard_import:
   # FIXME: make dynamic with version and/or full path
   package_import_url: "github://jzucker2/albionboxes/albionboxes/${box_config_file_name}.yaml@continuing-basic-b-mvp"
-  import_full_config: false # or true
+  import_full_config: true # or true
