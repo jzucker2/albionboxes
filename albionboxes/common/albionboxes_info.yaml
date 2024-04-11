@@ -1,10 +1,22 @@
-# https://esphome.io/components/text_sensor/template
 text_sensor:
+  # https://esphome.io/components/text_sensor/template
   - platform: template
-    id: albionboxes_version
-    name: "${friendly_name} AlbionBoxes Version"
+    id: albionboxes_version_string
+    name: "${friendly_name} AlbionBoxes Version String"
     lambda: |-
       return {"0.5.0"};
     icon: "mdi:update"
+    update_interval: 600s
+    entity_category: "diagnostic"
+
+sensor:
+  # https://esphome.io/components/sensor/template
+  - platform: template
+    id: albionboxes_version_number
+    name: "${friendly_name} AlbionBoxes Version Number"
+    lambda: |-
+      return 0.5;
+    icon: "mdi:update"
+    state_class: measurement
     update_interval: 600s
     entity_category: "diagnostic"
