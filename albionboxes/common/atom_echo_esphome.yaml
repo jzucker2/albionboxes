@@ -8,6 +8,6 @@ esphome:
   project:
     name: "jordan.albionboxes"
     # FIXME: make an env var to be shared
-    version: "0.1.0"
+    version: "0.2.0"
 #    name: m5stack.atom-echo
 #    version: "1.0"
