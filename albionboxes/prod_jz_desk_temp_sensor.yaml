@@ -4,6 +4,7 @@ substitutions:
   friendly_name: JZ Desk Temp Sensor
   area: JZ Bedroom
   comment: "Temperature sensors for inside JZ Desk"
+  box_config_file_name: prod_jz_desk_temp_sensor
   zeroth_sensor_name: "JZ Desk Tech Cabinet Router Shelf"
   first_sensor_name: "JZ Desk Tech Cabinet UPS Shelf"
   second_sensor_name: "JZ Desk Tech Cabinet NUC Shelf"
@@ -26,6 +27,7 @@ packages:
   wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
   status_sensor: !include common/status_sensor.yaml
   internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
 
 # temp sensors
 

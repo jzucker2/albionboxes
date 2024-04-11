@@ -3,6 +3,7 @@ substitutions:
   friendly_name: Kitchen Volume Dial
   area: Kitchen
   comment: "Volume rotary controller for the Kitchen"
+  box_config_file_name: prod_kitchen_volume_dial
   display_rotation: '90'
   receiver_zone_media_player_entity: "media_player.denon_avr_x4300h_zone_3_kitchen"
 
@@ -20,3 +21,4 @@ packages:
   status_sensor: !include common/status_sensor.yaml
 #  internal_temp: !include common/internal_temp.yaml
   albion_volume_dial: !include common/albion_v2_volume_dial.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml

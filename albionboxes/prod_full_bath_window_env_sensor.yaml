@@ -3,6 +3,7 @@ substitutions:
   friendly_name: Full Bath Window Env Sensor
   area: Full Bath
   comment: "This goes by the window (coldest place in the room)"
+  box_config_file_name: prod_full_bath_window_env_sensor
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -19,6 +20,7 @@ packages:
   status_sensor: !include common/status_sensor.yaml
   env_pro_sensor: !include common/env_pro_sensor.yaml
   internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
 
 # env sensors
 

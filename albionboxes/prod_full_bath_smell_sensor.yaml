@@ -3,6 +3,7 @@ substitutions:
   friendly_name: Full Bath Smell Sensor
   area: Full Bath
   comment: "This is intended to catch bad smells in the full bath"
+  box_config_file_name: prod_full_bath_smell_sensor
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -18,6 +19,7 @@ packages:
   wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
   tvoc_sensor: !include common/tvoc_sensor.yaml
   status_sensor: !include common/status_sensor.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
   # Issues with internal_temp on this chip
 #  internal_temp: !include common/internal_temp.yaml
 
