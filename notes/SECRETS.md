@@ -1,6 +1,6 @@
 # Secrets
 
-Create a file `albionboxes/secrets.yml` with the following:
+Create a file `albionboxes/secrets.yaml` (Note the _exact_ `.yaml` filename extension) with the following:
 
 ```yaml
 # https://esphome.io/components/wifi.html
