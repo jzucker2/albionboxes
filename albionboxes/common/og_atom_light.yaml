@@ -1,3 +1,4 @@
+# still used by gaggia timer
 light:
   - platform: fastled_clockless
     chipset: WS2812B

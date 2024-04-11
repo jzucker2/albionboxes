@@ -37,3 +37,7 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 
 * https://esphome.io/guides/faq
 * https://esphome.io/guides/getting_started_hassio
+* https://esphome.io/guides/getting_started_command_line
+* https://esphome.io/guides/configuration-types
+* https://esphome.io/guides/creators.html
+* https://esphome.io/components/external_components
