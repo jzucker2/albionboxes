@@ -26,6 +26,13 @@ expanded `${friendly_name}`. This causes it to double so that
 it reads as `Dan Desk Temp Sensor Dan Desk Temp Sensor Uptime Sensor` 
 instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 
+## Dashboard Import
+
+* https://esphome.io/guides/creators.html
+* https://esphome.io/guides/configuration-types#config-git-packages
+* https://www.youtube.com/watch?v=0t12tRsphlM
+* https://community.home-assistant.io/t/what-is-dashboard-import/422519/4
+
 ## Resources
 
 * https://esphome.io/guides/faq
