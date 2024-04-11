@@ -1,0 +1,6 @@
+# https://esphome.io/guides/creators.html
+# This should point to the public location of this yaml file.
+# Example: github://esphome/esphome-project-template/project-template-esp32.yaml@v6
+dashboard_import:
+  package_import_url: ${github_package_import_url}
+  import_full_config: false # or true

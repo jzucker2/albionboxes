@@ -20,3 +20,4 @@ packages:
   status_sensor: !include common/status_sensor.yaml
 #  internal_temp: !include common/internal_temp.yaml
   albion_volume_dial: !include common/albion_v2_volume_dial.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
