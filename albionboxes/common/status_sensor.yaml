@@ -1,0 +1,4 @@
+# https://esphome.io/components/binary_sensor/status
+binary_sensor:
+  - platform: status
+    name: "${friendly_name} Status"

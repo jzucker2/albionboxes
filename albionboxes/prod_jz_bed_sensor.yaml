@@ -1,0 +1,55 @@
+substitutions:
+  node_name: jzbedsensor
+  friendly_name: JZ Bed Sensor
+  area: JZ Bedroom
+  comment: "This is my first attempt at a bed pressure sensor"
+  right_side_bed_pin: GPIO1
+  left_side_bed_pin: GPIO2
+  # below is for debugging
+#  bed_sensor_delay_on: 0s
+#  bed_sensor_delay_off: 0s
+  bed_sensor_delay_on: 5s
+  bed_sensor_delay_off: 30s
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atoms3lite_device.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  light: !include common/s3_light.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  # Issues with internal_temp on this chip
+#  internal_temp: !include common/internal_temp.yaml
+
+# https://www.homeautomationguy.io/blog/making-my-own-bed-sensor
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: ${right_side_bed_pin}
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: JZ Bed Right Side Occupancy Sensor
+    device_class: occupancy
+    filters:
+      - delayed_on: ${bed_sensor_delay_on}
+      - delayed_off: ${bed_sensor_delay_off}
+  - platform: gpio
+    pin:
+      number: ${left_side_bed_pin}
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: JZ Bed Left Side Occupancy Sensor
+    device_class: occupancy
+    filters:
+      - delayed_on: ${bed_sensor_delay_on}
+      - delayed_off: ${bed_sensor_delay_off}

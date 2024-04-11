@@ -1,0 +1,5 @@
+# https://esphome.io/components/light/status_led
+light:
+  - platform: status_led
+    name: "${friendly_name} state"
+    pin: GPIO2

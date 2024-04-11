@@ -1,0 +1,12 @@
+light:
+  - platform: monochromatic
+    output: gpio_32_backlight_pwm
+    name: "Display Backlight"
+    id: back_light
+    restore_mode: ALWAYS_ON
+
+# GPIO pin of the display backlight
+output:
+  - platform: ledc
+    pin: 32
+    id: gpio_32_backlight_pwm

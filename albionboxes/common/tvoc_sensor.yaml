@@ -1,0 +1,14 @@
+# https://esphome.io/components/sensor/sgp30.html
+# https://www.aliexpress.us/item/3256803111108327.html?spm=a2g0o.order_list.order_list_main.52.2b245e5bJQNXNn&gatewayAdapt=glo2usa
+sensor:
+  - platform: sgp30
+    i2c_id: grove
+    eco2:
+      name: "${friendly_name} eCO2"
+      accuracy_decimals: 1
+    tvoc:
+      name: "${friendly_name} TVOC"
+      accuracy_decimals: 1
+    store_baseline: yes
+    address: 0x58
+    update_interval: 1s

@@ -1,0 +1,135 @@
+# https://github.com/wifwucite/esphome-ble-controller
+substitutions:
+  node_name: volcanogoober
+  friendly_name: Volcano Goober
+  area: Living Room
+  comment: "Still needs a lot of work"
+  # FIXME: need to fill this out a bit
+  volcano_mac_address: !secret volcano_mac_address
+  autoconnect: "true"
+  volcano_switch_restore_mode: RESTORE_DEFAULT_OFF
+  temperature_sensor_update_interval: "60s"
+  main_service_uuid: "10110000-5354-4f52-5a26-4249434b454c"
+  heat_turn_on_char_uuid: "1011000f-5354-4f52-5a26-4249434b454c"
+  heat_turn_off_char_uuid: "10110010-5354-4f52-5a26-4249434b454c"
+  fan_turn_on_char_uuid: "10110013-5354-4f52-5a26-4249434b454c"
+  fan_turn_off_char_uuid: "10110014-5354-4f52-5a26-4249434b454c"
+  current_primary_info_char_uuid: "1010000c-5354-4f52-5a26-4249434b454c"
+  current_temperature_char_uuid: "10110001-5354-4f52-5a26-4249434b454c"
+  write_temperature_char_uuid: "10110003-5354-4f52-5a26-4249434b454c"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include common/atom_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+
+## Device-specific
+
+## bluetooth
+# https://esphome.io/components/ble_client.html
+# https://esphome.io/components/sensor/ble_client.html
+# https://esphome.io/components/output/ble_client.html
+ble_client:
+  - mac_address: ${volcano_mac_address}
+    id: volcano
+    auto_connect: ${autoconnect}
+    on_connect:
+      then:
+        - lambda: |-
+            ESP_LOGD("ble_client_lambda", "Connected to BLE device");
+    on_disconnect:
+      then:
+        - lambda: |-
+            ESP_LOGD("ble_client_lambda", "Disconnected from BLE device");
+
+sensor:
+  # https://esphome.io/components/sensor/ble_client.html
+  # https://esphome.io/components/sensor/ble_client.html#raw-data-parsing-lambda
+  - platform: ble_client
+    type: characteristic
+    ble_client_id: volcano
+    update_interval: ${temperature_sensor_update_interval}
+    name: "${friendly_name} Temperature Sensor"
+    service_uuid: ${main_service_uuid}
+    characteristic_uuid: ${current_temperature_char_uuid}
+    unit_of_measurement: "°C"
+    device_class: "temperature"
+    state_class: "measurement"
+    # https://stackoverflow.com/questions/105252/how-do-i-convert-between-big-endian-and-little-endian-values-in-c
+    lambda: |-
+      float little;
+      little = (x[0]<<0) | (x[1]<<8) | (x[2]<<16) | ((unsigned)x[3]<<24);
+      ESP_LOGD("volcano_temp", "Got converted little: %f", little);
+      float final_little = little / 10.0;
+      ESP_LOGD("volcano_temp", "Got final final_little: %f", final_little);
+      return final_little;
+
+  - platform: ble_client
+    type: rssi
+    ble_client_id: volcano
+    name: "${friendly_name} BLE RSSI"
+
+
+switch:
+  - platform: template
+    name: "${friendly_name} Heat Switch"
+    restore_mode: ${volcano_switch_restore_mode}
+    optimistic: true
+    assumed_state: true
+    turn_on_action:
+      - ble_client.ble_write:
+          id: volcano
+          service_uuid: ${main_service_uuid}
+          characteristic_uuid: ${heat_turn_on_char_uuid}
+          # List of bytes to write.
+          value: [0x00]
+    turn_off_action:
+      - ble_client.ble_write:
+          id: volcano
+          service_uuid: ${main_service_uuid}
+          characteristic_uuid: ${heat_turn_off_char_uuid}
+          # List of bytes to write.
+          value: [0x00]
+
+  - platform: template
+    name: "${friendly_name} Fan Switch"
+    restore_mode: ${volcano_switch_restore_mode}
+    optimistic: true
+    assumed_state: true
+    turn_on_action:
+      - ble_client.ble_write:
+          id: volcano
+          service_uuid: ${main_service_uuid}
+          characteristic_uuid: ${fan_turn_on_char_uuid}
+          # List of bytes to write.
+          value: [ 0x00 ]
+    turn_off_action:
+      - ble_client.ble_write:
+          id: volcano
+          service_uuid: ${main_service_uuid}
+          characteristic_uuid: ${fan_turn_off_char_uuid}
+          # List of bytes to write.
+          value: [ 0x00 ]
+
+## Buttons
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 39
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "Button tapped"
+        - logger.log: "Done with button tapped!"

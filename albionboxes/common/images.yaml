@@ -1,0 +1,5 @@
+image:
+  - file: "common/images/goober.png"
+    id: goober_image
+    resize: 100x100
+    type: RGB24

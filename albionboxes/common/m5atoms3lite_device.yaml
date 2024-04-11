@@ -1,0 +1,13 @@
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  framework:
+    type: arduino
+
+# Enable logging
+# https://hutscape.com/tutorials/hello-esphome-esp32s3
+logger:
+#  level: VERBOSE
+#  baud_rate: 115200
+  deassert_rts_dtr: true
+  hardware_uart: USB_CDC

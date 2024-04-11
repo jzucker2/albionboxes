@@ -1,0 +1,37 @@
+substitutions:
+  node_name: alertresetbutton
+  friendly_name: Alert Reset Button
+  area: Pantry
+  comment: "I might get rid of this soon"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atoms3lite_device.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  light: !include common/s3_light.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  # Issues with internal_temp on this chip
+#  internal_temp: !include common/internal_temp.yaml
+
+# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-on
+# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-off
+
+## Device-specific
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 41
+      inverted: true
+    name: ${friendly_name} Button
+    on_press:
+      then:
+        - logger.log: "Alert Reset Button Clicked"
+        - logger.log: "Done with Alert Reset Button clicked!"

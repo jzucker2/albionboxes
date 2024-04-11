@@ -1,0 +1,6 @@
+# https://esphome.io/components/sensor/internal_temperature.html
+# issues with ESP-32-S3 it seems. For more info, see: https://github.com/esphome/issues/issues/4271
+# and also this issue: https://github.com/espressif/esp-idf/issues/8088
+sensor:
+  - platform: internal_temperature
+    name: "${friendly_name} ESPHome Internal Temperature"

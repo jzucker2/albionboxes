@@ -1,0 +1,41 @@
+color:
+  - id: RED
+    red: 100%
+    green: 0%
+    blue: 0%
+  - id: BLUE
+    red: 0%
+    green: 0%
+    blue: 100%
+  - id: WHITE
+    red: 100%
+    green: 100%
+    blue: 100%
+  - id: my_red
+    red: 100%
+    green: 3%
+    blue: 5%
+  - id: my_yellow
+    red: 100%
+    green: 100%
+    blue: 0%
+  - id: my_green
+    red: 0%
+    green: 100%
+    blue: 0%
+  - id: my_blue
+    red: 0%
+    green: 0%
+    blue: 100%
+  - id: my_gray
+    red: 50%
+    green: 50%
+    blue: 50%
+  - id: dark_gray
+    red: 70%
+    green: 70%
+    blue: 70%
+  - id: my_white
+    hex: 'FFFFFF'
+  - id: black
+    hex: '000000'

@@ -1,0 +1,109 @@
+# https://community.home-assistant.io/t/example-m5stack-atom-matrix-with-led-matrix-effect-no-home-assistant/298419
+# https://community.home-assistant.io/t/esphome-switch/494042
+# https://esphome.io/guides/automations.html#timers-and-timeouts
+# https://karlquinsland.com/esphome-dynamic-timer/
+substitutions:
+  node_name: gaggiatimer
+  friendly_name: "Gaggia AtomEcho Timer"
+  area: Pantry
+  comment: "This timer in the pantry is for the Gaggia espresso machine"
+  onboard_light_id: "status_led"
+  timer_script_mode: restart
+  # FIXME: make this dynamic
+  media_file: http://10.0.1.131:8123/local/simple_alarm.mp3
+  # we want 19 because there's a ~1s delay right now and ultimate goal is ~20s
+  timer_length: "19"
+  expiration_light_delay: "3s"
+
+packages:
+  esphome: !include common/atom_echo_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include common/og_atom_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  i2s_audio: !include common/i2s_audio.yaml
+  media_player: !include common/media_player.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+#  microphone: !include common/microphone.yaml
+
+## Device-specific
+
+switch:
+  # https://esphome.io/components/switch/template
+  - platform: template
+    name: "${friendly_name} Timer Countdown Switch"
+    id: timer_countdown_switch
+    # we want this true because it's a fake switch, alt is we move script and controls to switch and button triggers switch
+    optimistic: true
+
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: gaggia_timer_script
+    mode: ${timer_script_mode}
+    parameters:
+      delay_seconds: int
+    then:
+      - logger.log: "Start Gaggia timer countdown"
+      - logger.log:
+          format: "Now count down delay_seconds: %d"
+          args: [ 'delay_seconds' ]
+#      - logger.log: "Now count down delay_seconds: ${delay_seconds}"
+      - lambda: !lambda |-
+          id(timer_countdown_switch).publish_state(true);
+      - light.turn_on:
+          id: ${onboard_light_id}
+          brightness: 100%
+          # green
+          red: 0%
+          green: 100%
+          blue: 0%
+      # The param delay_seconds is accessible using a lambda
+      - delay: !lambda return (1000 * delay_seconds);
+      - logger.log:
+          format: "Timer done and %d has elapsed, first play audio"
+          args: [ 'delay_seconds' ]
+#      - logger.log: "Timer done and ${delay_seconds} has elapsed, first play audio"
+      - media_player.play_media: ${media_file}
+      - logger.log: "Now finish and trigger light timer_switch"
+      - logger.log: "Finished Gaggia timer countdown (expired)"
+      - lambda: !lambda |-
+          id(timer_countdown_switch).publish_state(false);
+      - logger.log: "Made sure to turn the switch back off"
+      - logger.log: "Timer off and button pressed, stop audio if it is running"
+      - light.turn_on:
+          id: ${onboard_light_id}
+          brightness: 100%
+          # red
+          red: 100%
+          green: 0%
+          blue: 0%
+      - delay: ${expiration_light_delay}
+      - logger.log: "Then clear light"
+      - light.turn_off:
+          id: ${onboard_light_id}
+      - logger.log: "Fully done with timer script!"
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO39
+      inverted: true
+    name: ${friendly_name} Button
+    publish_initial_state: false
+    on_press:
+      - logger.log: "Button pressed, begin custom actions"
+      # Calling a script with parameters
+      - script.execute:
+          id: gaggia_timer_script
+          delay_seconds: ${timer_length}
+      - logger.log: "Done with custom button actions"
+
+#dashboard_import:
+#  package_import_url: github://esphome/media-players/m5stack-atom-echo.yaml@main

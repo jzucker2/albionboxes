@@ -1,0 +1,3 @@
+esphome
+Pillow==10.2.0
+CairoSVG==2.7.1

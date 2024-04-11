@@ -1,0 +1,15 @@
+# Example configuration entry
+web_server:
+
+# Activates prometheus /metrics endpoint
+prometheus:
+  include_internal: true
+
+# Enable Home Assistant API
+# Use encryption instead of password
+api:
+  encryption:
+    key: !secret encryption_key
+
+ota:
+  password: !secret ota_password

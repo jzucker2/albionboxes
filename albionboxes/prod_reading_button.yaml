@@ -1,0 +1,92 @@
+substitutions:
+  node_name: livingroomreading
+  friendly_name: Living Room Reading Goober
+  area: Living Room
+  comment: "I might get rid of this soon"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atoms3lite_device.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  light: !include common/s3_light.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  # Issues with internal_temp on this chip
+#  internal_temp: !include common/internal_temp.yaml
+
+# http://10.0.1.104:5000/api/v1/activities/special-wfh
+
+## Device-specific
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 41
+      inverted: true
+    name: ${friendly_name} Button
+    on_multi_click:
+      - timing:
+          - ON for at most 1s
+          - OFF for at most 1s
+          - ON for at most 1s
+          - OFF for at least 0.2s
+        then:
+          - logger.log: "Double Clicked"
+          - logger.log: "Vinyl request"
+          - http_request.get:
+              url: http://10.0.1.104:5000/api/v1/activities/vinyl
+              headers:
+                Content-Type: application/json
+              verify_ssl: false
+              on_response:
+                then:
+                  - logger.log:
+                      format: 'Vinyl activity => Response status: %d, Duration: %u ms'
+                      args:
+                        - status_code
+                        - duration_ms
+          - logger.log: "Done with Vinyl activity request now skip any delay!"
+      - timing:
+          - ON for 1s to 4s
+          - OFF for at least 0.5s
+        then:
+          - logger.log: "Single Long Clicked"
+          - logger.log: "Start All off activity request"
+          - http_request.get:
+              url: http://10.0.1.104:5000/api/v1/activities/all-off?kitchen=0&dining_room=0
+              headers:
+                Content-Type: application/json
+              verify_ssl: false
+              on_response:
+                then:
+                  - logger.log:
+                      format: 'All off activity => Response status: %d, Duration: %u ms'
+                      args:
+                        - status_code
+                        - duration_ms
+          - logger.log: "Done with All off activity request now skip any delay!"
+      - timing:
+          - ON for at most 1s
+          - OFF for at least 0.5s
+        then:
+          - logger.log: "Single Short Clicked"
+          - logger.log: "Start living room reading activity request"
+          - http_request.get:
+              url: http://10.0.1.104:5000/api/v1/activities/living-room-reading
+              headers:
+                Content-Type: application/json
+              verify_ssl: false
+              on_response:
+                then:
+                  - logger.log:
+                      format: 'Living room reading activity => Response status: %d, Duration: %u ms'
+                      args:
+                        - status_code
+                        - duration_ms
+          - logger.log: "Done with regular living room reading activity request now skip any delay!"

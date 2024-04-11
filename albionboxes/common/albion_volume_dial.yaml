@@ -1,0 +1,305 @@
+# Main docs here:
+# https://shop.m5stack.com/products/m5stack-dial-esp32-s3-smart-rotary-knob-w-1-28-round-touch-screen
+# inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
+# https://community.home-assistant.io/t/m5stack-dial-esp32-s3-smart-rotary-knob/623518/14
+# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-on
+# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-off
+# https://github.com/jzucker2/RUFUS/blob/master/notes/CURL_COMMANDS.md#volume-v2
+## increase volume by 5
+#curl -i -X POST "http://10.0.1.104:5000/api/v2/volume" \
+#    -H "Content-Type: application/json" \
+#    -d '{"zone":"living_room","action":"increase","step":5}'
+#
+## decrease volume by 5
+#curl -i -X POST "http://10.0.1.104:5000/api/v2/volume" \
+#    -H "Content-Type: application/json" \
+#    -d '{"zone":"living_room","action":"decrease","step":5}'
+
+## Device-specific
+
+esphome:
+  name: ${node_name}
+  # for more on friendly_name issues, see https://github.com/jzucker2/goober/blob/master/notes/ESPHOME.md
+#  friendly_name: ${friendly_name}
+  area: ${area}
+  comment: ${comment}
+  project:
+    name: "jordan.albionboxes"
+    # FIXME: make an env var to be shared
+    version: "0.1.0"
+  on_boot:
+    then:
+      - light.turn_on: backlight
+      - text_sensor.template.publish:
+          id: rotary_value_volume_action_text
+          state: ${initial_volume_action}
+
+# https://esphome.io/guides/automations.html#global-variables
+globals:
+  - id: light_brightness_value
+    type: int
+    initial_value: '0'
+    restore_value: yes
+  - id: rufus_zone_global_string
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 64
+    initial_value: ${rufus_zone_global_string_initial_value}
+
+# https://esphome.io/components/number/index.html
+# https://esphome.io/components/number/template
+number:
+  - platform: template
+    # Example number configuration
+    name: "${friendly_name} Diff Volume"
+    # default is false
+    optimistic: true
+    id: rotary_value_diff_number
+    min_value: ${rotary_min_value}
+    max_value: ${rotary_max_value}
+    step: ${rotary_step_value}
+    restore_value: false
+    initial_value: ${rotary_initial_value}
+
+    icon: ${rotary_diff_number_icon}
+
+  - platform: template
+    # Example number configuration
+    name: "${friendly_name} Current Volume"
+    # default is false
+    optimistic: true
+    id: rotary_value_current_number
+    min_value: ${rotary_min_value}
+    max_value: ${rotary_max_value}
+    step: ${rotary_step_value}
+    restore_value: false
+    initial_value: ${rotary_initial_value}
+
+    icon: ${rotary_current_number_icon}
+
+  - platform: template
+    # This is for the value _before_ the Current value (which we track to do our own math)
+    name: "${friendly_name} Previous Volume"
+    # default is false
+    optimistic: true
+    id: rotary_value_previous_number
+    min_value: ${rotary_min_value}
+    max_value: ${rotary_max_value}
+    step: ${rotary_step_value}
+    restore_value: false
+    initial_value: ${rotary_initial_value}
+
+    icon: ${rotary_previous_number_icon}
+
+  - platform: template
+    # This is for the value _before_ the 1st Previous value (for debugging)
+    name: "${friendly_name} Previous Previous Volume"
+    # default is false
+    optimistic: true
+    id: rotary_value_previous_previous_number
+    min_value: ${rotary_min_value}
+    max_value: ${rotary_max_value}
+    step: ${rotary_step_value}
+    restore_value: false
+    initial_value: ${rotary_initial_value}
+
+    icon: ${rotary_previous_previous_number_icon}
+
+  - platform: template
+    # Example number configuration
+    name: "${friendly_name} Sent Volume"
+    # default is false
+    optimistic: true
+    id: rotary_value_sent_number
+    min_value: ${rotary_min_value}
+    max_value: ${rotary_max_value}
+    step: ${rotary_step_value}
+    restore_value: false
+    initial_value: ${rotary_initial_value}
+
+    icon: ${rotary_sent_number_icon}
+
+# https://esphome.io/components/text_sensor/template.html
+# Example configuration entry
+text_sensor:
+  - platform: template
+    name: "${friendly_name} Volume Action Text Sensor"
+    id: rotary_value_volume_action_text
+
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: request_rufus_volume_change
+    parameters:
+      zone: string
+      action: string
+      # TODO: should this be int or float?
+      step: int
+    then:
+      - logger.log: "Start RUFUS volume change request"
+      - http_request.post:
+          url: ${rufus_ingress}
+          headers:
+            Content-Type: application/json
+          # https://esphome.io/components/http_request.html#post-body-in-json-format-syntax-2
+          json: |-
+            root["zone"] = zone;
+            root["action"] = action;
+            root["step"] = step;
+            ESP_LOGD("rufus_request", "in zone: %s going with step: %d for action: %s", zone, step, action);
+          verify_ssl: false
+          on_response:
+            then:
+              - logger.log:
+                  format: 'RUFUS Volume change response status: %d, Duration: %u ms'
+                  args:
+                    - status_code
+                    - duration_ms
+              - lambda: |-
+                  ESP_LOGD("rufus_request_finished", "got volume response for action: %s, step: %.0f", id(rotary_value_volume_action_text).state.c_str(), id(rotary_value_diff_number).state);
+      - logger.log: "Finished RUFUS volume change request"
+
+sensor:
+  # https://esphome.io/components/sensor/rotary_encoder.html
+  - platform: rotary_encoder
+    name: "${friendly_name} Rotary Encoder"
+    id: rotaryencoder
+    pin_a:
+      number: ${rotary_pin_a}
+      mode:
+       input: true
+       pullup: true
+    pin_b:
+      number: ${rotary_pin_b}
+      mode:
+       input: true
+       pullup: true
+    # should we publish initial value?
+#    publish_initial_value: true
+    accuracy_decimals: ${rotary_accuracy_decimals}
+    restore_mode: ${rotary_restore_mode}
+    # https://esphome.io/components/sensor/index.html#throttle
+    filters:
+      - throttle: ${rotary_throttle_time}
+      - debounce: ${rotary_debounce_time}
+    on_value:
+      then:
+        - lambda: |-
+            float current_rotary_encoder_value = id(rotaryencoder).state;
+            float stored_previous_rotary_value = id(rotary_value_previous_number).state;
+            float previous_rotary_value = id(rotary_value_current_number).state;
+            ESP_LOGD("rotary", "starting previous_rotary_value: %f and id(rotary_value_diff_number).state: %f and current_rotary_encoder_value: %f", previous_rotary_value, id(rotary_value_diff_number).state, current_rotary_encoder_value);
+
+            // first save previous value into _previous previous_ number, for debugging
+            auto prev_previous_call = id(rotary_value_previous_previous_number).make_call();
+            prev_previous_call.set_value(stored_previous_rotary_value);
+            prev_previous_call.perform();
+
+            // then also save recent previous value into previous number, for debugging
+            auto previous_call = id(rotary_value_previous_number).make_call();
+            previous_call.set_value(previous_rotary_value);
+            previous_call.perform();
+
+            // now save the current rotary encoder value into another label to do our own math on next pass
+            auto current_call = id(rotary_value_current_number).make_call();
+            current_call.set_value(current_rotary_encoder_value);
+            current_call.perform();
+            
+            // now calculate new diff and save it
+            auto diff_call = id(rotary_value_diff_number).make_call();
+            float final_diff = current_rotary_encoder_value - previous_rotary_value;
+            diff_call.set_value(final_diff);
+            diff_call.perform();
+            
+            // now calculate number to send and save it
+            auto sent_call = id(rotary_value_sent_number).make_call();
+            float final_sent = abs(final_diff);
+            sent_call.set_value(final_sent);
+            sent_call.perform();
+            
+            // now calculate new action and save it
+            std::string final_action = "increase";
+            if (final_diff > 0) {
+              // global value is greater than 0
+              final_action = "increase";
+            }
+            if (final_diff < 0) {
+              // global value is greater than 0
+              final_action = "decrease";
+            }
+            id(rotary_value_volume_action_text).publish_state(final_action);
+            ESP_LOGD("rotary", "%s => ending previous_rotary_value: %f and id(rotary_value_diff_number).state: %f and current_rotary_encoder_value: %f with final_diff: %f for final_sent: %f", id(rufus_zone_global_string).c_str(), previous_rotary_value, id(rotary_value_diff_number).state, current_rotary_encoder_value, final_diff, final_sent);
+            id(request_rufus_volume_change)->execute(id(rufus_zone_global_string).c_str(), final_action, final_sent);
+
+uart:
+  tx_pin: GPIO2
+  rx_pin: GPIO1
+  baud_rate: 256000
+  parity: NONE
+  stop_bits: 1
+
+spi:
+  mosi_pin: GPIO5
+  clk_pin: GPIO6
+
+rtttl:
+  output: my_speaker_output
+  id: my_rtttl
+
+light:
+  - platform: monochromatic
+    id: backlight
+    name: "${friendly_name} Display Backlight"
+    restore_mode: ALWAYS_ON
+    output: oledbacklight
+    default_transition_length: 250ms
+
+output:
+  - id: oledbacklight
+    platform: ledc
+    pin: GPIO9
+    max_power: 1
+    min_power: 0
+  - platform: ledc
+    pin: GPIO3
+    id: my_speaker_output
+
+# https://esphome.io/components/display/ili9xxx
+display:
+  - platform: ili9xxx
+    model: gc9a01a
+    id: my_lcd
+    cs_pin: GPIO7
+    dc_pin: GPIO4
+    rotation: ${display_rotation}
+    update_interval: 1s
+    reset_pin: GPIO8
+    dimensions:
+      width: 240
+      height: 240
+    # https://esphome.io/components/display/index.html
+    lambda: |-
+      int maxX = it.get_width();
+      int maxY = it.get_height();
+      int title_label_height = maxY / 8;
+      int previous_label_height = maxY / 4;
+      int current_label_height = maxY - previous_label_height;
+      int sent_label_height = maxY / 2;
+      // ESP_LOGD("debug display", "display heights (%d) => previous_label_height: %d, current_label_height: %d, sent_label_height: %d", maxY, previous_label_height, current_label_height, sent_label_height);
+      it.fill(black);
+      // https://esphome.io/components/display/index.html#formatted-text
+      it.printf(maxX/2, title_label_height, id(font_roboto_small_print), id(my_gray), TextAlign::CENTER, "%s Volume Dial", id(rufus_zone_global_string).c_str());
+      it.printf(maxX/2, previous_label_height, id(my_font), id(my_red), TextAlign::CENTER, "prev => [%.0f, %.0f, %.0f]", id(rotary_value_previous_previous_number).state, id(rotary_value_previous_number).state, id(rotary_value_current_number).state);
+      it.printf(maxX/2, sent_label_height, id(font_roboto_medium22), id(my_green), TextAlign::CENTER, "sent => %s %.0f", id(rotary_value_volume_action_text).state.c_str(), id(rotary_value_sent_number).state);
+      it.printf(maxX/2, current_label_height, id(font_roboto_medium_small_print), id(my_yellow), TextAlign::CENTER, "current => diff: %.0f, rotary: %.0f", id(rotary_value_diff_number).state, id(rotaryencoder).state);
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 42
+      inverted: true
+    name: "${friendly_name} Toggle Backlight Button"
+    on_press:
+      then:
+        - logger.log: "Test rotary goober Button Clicked"
+        - light.toggle: backlight
+        - logger.log: "Done with Test rotary goober Button clicked!"

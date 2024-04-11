@@ -1,0 +1,7 @@
+switch:
+- id: ${node_name}_backlight
+  name: ${node_name}_backlight
+  platform: gpio
+  pin: GPIO16
+  restore_mode: RESTORE_DEFAULT_ON
+  icon: mdi:lightbulb

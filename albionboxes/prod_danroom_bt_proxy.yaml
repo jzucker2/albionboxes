@@ -1,0 +1,21 @@
+substitutions:
+  node_name: dan-bluetooth-proxy
+  friendly_name: Dan Room Bluetooth Proxy
+  area: Dan Room
+  comment: "This is a decent iteration"
+
+packages:
+  esphome: !include common/bt_proxy_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include common/atom_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  bluetooth_proxy: !include common/bluetooth_proxy.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml

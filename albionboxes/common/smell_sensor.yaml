@@ -1,0 +1,19 @@
+# https://esphome.io/components/sensor/mics_4514.html
+# https://www.dfrobot.com/product-2417.html
+sensor:
+  - platform: mics_4514
+#    i2c_id: grove
+#    address: 0x78
+    nitrogen_dioxide:
+      name: "${friendly_name} Nitrogen Dioxide"
+    carbon_monoxide:
+      name: "${friendly_name} Carbon Monoxide"
+    hydrogen:
+      name: "${friendly_name} Hydrogen"
+    ethanol:
+      name: "${friendly_name} Ethanol"
+    methane:
+      name: "${friendly_name} Methane"
+    ammonia:
+      name: "${friendly_name} Ammonia"
+    update_interval: 60s

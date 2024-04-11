@@ -1,0 +1,7 @@
+# https://esphome.io/components/text_sensor/version
+text_sensor:
+  - platform: version
+    name: "ESPHome Version Detailed"
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true

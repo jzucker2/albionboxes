@@ -1,0 +1,183 @@
+# Still want to convert to ethernet at some point
+# pattern for naming
+substitutions:
+  node_name: mediaconsoletempsensor
+  friendly_name: Media Console Temp Sensor
+  area: Living Room
+  comment: "Temperature sensors for inside the main media console in the Living Room"
+  zeroth_sensor_name: "Living Room Media Console Tech Cabinet Receiver Shelf"
+  first_sensor_name: "Living Room Media Console Tech Cabinet UPS Shelf"
+  second_sensor_name: "Living Room Media Console Tech Cabinet NAS Shelf"
+  third_sensor_name: "Living Room Media Console Tech Cabinet NUC Shelf"
+  fourth_sensor_name: "Living Room Media Console Tech Cabinet PS5 Shelf"
+  fifth_sensor_name: "Living Room Media Console Tech Cabinet RPi Shelf"
+  oversampling_value: "16x"
+  update_interval_value: "60s"
+  sht_address: "0x44"
+  bmp_address: "0x76"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include common/atom_light.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+
+# temp sensors
+
+# https://esphome.io/components/i2c#i2c
+i2c:
+  - id: grove
+    sda: GPIO26
+    scl: GPIO32
+    scan: true
+
+# https://esphome.io/components/tca9548a
+tca9548a:
+  - address: 0x70
+    id: multiplex0
+    i2c_id: grove
+    channels:
+      - bus_id: multiplex0channel0
+        channel: 0
+      - bus_id: multiplex0channel1
+        channel: 1
+      - bus_id: multiplex0channel2
+        channel: 2
+      - bus_id: multiplex0channel3
+        channel: 3
+      - bus_id: multiplex0channel4
+        channel: 4
+      - bus_id: multiplex0channel5
+        channel: 5
+
+sensor:
+  # https://esphome.io/components/sensor/sht4x.html
+  - platform: sht4x
+    i2c_id: multiplex0channel0
+    address: ${sht_address}
+    temperature:
+      name: "${zeroth_sensor_name} Temperature"
+    humidity:
+      name: "${zeroth_sensor_name} Relative Humidity"
+  # https://esphome.io/components/sensor/bmp280.html
+  - platform: bmp280
+    i2c_id: multiplex0channel0
+    temperature:
+      name: "${zeroth_sensor_name} Outside Temperature"
+      oversampling: ${oversampling_value}
+    pressure:
+      name: "${zeroth_sensor_name} Outside Pressure"
+    address: ${bmp_address}
+    update_interval: ${update_interval_value}
+  # https://esphome.io/components/sensor/sht4x.html
+  - platform: sht4x
+    i2c_id: multiplex0channel1
+    address: ${sht_address}
+    temperature:
+      name: "${first_sensor_name} Temperature"
+    humidity:
+      name: "${first_sensor_name} Relative Humidity"
+  # https://esphome.io/components/sensor/bmp280.html
+  - platform: bmp280
+    i2c_id: multiplex0channel1
+    temperature:
+      name: "${first_sensor_name} Outside Temperature"
+      oversampling: ${oversampling_value}
+    pressure:
+      name: "${first_sensor_name} Outside Pressure"
+    address: ${bmp_address}
+    update_interval: ${update_interval_value}
+  # https://esphome.io/components/sensor/sht4x.html
+  - platform: sht4x
+    i2c_id: multiplex0channel2
+    address: ${sht_address}
+    temperature:
+      name: "${second_sensor_name} Temperature"
+    humidity:
+      name: "${second_sensor_name} Relative Humidity"
+  # https://esphome.io/components/sensor/bmp280.html
+  - platform: bmp280
+    i2c_id: multiplex0channel2
+    temperature:
+      name: "${second_sensor_name} Outside Temperature"
+      oversampling: ${oversampling_value}
+    pressure:
+      name: "${second_sensor_name} Outside Pressure"
+    address: ${bmp_address}
+    update_interval: ${update_interval_value}
+  # https://esphome.io/components/sensor/sht4x.html
+  - platform: sht4x
+    i2c_id: multiplex0channel3
+    address: ${sht_address}
+    temperature:
+      name: "${third_sensor_name} Temperature"
+    humidity:
+      name: "${third_sensor_name} Relative Humidity"
+  # https://esphome.io/components/sensor/bmp280.html
+  - platform: bmp280
+    i2c_id: multiplex0channel3
+    temperature:
+      name: "${third_sensor_name} Outside Temperature"
+      oversampling: ${oversampling_value}
+    pressure:
+      name: "${third_sensor_name} Outside Pressure"
+    address: ${bmp_address}
+    update_interval: ${update_interval_value}
+  # https://esphome.io/components/sensor/sht4x.html
+  - platform: sht4x
+    i2c_id: multiplex0channel4
+    address: ${sht_address}
+    temperature:
+      name: "${fourth_sensor_name} Temperature"
+    humidity:
+      name: "${fourth_sensor_name} Relative Humidity"
+  # https://esphome.io/components/sensor/bmp280.html
+  - platform: bmp280
+    i2c_id: multiplex0channel4
+    temperature:
+      name: "${fourth_sensor_name} Outside Temperature"
+      oversampling: ${oversampling_value}
+    pressure:
+      name: "${fourth_sensor_name} Outside Pressure"
+    address: ${bmp_address}
+    update_interval: ${update_interval_value}
+  # https://esphome.io/components/sensor/sht4x.html
+  - platform: sht4x
+    i2c_id: multiplex0channel5
+    address: ${sht_address}
+    temperature:
+      name: "${fifth_sensor_name} Temperature"
+    humidity:
+      name: "${fifth_sensor_name} Relative Humidity"
+  # https://esphome.io/components/sensor/bmp280.html
+  - platform: bmp280
+    i2c_id: multiplex0channel5
+    temperature:
+      name: "${fifth_sensor_name} Outside Temperature"
+      oversampling: ${oversampling_value}
+    pressure:
+      name: "${fifth_sensor_name} Outside Pressure"
+    address: ${bmp_address}
+    update_interval: ${update_interval_value}
+
+## Device-specific
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 39
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "Button tapped"
+        - logger.log: "Done with button tapped!"

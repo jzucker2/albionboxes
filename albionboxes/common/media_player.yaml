@@ -1,0 +1,8 @@
+# https://esphome.io/components/media_player/
+media_player:
+  - platform: i2s_audio
+    id: media_out
+    name: ${friendly_name} Media Player
+    dac_type: external
+    i2s_dout_pin: GPIO22
+    mode: mono

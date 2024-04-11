@@ -1,0 +1,5 @@
+# borrowed from BT proxy
+button:
+- platform: safe_mode
+  name: "${friendly_name} Safe Mode Boot"
+  entity_category: diagnostic
