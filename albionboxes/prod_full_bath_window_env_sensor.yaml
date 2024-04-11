@@ -3,7 +3,7 @@ substitutions:
   friendly_name: Full Bath Window Env Sensor
   area: Full Bath
   comment: "This goes by the window (coldest place in the room)"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_full_bath_window_env_sensor
 
 packages:
   esphome: !include common/default_esphome.yaml

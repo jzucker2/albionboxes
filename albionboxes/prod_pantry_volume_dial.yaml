@@ -3,7 +3,7 @@ substitutions:
   friendly_name: Pantry Volume Dial
   area: Pantry
   comment: "Volume rotary controller for the Pantry"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_pantry_volume_dial
   display_rotation: '270'
   receiver_zone_media_player_entity: "media_player.denon_avr_x4300h_main_zone_living_room"
 

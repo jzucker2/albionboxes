@@ -4,7 +4,7 @@ substitutions:
   friendly_name: Volcano Goober
   area: Living Room
   comment: "Still needs a lot of work"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_volcano_goober
   # FIXME: need to fill this out a bit
   volcano_mac_address: !secret volcano_mac_address
   autoconnect: "true"

@@ -5,7 +5,7 @@ substitutions:
   friendly_name: Pantry Food Cabinet Temp Sensor
   area: Pantry
   comment: "Temperature sensors for the various shelves and cabinets in the pantry"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_pantry_temp_sensor
   zeroth_sensor_name: "Pantry Food Cabinet Receiver Shelf"
   first_sensor_name: "Pantry Food Cabinet UPS Shelf"
   second_sensor_name: "Pantry Food Cabinet NAS Shelf"

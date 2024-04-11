@@ -3,7 +3,7 @@ substitutions:
   friendly_name: Full Bath Shower Speakerz
   area: Full Bath
   comment: "For controlling the ShowerSpeakerz and bluetooth music"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_full_bath_shower_speakerz_buttons
 
 packages:
   esphome: !include common/default_esphome.yaml

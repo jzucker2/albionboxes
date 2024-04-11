@@ -3,7 +3,7 @@ substitutions:
   friendly_name: Dining Room Bluetooth Proxy
   area: Dining Room
   comment: "This is a decent iteration"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_diningroom_bt_proxy
 
 packages:
   esphome: !include common/bt_proxy_esphome.yaml

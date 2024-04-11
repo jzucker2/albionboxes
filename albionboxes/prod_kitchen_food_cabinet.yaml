@@ -5,7 +5,7 @@ substitutions:
   friendly_name: Kitchen Food Cabinet Temp Sensor
   area: Kitchen
   comment: "Temperature sensors for inside Dan's desk"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_kitchen_food_cabinet
   zeroth_sensor_name: "Kitchen Food Cabinet Receiver Shelf"
   first_sensor_name: "Kitchen Food Cabinet UPS Shelf"
   second_sensor_name: "Kitchen Food Cabinet NAS Shelf"

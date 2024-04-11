@@ -3,7 +3,7 @@ substitutions:
   friendly_name: Oven Gas Sensor
   area: Living Room
   comment: "This senses gas from the oven but is in the living room actually"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_oven_gas_sensor
 
 packages:
   esphome: !include common/default_esphome.yaml

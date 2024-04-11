@@ -3,7 +3,7 @@ substitutions:
   friendly_name: Living Room Reading Goober
   area: Living Room
   comment: "I might get rid of this soon"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_reading_button
 
 packages:
   esphome: !include common/default_esphome.yaml

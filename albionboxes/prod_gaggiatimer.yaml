@@ -7,7 +7,7 @@ substitutions:
   friendly_name: "Gaggia AtomEcho Timer"
   area: Pantry
   comment: "This timer in the pantry is for the Gaggia espresso machine"
-  box_config_file_name: prod_albion_jukebox_plug
+  box_config_file_name: prod_gaggiatimer
   onboard_light_id: "status_led"
   timer_script_mode: restart
   # FIXME: make this dynamic
