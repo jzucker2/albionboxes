@@ -3,5 +3,5 @@
 # Example: github://esphome/esphome-project-template/project-template-esp32.yaml@v6
 dashboard_import:
   # FIXME: make dynamic with version and/or full path
-  package_import_url: "github://jzucker2/albionboxes/albionboxes/${box_config_file_name}.yaml@v0.2.0"
+  package_import_url: "github://jzucker2/albionboxes/albionboxes/${box_config_file_name}.yaml@0.2.0"
   import_full_config: false # or true
