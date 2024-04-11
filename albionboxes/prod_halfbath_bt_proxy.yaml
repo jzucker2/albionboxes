@@ -3,6 +3,7 @@ substitutions:
   friendly_name: Half Bath Bluetooth Proxy
   area: Half Bath
   comment: "This is a decent iteration"
+  box_config_file_name: prod_albion_jukebox_plug
 
 packages:
   esphome: !include common/bt_proxy_esphome.yaml

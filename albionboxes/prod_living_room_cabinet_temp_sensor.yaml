@@ -5,6 +5,7 @@ substitutions:
   friendly_name: Living Room Food Cabinet Temp Sensor
   area: Living Room
   comment: "Temperature sensors for inside the food and snack cabinet in the Living Room"
+  box_config_file_name: prod_albion_jukebox_plug
   zeroth_sensor_name: "Living Room Food Cabinet Receiver Shelf"
   first_sensor_name: "Living Room Food Cabinet UPS Shelf"
   second_sensor_name: "Living Room Food Cabinet NAS Shelf"

@@ -5,6 +5,7 @@ substitutions:
   friendly_name: Media Console Temp Sensor
   area: Living Room
   comment: "Temperature sensors for inside the main media console in the Living Room"
+  box_config_file_name: prod_albion_jukebox_plug
   zeroth_sensor_name: "Living Room Media Console Tech Cabinet Receiver Shelf"
   first_sensor_name: "Living Room Media Console Tech Cabinet UPS Shelf"
   second_sensor_name: "Living Room Media Console Tech Cabinet NAS Shelf"

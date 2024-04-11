@@ -3,6 +3,7 @@ substitutions:
   friendly_name: Goober RF Pantry Transmitter
   area: Pantry
   comment: "For controlling the old RF lights in the pantry"
+  box_config_file_name: prod_albion_jukebox_plug
   pantry_restore_mode: RESTORE_DEFAULT_OFF
   rf_rc_on_code:  "00000111000110000000000110110111"
   rf_rc_off_code: "00000111000110000000000110010111"

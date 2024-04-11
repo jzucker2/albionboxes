@@ -8,6 +8,7 @@ substitutions:
   friendly_name: AlbionJukebox Plug
   area: JZ Bedroom
   comment: "This is the prototype for the next Burning Man jukebox"
+  box_config_file_name: prod_albion_jukebox_plug
   relay_pin: GPIO23
 
 packages:

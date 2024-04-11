@@ -3,6 +3,7 @@ substitutions:
   friendly_name: Hallway Bedroom Fan Switches
   area: Hallway
   comment: "This will go on the ceiling to control fans for the bedrooms"
+  box_config_file_name: prod_albion_jukebox_plug
   relay_1_pin: GPIO22
   relay_2_pin: GPIO19
 

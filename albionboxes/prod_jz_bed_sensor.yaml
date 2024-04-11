@@ -3,6 +3,7 @@ substitutions:
   friendly_name: JZ Bed Sensor
   area: JZ Bedroom
   comment: "This is my first attempt at a bed pressure sensor"
+  box_config_file_name: prod_albion_jukebox_plug
   right_side_bed_pin: GPIO1
   left_side_bed_pin: GPIO2
   # below is for debugging

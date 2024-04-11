@@ -3,6 +3,7 @@ substitutions:
   friendly_name: Full Bath Env Sensor
   area: Full Bath
   comment: "This is the first environment sensor under the full bath sink"
+  box_config_file_name: prod_albion_jukebox_plug
 
 packages:
   esphome: !include common/default_esphome.yaml

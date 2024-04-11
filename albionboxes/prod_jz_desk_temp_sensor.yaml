@@ -4,6 +4,7 @@ substitutions:
   friendly_name: JZ Desk Temp Sensor
   area: JZ Bedroom
   comment: "Temperature sensors for inside JZ Desk"
+  box_config_file_name: prod_albion_jukebox_plug
   zeroth_sensor_name: "JZ Desk Tech Cabinet Router Shelf"
   first_sensor_name: "JZ Desk Tech Cabinet UPS Shelf"
   second_sensor_name: "JZ Desk Tech Cabinet NUC Shelf"
