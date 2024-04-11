@@ -10,6 +10,8 @@ wifi_password: supersecretpassword
 encryption_key: "9zgsw5h/VOhDmsTWB1QvEQgMY3/GxGDSnQrSxv6fs90="
 # https://esphome.io/components/ota.html
 ota_password: albionboxes
+# this is only for the volcano one
+volcano_mac_address: "<some bluetooth MAC address>"
 ```
 
 ## Resources
