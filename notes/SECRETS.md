@@ -10,8 +10,12 @@ wifi_password: supersecretpassword
 encryption_key: "9zgsw5h/VOhDmsTWB1QvEQgMY3/GxGDSnQrSxv6fs90="
 # https://esphome.io/components/ota.html
 ota_password: albionboxes
-# this is only for the volcano one
-volcano_mac_address: "<some bluetooth MAC address>"
+# for albionboxes/prod_volcano_goober.yaml
+volcano_mac_address: "C9:C9:C4:C4:D3:8F"
+# for albionboxes/prod_gaggia_timer.yaml
+gaggia_timer_alarm_media_file_path: "http://10.0.1.121:8123/local/simple_alarm.mp3"
+# for all the rufus ones
+rufus_url: "http://10.0.1.69:5000"
 ```
 
 ## Resources

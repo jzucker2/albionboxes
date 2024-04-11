@@ -2,16 +2,16 @@
 # https://shop.m5stack.com/products/m5stack-dial-esp32-s3-smart-rotary-knob-w-1-28-round-touch-screen
 # inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
 # https://community.home-assistant.io/t/m5stack-dial-esp32-s3-smart-rotary-knob/623518/14
-# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-on
-# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-off
+# ${rufus_url}/api/v1/activities/kitchen-lights-on
+# ${rufus_url}/api/v1/activities/kitchen-lights-off
 # https://github.com/jzucker2/RUFUS/blob/master/notes/CURL_COMMANDS.md#volume-v2
 ## increase volume by 5
-#curl -i -X POST "http://10.0.1.104:5000/api/v2/volume" \
+#curl -i -X POST "${rufus_url}/api/v2/volume" \
 #    -H "Content-Type: application/json" \
 #    -d '{"zone":"living_room","action":"increase","step":5}'
 #
 ## decrease volume by 5
-#curl -i -X POST "http://10.0.1.104:5000/api/v2/volume" \
+#curl -i -X POST "${rufus_url}/api/v2/volume" \
 #    -H "Content-Type: application/json" \
 #    -d '{"zone":"living_room","action":"decrease","step":5}'
 

@@ -11,7 +11,7 @@ substitutions:
   onboard_light_id: "status_led"
   timer_script_mode: restart
   # FIXME: make this dynamic
-  media_file: http://10.0.1.131:8123/local/simple_alarm.mp3
+  media_file: !secret gaggia_timer_alarm_media_file_path
   # we want 19 because there's a ~1s delay right now and ultimate goal is ~20s
   timer_length: "19"
   expiration_light_delay: "3s"
@@ -106,6 +106,3 @@ binary_sensor:
           id: gaggia_timer_script
           delay_seconds: ${timer_length}
       - logger.log: "Done with custom button actions"
-
-#dashboard_import:
-#  package_import_url: github://esphome/media-players/m5stack-atom-echo.yaml@main

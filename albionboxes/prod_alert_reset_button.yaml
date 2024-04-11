@@ -4,6 +4,7 @@ substitutions:
   area: Pantry
   comment: "I might get rid of this soon"
   box_config_file_name: prod_alert_reset_button
+  rufus_url: !secret rufus_url
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -22,8 +23,8 @@ packages:
   # Issues with internal_temp on this chip
 #  internal_temp: !include common/internal_temp.yaml
 
-# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-on
-# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-off
+# ${rufus_url}/api/v1/activities/kitchen-lights-on
+# ${rufus_url}/api/v1/activities/kitchen-lights-off
 
 ## Device-specific
 

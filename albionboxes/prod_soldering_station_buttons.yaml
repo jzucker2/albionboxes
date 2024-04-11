@@ -4,6 +4,7 @@ substitutions:
   area: Dev
   comment: "Not permanently connected"
   box_config_file_name: prod_soldering_station_buttons
+  rufus_url: !secret rufus_url
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -22,11 +23,11 @@ packages:
   # Issues with internal_temp on this chip
 #  internal_temp: !include common/internal_temp.yaml
 
-# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-on
-# http://10.0.1.104:5000/api/v1/activities/kitchen-lights-off
+# ${rufus_url}/api/v1/activities/kitchen-lights-on
+# ${rufus_url}/api/v1/activities/kitchen-lights-off
 # TODO: maybe set dining room lights to main button?
-# http://10.0.1.104:5000/api/v1/activities/custom/soldering/start
-# http://10.0.1.104:5000/api/v1/activities/custom/soldering/start
+# ${rufus_url}/api/v1/activities/custom/soldering/start
+# ${rufus_url}/api/v1/activities/custom/soldering/start
 
 ## Device-specific
 
@@ -52,7 +53,7 @@ binary_sensor:
         - logger.log: "Red Button Clicked"
         - logger.log: "Turn on soldering station request"
         - http_request.get:
-            url: http://10.0.1.104:5000/api/v1/activities/custom/soldering/start
+            url: ${rufus_url}/api/v1/activities/custom/soldering/start
             headers:
               Content-Type: application/json
             verify_ssl: false
@@ -74,7 +75,7 @@ binary_sensor:
         - logger.log: "Blue Button Clicked"
         - logger.log: "Turn off soldering station request"
         - http_request.get:
-            url: http://10.0.1.104:5000/api/v1/activities/custom/soldering/stop
+            url: ${rufus_url}/api/v1/activities/custom/soldering/stop
             headers:
               Content-Type: application/json
             verify_ssl: false
