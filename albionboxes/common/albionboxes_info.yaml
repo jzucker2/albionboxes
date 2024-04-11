@@ -6,5 +6,5 @@ text_sensor:
     lambda: |-
       return {"0.5.0"};
     icon: "mdi:update"
-    update_interval: never
+    update_interval: 600s
     entity_category: "diagnostic"
