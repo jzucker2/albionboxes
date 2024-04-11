@@ -8,7 +8,11 @@ esphome:
   name_add_mac_suffix: false
   area: ${area}
   comment: ${comment}
-  project:
-    name: "jordan.albionboxes"
-    # FIXME: make an env var to be shared
-    version: "0.2.0"
+  project: !include default_project.yaml
+#  project:
+#    name: "jordan.albionboxes"
+#    # FIXME: make an env var to be shared
+##    version: "0.2.0"
+##    version: "${albionboxes_version}"
+##    on_multi_click: !include
+
