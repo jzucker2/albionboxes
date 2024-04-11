@@ -9,6 +9,7 @@ substitutions:
   comment: "This timer in the pantry is for the Gaggia espresso machine"
   onboard_light_id: "status_led"
   timer_script_mode: restart
+  # FIXME: make this dynamic
   media_file: http://10.0.1.131:8123/local/simple_alarm.mp3
   # we want 19 because there's a ~1s delay right now and ultimate goal is ~20s
   timer_length: "19"
