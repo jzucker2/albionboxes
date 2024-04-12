@@ -41,3 +41,4 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 * https://esphome.io/guides/configuration-types
 * https://esphome.io/guides/creators.html
 * https://esphome.io/components/external_components
+* https://github.com/Chill-Division/M5Stack-ESPHome

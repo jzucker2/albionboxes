@@ -272,6 +272,7 @@ sensor:
             or:
               - display.is_displaying_page: VolumePage
           then:
+            # is this an issue? shouldn't it update always but only update my_lcd if displaying?
             - lambda: |-
                 float volume = id(receiver_zone_volume).state;
                 
