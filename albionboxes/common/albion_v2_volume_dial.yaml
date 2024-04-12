@@ -273,6 +273,10 @@ sensor:
           float volume = id(receiver_zone_volume).state;
           ESP_LOGD("hass media volume callback", "got volume %f", volume);
           id(media_volume_value) = (volume * 100.0);
+      # don't forget to update the rotary encoder
+      - sensor.rotary_encoder.set_value:
+          id: rotaryencoder
+          value: !lambda 'return id(media_volume_value);'
       - if:
           condition:
             or:
