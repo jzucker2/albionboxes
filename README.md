@@ -2,6 +2,8 @@
 
 I want this public so I can use it in the ESPHome docker app.
 
+What about cleaning up the temperature sensors?
+
 ## Versioning
 
 Right now, it's rudimentary and tracked in:
