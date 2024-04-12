@@ -50,7 +50,7 @@ tca9548a:
         channel: 1
       - bus_id: multiplex0channel2
         channel: 2
-      - bus_id: multiplex0channel3
+#      - bus_id: multiplex0channel3
 #        channel: 3
 #      - bus_id: multiplex0channel4
 #        channel: 4
