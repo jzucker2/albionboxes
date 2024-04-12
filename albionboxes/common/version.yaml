@@ -5,3 +5,19 @@ text_sensor:
   - platform: version
     name: "ESPHome Version"
     hide_timestamp: true
+#    # https://esphome.io/cookbook/lambda_magic.html#update-numeric-values-from-text-input
+#    on_value:
+#      then:
+#        - sensor.template.publish:
+#            id: esphome_version_number
+#            state: !lambda |-
+#              ESP_LOGD("esphome_version", "starting with x: %s", x);
+#              std::string clean_string = str_sanitize(x);
+#              ESP_LOGD("esphome_version", "got clean_string: %s", clean_string);
+#              auto n = parse_number<float>(clean_string);
+#              return n.has_value() ? n.value() : NAN;
+#
+#sensor:
+#  - platform: template
+#    id: esphome_version_number
+#    name: "ESPHome Version Number"

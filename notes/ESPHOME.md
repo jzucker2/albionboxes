@@ -57,6 +57,7 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
   * https://esphome.io/components/display/#display-printf
 * update numeric values from text in a lambda
   * https://esphome.io/cookbook/lambda_magic.html#update-numeric-values-from-text-input
+  * TODO: add a conversion to the version text label to output to a gauge sensor for prometheus
 * other lambda helper functions
   * https://github.com/esphome/esphome/blob/dev/esphome/core/helpers.h
   * Hex conversion and printing
