@@ -1,0 +1,10 @@
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: ${button_pin}
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "${friendly_name} Button tapped"
+        - logger.log: "Done with ${friendly_name} button tapped!"

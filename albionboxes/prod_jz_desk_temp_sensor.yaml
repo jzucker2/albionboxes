@@ -29,15 +29,10 @@ packages:
   internal_temp: !include common/internal_temp.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
+  i2c: !include common/default_i2c.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
 
 # temp sensors
-
-# https://esphome.io/components/i2c#i2c
-i2c:
-  - id: grove
-    sda: GPIO26
-    scl: GPIO32
-    scan: true
 
 # https://esphome.io/components/tca9548a
 tca9548a:
@@ -107,16 +102,3 @@ sensor:
       name: "${second_sensor_name} Outside Pressure"
     address: ${bmp_address}
     update_interval: ${update_interval_value}
-
-## Device-specific
-
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: 39
-      inverted: true
-    name: "${friendly_name} Button"
-    on_release:
-      then:
-        - logger.log: "Button tapped"
-        - logger.log: "Done with button tapped!"

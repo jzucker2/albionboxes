@@ -4,7 +4,6 @@ substitutions:
   area: Pantry
   comment: "I might get rid of this soon"
   box_config_file_name: prod_alert_reset_button
-  rufus_url: !secret rufus_url
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -22,19 +21,4 @@ packages:
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
   internal_temp: !include common/internal_temp.yaml
-
-# ${rufus_url}/api/v1/activities/kitchen-lights-on
-# ${rufus_url}/api/v1/activities/kitchen-lights-off
-
-## Device-specific
-
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: 41
-      inverted: true
-    name: ${friendly_name} Button
-    on_press:
-      then:
-        - logger.log: "Alert Reset Button Clicked"
-        - logger.log: "Done with Alert Reset Button clicked!"
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 41 } }

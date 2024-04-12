@@ -61,6 +61,7 @@ switch:
             times: ${repeat_times}
             wait_time: ${repeat_wait_time}
 
+# TODO: consider disabling and replacing with default button
 binary_sensor:
   - platform: gpio
     pin:
