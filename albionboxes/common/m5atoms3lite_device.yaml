@@ -4,6 +4,7 @@ esp32:
   framework:
     type: arduino
     # fix for internal temp (version is currently at 2.0.5)
+    # https://github.com/esphome/issues/issues/4271
     version: 2.0.7
 
 # Enable logging
