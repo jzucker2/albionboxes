@@ -268,16 +268,16 @@ sensor:
       - logger.log:
           format: "The media_player volume sensor reports value %f"
           args: [ 'id(receiver_zone_volume).state' ]
+      # always update volume
+      - lambda: |-
+          float volume = id(receiver_zone_volume).state;
+          ESP_LOGD("hass media volume callback", "got volume %f", volume);
+          id(media_volume_value) = (volume * 100.0);
       - if:
           condition:
             or:
               - display.is_displaying_page: VolumePage
           then:
-            # is this an issue? shouldn't it update always but only update my_lcd if displaying?
-            - lambda: |-
-                float volume = id(receiver_zone_volume).state;
-                
-                id(media_volume_value) = (volume * 100.0);
             - component.update: my_lcd
 
 uart:
