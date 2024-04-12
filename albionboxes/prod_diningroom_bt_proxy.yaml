@@ -12,7 +12,7 @@ packages:
   light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
   reset_button: !include common/reset_button.yaml
   networking: !include common/networking.yaml
-  http: !include common/http.yaml
+#  http: !include common/http.yaml
   bluetooth_proxy: !include common/bluetooth_proxy.yaml
   version: !include common/version.yaml
   wifi_info: !include common/wifi_info.yaml
