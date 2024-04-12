@@ -13,7 +13,7 @@ packages:
   reset_button: !include common/reset_button.yaml
   networking: !include common/networking.yaml
   http: !include common/http.yaml
-  light: !include common/s3_light.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 35 } }
   version: !include common/version.yaml
   wifi_info: !include common/wifi_info.yaml
   uptime: !include common/uptime.yaml
@@ -21,8 +21,8 @@ packages:
   status_sensor: !include common/status_sensor.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
-  # Issues with internal_temp on this chip
-#  internal_temp: !include common/internal_temp.yaml
+  internal_temp: !include common/internal_temp.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 41 } }
 
 # ${rufus_url}/api/v1/activities/kitchen-lights-on
 # ${rufus_url}/api/v1/activities/kitchen-lights-off
@@ -32,17 +32,6 @@ packages:
 ## Device-specific
 
 binary_sensor:
-  - platform: gpio
-    pin:
-      number: 41
-      inverted: true
-    name: "${friendly_name} Main Button"
-    on_press:
-      then:
-        - logger.log: "Self Button Clicked"
-        - logger.log: "Toggle status_led"
-        - light.toggle: status_led
-        - logger.log: "Done with self button clicked!"
   - platform: gpio
     pin:
       number: 2

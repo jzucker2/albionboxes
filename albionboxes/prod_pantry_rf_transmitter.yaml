@@ -17,7 +17,7 @@ packages:
   esphome: !include common/default_esphome.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atom_device.yaml
-  light: !include common/atom_light.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
   reset_button: !include common/reset_button.yaml
   networking: !include common/networking.yaml
   http: !include common/http.yaml
@@ -61,6 +61,7 @@ switch:
             times: ${repeat_times}
             wait_time: ${repeat_wait_time}
 
+# TODO: consider disabling and replacing with default button
 binary_sensor:
   - platform: gpio
     pin:
@@ -70,5 +71,6 @@ binary_sensor:
       then:
         - logger.log: "Transmitter button press started"
         - logger.log: "Transmit RF rc_switch code"
+        # this is toggling the lights sometimes https://community.m5stack.com/topic/3955/atom-button-at-gpio39-without-pullup/4
         - switch.toggle: rf_tx_power_button
         - logger.log: "Done with transmitter button pressed!"

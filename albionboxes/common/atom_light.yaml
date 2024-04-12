@@ -1,11 +1,14 @@
+# https://esphome.io/components/light/index.html
 light:
-  - platform: neopixelbus
-    type: GRB
-    variant: SK6812
-    pin: 27
+  - platform: esp32_rmt_led_strip
+    rgb_order: GRB
+    chipset: SK6812
+    pin: ${light_pin}
     num_leds: 1
-    id: status_led
-    name: "${friendly_name} Light"
+    rmt_channel: 0
+    id: atom_light
+    restore_mode: RESTORE_DEFAULT_OFF
+    name: "${friendly_name} Atom Light"
     effects:
       - random:
       - flicker:

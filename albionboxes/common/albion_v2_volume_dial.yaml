@@ -22,6 +22,7 @@
 
 ## Device-specific
 
+# FIXME: collapse into existing default_esphome.yaml
 esphome:
   name: ${node_name}
   # for more on friendly_name issues, see https://github.com/jzucker2/goober/blob/master/notes/ESPHOME.md
@@ -267,15 +268,20 @@ sensor:
       - logger.log:
           format: "The media_player volume sensor reports value %f"
           args: [ 'id(receiver_zone_volume).state' ]
+      # always update volume
+      - lambda: |-
+          float volume = id(receiver_zone_volume).state;
+          ESP_LOGD("hass media volume callback", "got volume %f", volume);
+          id(media_volume_value) = (volume * 100.0);
+      # don't forget to update the rotary encoder
+      - sensor.rotary_encoder.set_value:
+          id: rotaryencoder
+          value: !lambda 'return id(media_volume_value);'
       - if:
           condition:
             or:
               - display.is_displaying_page: VolumePage
           then:
-            - lambda: |-
-                float volume = id(receiver_zone_volume).state;
-                
-                id(media_volume_value) = (volume * 100.0);
             - component.update: my_lcd
 
 uart:

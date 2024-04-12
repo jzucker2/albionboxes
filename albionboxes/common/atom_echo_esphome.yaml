@@ -1,8 +1,0 @@
-esphome:
-  name: ${node_name}
-  # for more on friendly_name issues, see https://github.com/jzucker2/goober/blob/master/notes/ESPHOME.md
-#  friendly_name: ${friendly_name}
-  area: ${area}
-  comment: ${comment}
-  # https://esphome.io/components/esphome#project-information
-  project: !include default_project.yaml
