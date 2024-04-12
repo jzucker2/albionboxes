@@ -6,10 +6,10 @@ substitutions:
   box_config_file_name: prod_halfbath_bt_proxy
 
 packages:
-  esphome: !include common/bt_proxy_esphome.yaml
+  esphome: !include common/default_esphome.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atom_device.yaml
-  light: !include common/atom_light.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
   reset_button: !include common/reset_button.yaml
   networking: !include common/networking.yaml
   http: !include common/http.yaml

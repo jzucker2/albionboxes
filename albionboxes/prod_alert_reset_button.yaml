@@ -13,7 +13,7 @@ packages:
   reset_button: !include common/reset_button.yaml
   networking: !include common/networking.yaml
   http: !include common/http.yaml
-  light: !include common/s3_light.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 35 } }
   version: !include common/version.yaml
   wifi_info: !include common/wifi_info.yaml
   uptime: !include common/uptime.yaml

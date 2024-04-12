@@ -22,6 +22,7 @@
 
 ## Device-specific
 
+# FIXME: collapse into existing default_esphome.yaml
 esphome:
   name: ${node_name}
   # for more on friendly_name issues, see https://github.com/jzucker2/goober/blob/master/notes/ESPHOME.md

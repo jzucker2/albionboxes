@@ -5,7 +5,7 @@ light:
     pin: 35
     num_leds: 1
     rmt_channel: 0
-    id: status_led
+    id: atom_light
     name: "${friendly_name} Light"
     effects:
       - random:

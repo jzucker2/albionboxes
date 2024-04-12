@@ -8,7 +8,7 @@ substitutions:
   area: Pantry
   comment: "This timer in the pantry is for the Gaggia espresso machine"
   box_config_file_name: prod_gaggiatimer
-  onboard_light_id: "status_led"
+  onboard_light_id: "atom_light"
   timer_script_mode: restart
   # FIXME: make this dynamic
   media_file: !secret gaggia_timer_alarm_media_file_path
@@ -17,10 +17,12 @@ substitutions:
   expiration_light_delay: "3s"
 
 packages:
-  esphome: !include common/atom_echo_esphome.yaml
+  esphome: !include common/default_esphome.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atom_device.yaml
-  light: !include common/og_atom_light.yaml
+#  light: !include common/og_atom_light.yaml
+#  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
   reset_button: !include common/reset_button.yaml
   networking: !include common/networking.yaml
   http: !include common/http.yaml
