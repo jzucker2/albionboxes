@@ -33,7 +33,14 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 * https://www.youtube.com/watch?v=0t12tRsphlM
 * https://community.home-assistant.io/t/what-is-dashboard-import/422519/4
 
-## Resources
+## Framework: Arduino vs. ESP-IDF
+
+* Explains the difference between the 2 frameworks
+  * https://github.com/mmakaay/esphome-xiaomi_bslamp2/issues/62
+* Docs for setting the 2 possibilities
+  * https://esphome.io/components/esp32.html
+
+## General Resources
 
 * https://esphome.io/guides/faq
 * https://esphome.io/guides/getting_started_hassio
@@ -41,4 +48,5 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 * https://esphome.io/guides/configuration-types
 * https://esphome.io/guides/creators.html
 * https://esphome.io/components/external_components
+* https://esphome.io/components/esp32.html
 * https://github.com/Chill-Division/M5Stack-ESPHome
