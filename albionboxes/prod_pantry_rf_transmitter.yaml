@@ -70,5 +70,6 @@ binary_sensor:
       then:
         - logger.log: "Transmitter button press started"
         - logger.log: "Transmit RF rc_switch code"
+        # this is toggling the lights sometimes https://community.m5stack.com/topic/3955/atom-button-at-gpio39-without-pullup/4
         - switch.toggle: rf_tx_power_button
         - logger.log: "Done with transmitter button pressed!"

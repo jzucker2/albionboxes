@@ -96,6 +96,7 @@ script:
 binary_sensor:
   - platform: gpio
     pin:
+      # pin can ghost on sometimes https://community.m5stack.com/topic/3955/atom-button-at-gpio39-without-pullup/4
       number: GPIO39
       inverted: true
     name: ${friendly_name} Button

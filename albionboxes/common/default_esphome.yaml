@@ -9,3 +9,11 @@ esphome:
   area: ${area}
   comment: ${comment}
   project: !include default_project.yaml
+  # Workaround for Button (GPIO39) randomly triggering
+  # Increases power usage slightly (~1mA)
+  # https://docs.espressif.com/projects/esp-idf/en/v4.4/esp32/api-reference/peripherals/adc.html#_CPPv412adc1_get_raw14adc1_channel_t
+  includes:
+    - common/adc_driver.h
+  on_boot:
+    then:
+      - lambda: "adc_power_acquire();"

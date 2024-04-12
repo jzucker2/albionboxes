@@ -39,6 +39,17 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
   * https://github.com/mmakaay/esphome-xiaomi_bslamp2/issues/62
 * Docs for setting the 2 possibilities
   * https://esphome.io/components/esp32.html
+* Recommended versions of both frameworks in the code
+  * https://github.com/esphome/esphome/blob/76daefe21c5f7a405d3f7df232bb7df0a2f4fe09/esphome/components/esp32/__init__.py#L229
+
+## Issues
+
+* Ghost button presses
+  * https://community.home-assistant.io/t/atom-lite-rgb-led-turns-on-by-itself/452852/11
+  * https://community.m5stack.com/topic/3955/atom-button-at-gpio39-without-pullup/11
+* Internal temp issues
+  * https://github.com/esphome/issues/issues/4271
+  * https://github.com/espressif/esp-idf/issues/8088
 
 ## General Resources
 
@@ -49,4 +60,5 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 * https://esphome.io/guides/creators.html
 * https://esphome.io/components/external_components
 * https://esphome.io/components/esp32.html
+* https://esphome.io/components/esphome
 * https://github.com/Chill-Division/M5Stack-ESPHome
