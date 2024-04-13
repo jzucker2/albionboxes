@@ -10,7 +10,6 @@ substitutions:
   autoconnect: "true"
   heat_icon: "mdi:fire"
   fan_icon: "mdi:fan"
-#  volcano_switch_restore_mode: RESTORE_DEFAULT_OFF
   volcano_switch_restore_mode: DISABLED
   temperature_sensor_update_interval: "30s"
   main_service_uuid: "10110000-5354-4f52-5a26-4249434b454c"
