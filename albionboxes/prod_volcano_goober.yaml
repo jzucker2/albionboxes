@@ -11,7 +11,8 @@ substitutions:
   heat_icon: "mdi:fire"
   fan_icon: "mdi:fan"
   volcano_switch_restore_mode: DISABLED
-  temperature_sensor_update_interval: "30s"
+  # shorter than 60s seems to cause issues right now
+  temperature_sensor_update_interval: "60s"
   main_service_uuid: "10110000-5354-4f52-5a26-4249434b454c"
   primary_info_service_uuid: "10100000-5354-4f52-5a26-4249434b454c"
   heat_turn_on_char_uuid: "1011000f-5354-4f52-5a26-4249434b454c"
