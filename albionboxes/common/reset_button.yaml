@@ -1,4 +1,5 @@
 # borrowed from BT proxy
+# https://esphome.io/components/switch/safe_mode
 button:
 - platform: safe_mode
   name: "${friendly_name} Safe Mode Boot"

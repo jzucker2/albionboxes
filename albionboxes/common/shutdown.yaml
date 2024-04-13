@@ -1,0 +1,4 @@
+# https://esphome.io/components/switch/shutdown
+switch:
+  - platform: shutdown
+    name: "${friendly_name} Shutdown"

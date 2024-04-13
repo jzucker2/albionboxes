@@ -3,12 +3,24 @@ text_sensor:
   - platform: wifi_info
     ip_address:
       name: ESP IP Address
+      # Does this cause continuous reboots?
+#      address_0:
+#        name: ESP IP Address 0
+#      address_1:
+#        name: ESP IP Address 1
+#      address_2:
+#        name: ESP IP Address 2
+#      address_3:
+#        name: ESP IP Address 3
+#      address_4:
+#        name: ESP IP Address 4
     ssid:
       name: ESP Connected SSID
     bssid:
       name: ESP Connected BSSID
     mac_address:
       name: ESP Mac Wifi Address
+    # Does this cause continuous reboots?
 #    scan_results:
 #      name: ESP Latest Scan Results
     dns_address:
