@@ -11,7 +11,8 @@ esp32:
 # https://esphome.io/components/logger.html
 # https://hutscape.com/tutorials/hello-esphome-esp32s3
 logger:
-  # DEBUG, INFO, WARN, VERBOSE
+  # https://esphome.io/components/logger.html#log-levels
+  # DEBUG, INFO, WARN, ERROR, VERBOSE
   level: INFO
 #  baud_rate: 115200
   deassert_rts_dtr: true

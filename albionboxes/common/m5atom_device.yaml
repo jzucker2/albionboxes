@@ -6,5 +6,6 @@ esp32:
 # Enable logging
 # https://esphome.io/components/logger.html
 logger:
-  # DEBUG, INFO, WARN, VERBOSE
+  # https://esphome.io/components/logger.html#log-levels
+  # DEBUG, INFO, WARN, ERROR, VERBOSE
   level: INFO
