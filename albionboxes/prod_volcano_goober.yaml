@@ -8,7 +8,10 @@ substitutions:
   # FIXME: need to fill this out a bit
   volcano_mac_address: !secret volcano_mac_address
   autoconnect: "true"
-  volcano_switch_restore_mode: RESTORE_DEFAULT_OFF
+  heat_icon: "mdi:fire"
+  fan_icon: "mdi:fan"
+#  volcano_switch_restore_mode: RESTORE_DEFAULT_OFF
+  volcano_switch_restore_mode: DISABLED
   temperature_sensor_update_interval: "30s"
   main_service_uuid: "10110000-5354-4f52-5a26-4249434b454c"
   primary_info_service_uuid: "10100000-5354-4f52-5a26-4249434b454c"
@@ -124,6 +127,7 @@ sensor:
 switch:
   - platform: template
     name: "${friendly_name} Heat Switch"
+    icon: "${heat_icon}"
     restore_mode: ${volcano_switch_restore_mode}
     optimistic: true
     assumed_state: true
@@ -144,6 +148,7 @@ switch:
 
   - platform: template
     name: "${friendly_name} Fan Switch"
+    icon: "${fan_icon}"
     restore_mode: ${volcano_switch_restore_mode}
     optimistic: true
     assumed_state: true
@@ -167,7 +172,9 @@ binary_sensor:
   - platform: template
     name: "${friendly_name} Heat Status"
     id: heat_status
+    icon: "${heat_icon}"
 
   - platform: template
     name: "${friendly_name} Fan Status"
     id: fan_status
+    icon: "${fan_icon}"
