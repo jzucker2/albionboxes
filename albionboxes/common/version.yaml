@@ -17,7 +17,7 @@ text_sensor:
     filters:
       - substitute:
           - ". -> 0"
-#    # https://esphome.io/cookbook/lambda_magic.html#update-numeric-values-from-text-input
+    # https://esphome.io/cookbook/lambda_magic.html#update-numeric-values-from-text-input
     on_value:
       then:
         - sensor.template.publish:
