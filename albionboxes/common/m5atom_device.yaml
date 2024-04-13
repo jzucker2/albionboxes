@@ -2,10 +2,3 @@ esp32:
   board: m5stack-atom
   framework:
     type: arduino
-
-# Enable logging
-# https://esphome.io/components/logger.html
-logger:
-  # https://esphome.io/components/logger.html#log-levels
-  # DEBUG, INFO, WARN, ERROR, VERBOSE
-  level: INFO

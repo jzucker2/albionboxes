@@ -6,14 +6,3 @@ esp32:
     # fix for internal temp (version is currently at 2.0.5)
     # https://github.com/esphome/issues/issues/4271
     version: 2.0.7
-
-# Enable logging
-# https://esphome.io/components/logger.html
-# https://hutscape.com/tutorials/hello-esphome-esp32s3
-logger:
-  # https://esphome.io/components/logger.html#log-levels
-  # DEBUG, INFO, WARN, ERROR, VERBOSE
-  level: INFO
-#  baud_rate: 115200
-  deassert_rts_dtr: true
-  hardware_uart: USB_CDC
