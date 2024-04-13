@@ -4,4 +4,7 @@ esp32:
     type: arduino
 
 # Enable logging
+# https://esphome.io/components/logger.html
 logger:
+  # DEBUG, INFO, WARN, VERBOSE
+  level: INFO

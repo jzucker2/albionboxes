@@ -8,9 +8,11 @@ esp32:
     version: 2.0.7
 
 # Enable logging
+# https://esphome.io/components/logger.html
 # https://hutscape.com/tutorials/hello-esphome-esp32s3
 logger:
-#  level: VERBOSE
+  # DEBUG, INFO, WARN, VERBOSE
+  level: INFO
 #  baud_rate: 115200
   deassert_rts_dtr: true
   hardware_uart: USB_CDC
