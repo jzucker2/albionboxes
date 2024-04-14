@@ -1,0 +1,20 @@
+# https://shop.m5stack.com/products/env-iv-unit-with-temperature-humidity-air-pressure-sensor-sht40-bmp280
+# https://esphome.io/components/sensor/sht4x.html
+- platform: sht4x
+  i2c_id: ${env_iv_i2c_id}
+  address: "0x44"
+  temperature:
+    name: "${env_iv_sensor_name} Temperature"
+  humidity:
+    name: "${env_iv_sensor_name} Relative Humidity"
+  update_interval: ${update_interval_value}
+# https://esphome.io/components/sensor/bmp280.html
+- platform: bmp280
+  i2c_id: ${env_iv_i2c_id}
+  temperature:
+    name: "${env_iv_sensor_name} Outside Temperature"
+    oversampling: ${oversampling_value}
+  pressure:
+    name: "${env_iv_sensor_name} Outside Pressure"
+  address: "0x76"
+  update_interval: ${update_interval_value}
