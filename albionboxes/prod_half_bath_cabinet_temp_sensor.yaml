@@ -1,0 +1,55 @@
+# pattern for naming
+substitutions:
+  node_name: jzdesktempsensor
+  friendly_name: Half Bath Cabinet Temp Sensor
+  area: Half Bath
+  comment: "Temperature sensors for inside the built-in Half Bath cabinets"
+  box_config_file_name: prod_half_bath_cabinet_temp_sensor
+  zeroth_sensor_name: "Half Bath Tech Cabinet Top Shelf"
+  first_sensor_name: "Half Bath Tech Cabinet Middle Shelf"
+  second_sensor_name: "Half Bath Tech Cabinet Lower Shelf"
+  oversampling_value: "16x"
+  update_interval_value: "60s"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  logging: !include common/default_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  i2c: !include common/default_i2c.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+# temp sensors
+
+# https://esphome.io/components/tca9548a
+tca9548a:
+  - address: 0x70
+    id: multiplex0
+    i2c_id: grove
+    channels:
+      - bus_id: multiplex0channel0
+        channel: 0
+      - bus_id: multiplex0channel1
+        channel: 1
+      - bus_id: multiplex0channel2
+        channel: 2
+
+sensor:
+  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel0", env_iv_sensor_name: "${zeroth_sensor_name}" } }
+  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel0", env_iv_sensor_name: "${zeroth_sensor_name}" } }
+  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel1", env_iv_sensor_name: "${first_sensor_name}" } }
+  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel1", env_iv_sensor_name: "${first_sensor_name}" } }
+  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel2", env_iv_sensor_name: "${second_sensor_name}" } }
+  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel2", env_iv_sensor_name: "${second_sensor_name}" } }
