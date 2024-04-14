@@ -10,8 +10,8 @@ substitutions:
   first_sensor_name: "Pantry Food Cabinet Espresso Machine Shelf"
   second_sensor_name: "Pantry Food Cabinet Bulk Storage Shelf"
   third_sensor_name: "Pantry Food Cabinet Microwave Shelf"
-  fourth_sensor_name: "Pantry Food Cabinet Top Box Shelf"
-  fifth_sensor_name: "Pantry Food Cabinet Bottom Box Shelf"
+  fourth_sensor_name: "Pantry Food Cabinet Upper Box Shelf"
+  fifth_sensor_name: "Pantry Food Cabinet Lower Box Shelf"
   oversampling_value: "16x"
   update_interval_value: "60s"
 
