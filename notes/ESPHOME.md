@@ -63,6 +63,8 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
   * Hex conversion and printing
     * https://community.home-assistant.io/t/hex-string-to-dec-value/458945/9
     * https://github.com/esphome/esphome/blob/dev/esphome/components/ble_client/sensor/ble_sensor.cpp
+* Functions and import stuff
+  * https://community.home-assistant.io/t/reusable-function-for-lambdas/296435/9
 
 ## General Resources
 
