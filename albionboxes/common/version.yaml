@@ -1,7 +1,37 @@
 # https://esphome.io/components/text_sensor/version
 text_sensor:
   - platform: version
+    # example => `2024.3.2 Apr 12 2024, 16:46:11`
     name: "ESPHome Version Detailed"
+    id: esphome_version_text_detailed
   - platform: version
+    # example => `2024.3.2`
     name: "ESPHome Version"
+    id: esphome_version_text_short
     hide_timestamp: true
+  - platform: copy
+    source_id: esphome_version_text_short
+    id: esphome_version_text_sanitized
+    # example => `20240302`
+    name: "ESPHome Version Sanitized"
+    filters:
+      - substitute:
+          - ". -> 0"
+    # https://esphome.io/cookbook/lambda_magic.html#update-numeric-values-from-text-input
+    on_value:
+      then:
+        - sensor.template.publish:
+            id: esphome_version_number
+            state: !lambda |-
+              ESP_LOGD("esphome_version", "starting with x: %s", x.c_str());
+              ESP_LOGD("esphome_version", "checking starting x: %s", x.c_str());
+              //std::string clean_string = str_sanitize(x.c_str());
+              //ESP_LOGD("esphome_version", "got clean_string: %s", clean_string);
+              auto n = parse_number<float>(x.c_str());
+              ESP_LOGD("esphome_version", "got final n: %f", n.value());
+              return n.has_value() ? n.value() : NAN;
+
+sensor:
+  - platform: template
+    id: esphome_version_number
+    name: "ESPHome Version Number"

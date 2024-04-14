@@ -51,6 +51,21 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
   * https://github.com/esphome/issues/issues/4271
   * https://github.com/espressif/esp-idf/issues/8088
 
+## Concepts
+
+* substituting text strings in C++
+  * https://esphome.io/components/display/#display-printf
+* update numeric values from text in a lambda
+  * https://esphome.io/cookbook/lambda_magic.html#update-numeric-values-from-text-input
+  * TODO: add a conversion to the version text label to output to a gauge sensor for prometheus
+* other lambda helper functions
+  * https://github.com/esphome/esphome/blob/dev/esphome/core/helpers.h
+  * Hex conversion and printing
+    * https://community.home-assistant.io/t/hex-string-to-dec-value/458945/9
+    * https://github.com/esphome/esphome/blob/dev/esphome/components/ble_client/sensor/ble_sensor.cpp
+* Functions and import stuff
+  * https://community.home-assistant.io/t/reusable-function-for-lambdas/296435/9
+
 ## General Resources
 
 * https://esphome.io/guides/faq

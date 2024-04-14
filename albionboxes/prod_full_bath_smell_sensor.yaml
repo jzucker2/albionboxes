@@ -7,6 +7,7 @@ substitutions:
 
 packages:
   esphome: !include common/default_esphome.yaml
+  logging: !include common/s3_debug_logger.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atoms3lite_device.yaml
   light: !include { file: common/atom_light.yaml, vars: { light_pin: 35 } }

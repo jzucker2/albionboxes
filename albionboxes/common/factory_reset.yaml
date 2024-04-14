@@ -1,0 +1,4 @@
+# https://esphome.io/components/switch/factory_reset
+switch:
+  - platform: factory_reset
+    name: Restart with Factory Default Settings

@@ -8,9 +8,13 @@ substitutions:
   # FIXME: need to fill this out a bit
   volcano_mac_address: !secret volcano_mac_address
   autoconnect: "true"
-  volcano_switch_restore_mode: RESTORE_DEFAULT_OFF
+  heat_icon: "mdi:fire"
+  fan_icon: "mdi:fan"
+  volcano_switch_restore_mode: DISABLED
+  # shorter than 60s seems to cause issues right now
   temperature_sensor_update_interval: "60s"
   main_service_uuid: "10110000-5354-4f52-5a26-4249434b454c"
+  primary_info_service_uuid: "10100000-5354-4f52-5a26-4249434b454c"
   heat_turn_on_char_uuid: "1011000f-5354-4f52-5a26-4249434b454c"
   heat_turn_off_char_uuid: "10110010-5354-4f52-5a26-4249434b454c"
   fan_turn_on_char_uuid: "10110013-5354-4f52-5a26-4249434b454c"
@@ -21,6 +25,7 @@ substitutions:
 
 packages:
   esphome: !include common/default_esphome.yaml
+  logging: !include common/default_logger.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atom_device.yaml
   light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
@@ -69,24 +74,61 @@ sensor:
     unit_of_measurement: "°C"
     device_class: "temperature"
     state_class: "measurement"
-    # https://stackoverflow.com/questions/105252/how-do-i-convert-between-big-endian-and-little-endian-values-in-c
     lambda: |-
-      float little;
-      little = (x[0]<<0) | (x[1]<<8) | (x[2]<<16) | ((unsigned)x[3]<<24);
-      ESP_LOGD("volcano_temp", "Got converted little: %f", little);
-      float final_little = little / 10.0;
-      ESP_LOGD("volcano_temp", "Got final final_little: %f", final_little);
-      return final_little;
+      float converted_read_value = encode_uint16(x[1], x[0]);
+      ESP_LOGD("volcano_temp", "Got converted_read_value: %f", converted_read_value);
+      float final_read_temp = converted_read_value / 10.0;
+      float final_return_temp;
+      if (final_read_temp < 6535.6) {
+        final_return_temp = final_read_temp;
+      } else {
+        final_return_temp = 40;
+      }
+      ESP_LOGD("volcano_temp", "Got final_read_temp: %f", final_read_temp);
+      ESP_LOGD("volcano_temp", "Got final_return_temp: %f", final_return_temp);
+      return final_return_temp;
+
+  - platform: ble_client
+    type: characteristic
+    ble_client_id: volcano
+    update_interval: ${temperature_sensor_update_interval}
+    name: "${friendly_name} Primary Info Sensor"
+    service_uuid: ${primary_info_service_uuid}
+    characteristic_uuid: ${current_primary_info_char_uuid}
+    lambda: |-
+      uint16_t reverse_extra_encoded = encode_uint16(x[1], x[0]);
+      ESP_LOGD("volcano_primary_info", "Got reverse_extra_encoded: %u", reverse_extra_encoded);
+      bool final_heat_status = false;
+      bool final_fan_status = false;
+      // first heating
+      if ((reverse_extra_encoded & 0x0020) == 0) {
+        ESP_LOGD("volcano_primary_info", "heating is off");
+        final_heat_status = false;
+      } else {
+        ESP_LOGD("volcano_primary_info", "heating is on");
+        final_heat_status = true;
+      }
+      // then fan
+      if ((reverse_extra_encoded & 0x2000) == 0) {
+        ESP_LOGD("volcano_primary_info", "fan is off");
+        final_fan_status = false;
+      } else {
+        ESP_LOGD("volcano_primary_info", "fan is on");
+        final_fan_status = true;
+      }
+      id(heat_status).publish_state(final_heat_status);
+      id(fan_status).publish_state(final_fan_status);
+      return 1.0;
 
   - platform: ble_client
     type: rssi
     ble_client_id: volcano
     name: "${friendly_name} BLE RSSI"
 
-
 switch:
   - platform: template
     name: "${friendly_name} Heat Switch"
+    icon: "${heat_icon}"
     restore_mode: ${volcano_switch_restore_mode}
     optimistic: true
     assumed_state: true
@@ -107,6 +149,7 @@ switch:
 
   - platform: template
     name: "${friendly_name} Fan Switch"
+    icon: "${fan_icon}"
     restore_mode: ${volcano_switch_restore_mode}
     optimistic: true
     assumed_state: true
@@ -124,3 +167,23 @@ switch:
           characteristic_uuid: ${fan_turn_off_char_uuid}
           # List of bytes to write.
           value: [ 0x00 ]
+
+# https://esphome.io/components/esp32_ble_tracker
+#esp32_ble_tracker:
+
+binary_sensor:
+  # https://esphome.io/components/binary_sensor/template.html
+  - platform: template
+    name: "${friendly_name} Heat Status"
+    id: heat_status
+    icon: "${heat_icon}"
+
+  - platform: template
+    name: "${friendly_name} Fan Status"
+    id: fan_status
+    icon: "${fan_icon}"
+
+  # https://esphome.io/components/esp32_ble_tracker
+#  - platform: ble_presence
+#    mac_address: ${volcano_mac_address}
+#    name: "${friendly_name} Volcano ESP32 BLE Presence"
