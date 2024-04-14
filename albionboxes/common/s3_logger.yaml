@@ -4,7 +4,7 @@
 logger:
   # https://esphome.io/components/logger.html#log-levels
   # DEBUG, INFO, WARN, ERROR, VERBOSE
-  level: DEBUG
+  level: INFO
 #  baud_rate: 115200
   deassert_rts_dtr: true
   hardware_uart: USB_CDC

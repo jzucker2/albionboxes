@@ -1,13 +1,13 @@
 # pattern for naming
 substitutions:
   node_name: jzdesktempsensor
-  friendly_name: JZ Desk Temp Sensor
-  area: JZ Bedroom
-  comment: "Temperature sensors for inside JZ Desk"
-  box_config_file_name: prod_jz_desk_temp_sensor
-  zeroth_sensor_name: "JZ Desk Tech Cabinet Router Shelf"
-  first_sensor_name: "JZ Desk Tech Cabinet UPS Shelf"
-  second_sensor_name: "JZ Desk Tech Cabinet NUC Shelf"
+  friendly_name: Half Bath Cabinet Temp Sensor
+  area: Half Bath
+  comment: "Temperature sensors for inside the built-in Half Bath cabinets"
+  box_config_file_name: prod_half_bath_cabinet_temp_sensor
+  zeroth_sensor_name: "Half Bath Tech Cabinet Top Shelf"
+  first_sensor_name: "Half Bath Tech Cabinet Middle Shelf"
+  second_sensor_name: "Half Bath Tech Cabinet Bottom Shelf"
   oversampling_value: "16x"
   update_interval_value: "60s"
 

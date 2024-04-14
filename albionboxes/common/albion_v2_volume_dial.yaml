@@ -2,18 +2,6 @@
 # https://shop.m5stack.com/products/m5stack-dial-esp32-s3-smart-rotary-knob-w-1-28-round-touch-screen
 # inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
 # https://community.home-assistant.io/t/m5stack-dial-esp32-s3-smart-rotary-knob/623518/14
-# ${rufus_url}/api/v1/activities/kitchen-lights-on
-# ${rufus_url}/api/v1/activities/kitchen-lights-off
-# https://github.com/jzucker2/RUFUS/blob/master/notes/CURL_COMMANDS.md#volume-v2
-## increase volume by 5
-#curl -i -X POST "${rufus_url}/api/v2/volume" \
-#    -H "Content-Type: application/json" \
-#    -d '{"zone":"living_room","action":"increase","step":5}'
-#
-## decrease volume by 5
-#curl -i -X POST "${rufus_url}/api/v2/volume" \
-#    -H "Content-Type: application/json" \
-#    -d '{"zone":"living_room","action":"decrease","step":5}'
 
 # https://github.com/esphome/issues/issues/5427
 # https://esphome.io/guides/faq#why-am-i-getting-a-warning-about-strapping-pins

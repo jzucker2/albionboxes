@@ -1,0 +1,5 @@
+# https://esphome.io/components/mcp230xx.html#mcp23017-label
+mcp23017:
+  - id: 'mcp23017_hub'
+    # might be 0x27 instead
+    address: 0x20

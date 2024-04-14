@@ -4,7 +4,7 @@ text_sensor:
     id: albionboxes_version_string
     name: "${friendly_name} AlbionBoxes Version String"
     lambda: |-
-      return {"0.8.0"};
+      return {"0.9.0"};
     icon: "mdi:update"
     update_interval: 600s
     entity_category: "diagnostic"
@@ -15,7 +15,7 @@ sensor:
     id: albionboxes_version_number
     name: "${friendly_name} AlbionBoxes Version Number"
     lambda: |-
-      return 0.8;
+      return 0.9;
     icon: "mdi:update"
     state_class: measurement
     update_interval: 600s
