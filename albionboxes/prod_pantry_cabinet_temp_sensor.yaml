@@ -5,7 +5,7 @@ substitutions:
   friendly_name: Pantry Food Cabinet Temp Sensor
   area: Pantry
   comment: "Temperature sensors for the various shelves and cabinets in the pantry"
-  box_config_file_name: prod_pantry_temp_sensor
+  box_config_file_name: prod_pantry_cabinet_temp_sensor
   zeroth_sensor_name: "Pantry Food Cabinet Top Shelf"
   first_sensor_name: "Pantry Food Cabinet Espresso Machine Shelf"
   second_sensor_name: "Pantry Food Cabinet Bulk Storage Shelf"
