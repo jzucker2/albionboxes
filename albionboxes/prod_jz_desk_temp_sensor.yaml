@@ -10,8 +10,6 @@ substitutions:
   second_sensor_name: "JZ Desk Tech Cabinet NUC Shelf"
   oversampling_value: "16x"
   update_interval_value: "60s"
-  sht_address: "0x44"
-  bmp_address: "0x76"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -49,57 +47,9 @@ tca9548a:
         channel: 2
 
 sensor:
-  # https://esphome.io/components/sensor/sht4x.html
-  - platform: sht4x
-    i2c_id: multiplex0channel0
-    address: ${sht_address}
-    temperature:
-      name: "${zeroth_sensor_name} Temperature"
-    humidity:
-      name: "${zeroth_sensor_name} Relative Humidity"
-  # https://esphome.io/components/sensor/bmp280.html
-  - platform: bmp280
-    i2c_id: multiplex0channel0
-    temperature:
-      name: "${zeroth_sensor_name} Outside Temperature"
-      oversampling: ${oversampling_value}
-    pressure:
-      name: "${zeroth_sensor_name} Outside Pressure"
-    address: ${bmp_address}
-    update_interval: ${update_interval_value}
-  # https://esphome.io/components/sensor/sht4x.html
-  - platform: sht4x
-    i2c_id: multiplex0channel1
-    address: ${sht_address}
-    temperature:
-      name: "${first_sensor_name} Temperature"
-    humidity:
-      name: "${first_sensor_name} Relative Humidity"
-  # https://esphome.io/components/sensor/bmp280.html
-  - platform: bmp280
-    i2c_id: multiplex0channel1
-    temperature:
-      name: "${first_sensor_name} Outside Temperature"
-      oversampling: ${oversampling_value}
-    pressure:
-      name: "${first_sensor_name} Outside Pressure"
-    address: ${bmp_address}
-    update_interval: ${update_interval_value}
-  # https://esphome.io/components/sensor/sht4x.html
-  - platform: sht4x
-    i2c_id: multiplex0channel2
-    address: ${sht_address}
-    temperature:
-      name: "${second_sensor_name} Temperature"
-    humidity:
-      name: "${second_sensor_name} Relative Humidity"
-  # https://esphome.io/components/sensor/bmp280.html
-  - platform: bmp280
-    i2c_id: multiplex0channel2
-    temperature:
-      name: "${second_sensor_name} Outside Temperature"
-      oversampling: ${oversampling_value}
-    pressure:
-      name: "${second_sensor_name} Outside Pressure"
-    address: ${bmp_address}
-    update_interval: ${update_interval_value}
+  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel0", env_iv_sensor_name: "${zeroth_sensor_name}" } }
+  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel0", env_iv_sensor_name: "${zeroth_sensor_name}" } }
+  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel1", env_iv_sensor_name: "${first_sensor_name}" } }
+  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel1", env_iv_sensor_name: "${first_sensor_name}" } }
+  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel2", env_iv_sensor_name: "${second_sensor_name}" } }
+  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel2", env_iv_sensor_name: "${second_sensor_name}" } }
