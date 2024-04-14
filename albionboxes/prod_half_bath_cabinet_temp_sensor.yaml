@@ -7,7 +7,7 @@ substitutions:
   box_config_file_name: prod_half_bath_cabinet_temp_sensor
   zeroth_sensor_name: "Half Bath Tech Cabinet Top Shelf"
   first_sensor_name: "Half Bath Tech Cabinet Middle Shelf"
-  second_sensor_name: "Half Bath Tech Cabinet Lower Shelf"
+  second_sensor_name: "Half Bath Tech Cabinet Bottom Shelf"
   oversampling_value: "16x"
   update_interval_value: "60s"
 
