@@ -20,7 +20,7 @@ text_sensor:
       name: ESP Connected BSSID
     mac_address:
       name: ESP Mac Wifi Address
-    # Does this cause continuous reboots?
+    # Does this cause continuous reboots? Either way, only helpful for debugging
 #    scan_results:
 #      name: ESP Latest Scan Results
     dns_address:

@@ -24,6 +24,7 @@ packages:
   albion_boxes_info: !include common/albionboxes_info.yaml
   internal_temp: !include common/internal_temp.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 41 } }
+  rufus_activity_request: !include common/rufus_activity_request.yaml
 
 # ${rufus_url}/api/v1/activities/kitchen-lights-on
 # ${rufus_url}/api/v1/activities/kitchen-lights-off
@@ -42,20 +43,11 @@ binary_sensor:
     on_press:
       then:
         - logger.log: "Red Button Clicked"
-        - logger.log: "Turn on soldering station request"
-        - http_request.get:
-            url: ${rufus_url}/api/v1/activities/custom/soldering/start
-            headers:
-              Content-Type: application/json
-            verify_ssl: false
-            on_response:
-              then:
-                - logger.log:
-                    format: 'Turn on soldering station activity => Response status: %d, Duration: %u ms'
-                    args:
-                      - status_code
-                      - duration_ms
-        - logger.log: "Done with red button turn on soldering station request!"
+        - script.execute:
+            id: rufus_activity_request
+            rufus_url: "${rufus_url}"
+            activity: "custom/soldering/start"
+
   - platform: gpio
     pin:
       number: 1
@@ -64,17 +56,7 @@ binary_sensor:
     on_press:
       then:
         - logger.log: "Blue Button Clicked"
-        - logger.log: "Turn off soldering station request"
-        - http_request.get:
-            url: ${rufus_url}/api/v1/activities/custom/soldering/stop
-            headers:
-              Content-Type: application/json
-            verify_ssl: false
-            on_response:
-              then:
-                - logger.log:
-                    format: 'Turn off soldering station activity => Response status: %d, Duration: %u ms'
-                    args:
-                      - status_code
-                      - duration_ms
-        - logger.log: "Done with blue button turn off soldering station request!"
+        - script.execute:
+            id: rufus_activity_request
+            rufus_url: "${rufus_url}"
+            activity: "custom/soldering/stop"

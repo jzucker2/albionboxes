@@ -1,0 +1,29 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: rufus_activity_request
+    mode: single
+    parameters:
+      rufus_url: string
+      activity: string
+    then:
+      - lambda: |-
+          ESP_LOGD("rufus_activity_request", "starting request to %s for activity: %s", rufus_url.c_str(), activity.c_str());
+      - http_request.get:
+          url: !lambda |-
+            static std::string path = "/api/v1/activities/";
+            std::string final_url = rufus_url + path + activity;
+            ESP_LOGD("rufus_activity_request", "final_url: %s", final_url.c_str());
+            return final_url;
+          headers:
+            Content-Type: application/json
+          verify_ssl: false
+          on_response:
+            then:
+              - lambda: |-
+                  ESP_LOGD("rufus_activity_request", "Activity request => Response status: %d, Duration: %u ms", status_code, duration_ms);
+
+              # FIXME: logging substitution fails for this in script
+#              - lambda: |-
+#                  ESP_LOGD("rufus_activity_request", "Activity (%s) => Response status: %d, Duration: %u ms", activity.c_str(), status_code, duration_ms);
+      - lambda: |-
+          ESP_LOGD("rufus_activity_request", "done with script request to %s for activity: %s", rufus_url.c_str(), activity.c_str());
