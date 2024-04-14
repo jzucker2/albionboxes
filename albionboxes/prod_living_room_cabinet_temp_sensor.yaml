@@ -14,8 +14,6 @@ substitutions:
 #  fifth_sensor_name: "Living Room Food Cabinet RPi Shelf"
   oversampling_value: "16x"
   update_interval_value: "60s"
-  sht_address: "0x44"
-  bmp_address: "0x76"
 
 packages:
   esphome: !include common/default_esphome.yaml
