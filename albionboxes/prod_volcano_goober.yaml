@@ -11,6 +11,8 @@ substitutions:
   heat_icon: "mdi:fire"
   fan_icon: "mdi:fan"
   volcano_switch_restore_mode: DISABLED
+  # https://esphome.io/guides/automations.html#script-component
+  volcano_script_mode: single
   # shorter than 60s seems to cause issues right now
   temperature_sensor_update_interval: "60s"
   main_service_uuid: "10110000-5354-4f52-5a26-4249434b454c"
@@ -125,6 +127,21 @@ sensor:
     ble_client_id: volcano
     name: "${friendly_name} BLE RSSI"
 
+script:
+  - id: set_ble_bool_char_script
+    mode: ${volcano_script_mode}
+    parameters:
+      char_uuid: string
+    then:
+      - lambda: |-
+          ESP_LOGD("set_ble_bool_char_script", "set ble bool for %s", char_uuid);
+      - ble_client.ble_write:
+          id: volcano
+          service_uuid: ${main_service_uuid}
+          characteristic_uuid: ${char_uuid}
+          # List of bytes to write.
+          value: [ 0x00 ]
+
 switch:
   - platform: template
     name: "${friendly_name} Heat Switch"
@@ -133,19 +150,25 @@ switch:
     optimistic: true
     assumed_state: true
     turn_on_action:
-      - ble_client.ble_write:
-          id: volcano
-          service_uuid: ${main_service_uuid}
-          characteristic_uuid: ${heat_turn_on_char_uuid}
-          # List of bytes to write.
-          value: [0x00]
+      - script.execute:
+          id: set_ble_bool_char_script
+          char_uuid: ${heat_turn_on_char_uuid}
+#      - ble_client.ble_write:
+#          id: volcano
+#          service_uuid: ${main_service_uuid}
+#          characteristic_uuid: ${heat_turn_on_char_uuid}
+#          # List of bytes to write.
+#          value: [0x00]
     turn_off_action:
-      - ble_client.ble_write:
-          id: volcano
-          service_uuid: ${main_service_uuid}
-          characteristic_uuid: ${heat_turn_off_char_uuid}
-          # List of bytes to write.
-          value: [0x00]
+      - script.execute:
+          id: set_ble_bool_char_script
+          char_uuid: ${heat_turn_off_char_uuid}
+#      - ble_client.ble_write:
+#          id: volcano
+#          service_uuid: ${main_service_uuid}
+#          characteristic_uuid: ${heat_turn_off_char_uuid}
+#          # List of bytes to write.
+#          value: [0x00]
 
   - platform: template
     name: "${friendly_name} Fan Switch"
@@ -154,19 +177,28 @@ switch:
     optimistic: true
     assumed_state: true
     turn_on_action:
-      - ble_client.ble_write:
-          id: volcano
-          service_uuid: ${main_service_uuid}
-          characteristic_uuid: ${fan_turn_on_char_uuid}
-          # List of bytes to write.
-          value: [ 0x00 ]
+      - script.execute:
+          id: set_ble_bool_char_script
+          char_uuid: ${fan_turn_on_char_uuid}
+#      - ble_client.ble_write:
+#          id: volcano
+#          service_uuid: ${main_service_uuid}
+#          characteristic_uuid: ${fan_turn_on_char_uuid}
+#          # List of bytes to write.
+#          value: [ 0x00 ]
     turn_off_action:
-      - ble_client.ble_write:
-          id: volcano
-          service_uuid: ${main_service_uuid}
-          characteristic_uuid: ${fan_turn_off_char_uuid}
-          # List of bytes to write.
-          value: [ 0x00 ]
+      - script.execute:
+          id: set_ble_bool_char_script
+          char_uuid: ${fan_turn_off_char_uuid}
+#      - ble_client.ble_write:
+#          id: volcano
+#          service_uuid: ${main_service_uuid}
+#          characteristic_uuid: ${fan_turn_off_char_uuid}
+#          # List of bytes to write.
+#          value: [ 0x00 ]
+
+# https://esphome.io/components/esp32_ble_tracker
+#esp32_ble_tracker:
 
 binary_sensor:
   # https://esphome.io/components/binary_sensor/template.html
@@ -179,3 +211,8 @@ binary_sensor:
     name: "${friendly_name} Fan Status"
     id: fan_status
     icon: "${fan_icon}"
+
+  # https://esphome.io/components/esp32_ble_tracker
+#  - platform: ble_presence
+#    mac_address: ${volcano_mac_address}
+#    name: "${friendly_name} Volcano ESP32 BLE Presence"
