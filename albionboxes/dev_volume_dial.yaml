@@ -32,7 +32,7 @@ packages:
 
 # https://esphome.io/components/button/index.html
 button:
-  - platform: ...
+  - platform: template
     name: "${friendly_name} Test Speaker Button"
     id: test_speaker_button
 
