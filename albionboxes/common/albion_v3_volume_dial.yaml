@@ -36,10 +36,23 @@ globals:
     type: int
     initial_value: '1'
     restore_value: yes
+  - id: media_volume_muted
+    type: bool
+    initial_value: 'false'
+    restore_value: yes
+  - id: media_zone_state
+    type: std::string
+    max_restore_data_length: 64
+    initial_value: '"unknown"'
+    restore_value: yes
   - id: selected_color
     type: Color
     initial_value: very_dark_blue
     restore_value: no
+
+#external_components:
+#  - source: github://dgaust/esphome@gc9a01
+#    components: [ ft3267 ]
 
 packages:
   colors: !include ./dial/dial_colors.yaml
@@ -54,12 +67,23 @@ sensor:
   - <<: !include ./dial/dial_volume_rotary_encoder.yaml
   - <<: !include ./dial/dial_hass_volume_sensor.yaml
 
+text_sensor:
+  - <<: !include ./dial/dial_hass_zone_state_sensor.yaml
+
 light:
   - <<: !include ./dial/dial_backlight_light.yaml
 
 output:
   - <<: !include ./dial/dial_backlight_output.yaml
   - <<: !include ./dial/dial_speaker_output.yaml
+
+touchscreen:
+  # https://github.com/esphome/feature-requests/issues/2500
+  # https://esphome.io/components/touchscreen/ft5x06.html
+  - platform: ft5x06
+    address: 0x38
+    id: my_touchscreen
+    update_interval: 50ms
 
 # https://esphome.io/components/display/ili9xxx
 display:
@@ -88,6 +112,11 @@ display:
 
           // media_pause Circle
           it.filled_circle(halfscreenwidth, halfscreenheight - 15, 50, my_light_blue);  
+          if ( id(media_zone_state).c_str() == "off" || id(media_zone_state).c_str() == "standby" ) {
+            it.image(halfscreenwidth, halfscreenheight - 15, power_off_large, ImageAlign::CENTER);
+          } else {
+            it.image(halfscreenwidth, halfscreenheight - 15, power_on_large, ImageAlign::CENTER);
+          }
           //if ( id(appletv_media).state == "paused" || id(appletv_media).state == "idle" ) {
           //  it.image(halfscreenwidth, halfscreenheight - 15, media_play_large, ImageAlign::CENTER);
           //} else {
@@ -96,7 +125,12 @@ display:
 
           // Mute Toggle Circle
           it.filled_circle(halfscreenwidth, 200, 30, my_light_blue);  
-          it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
+          //it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
+          if (id(media_volume_muted)) {
+            it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
+          } else {
+            it.image(halfscreenwidth, 200, volume_high, ImageAlign::CENTER);
+          }
 
     on_page_change:
       - to: VolumePage
@@ -108,3 +142,41 @@ display:
 
 binary_sensor:
   - <<: !include ./dial/dial_button.yaml
+  - <<: !include ./dial/dial_hass_mute_sensor.yaml
+
+  - platform: touchscreen
+    name: "${friendly_name} Volume Screen Zone Muted Button"
+    page_id: VolumePage
+    x_min: 90
+    x_max: 150
+    y_min: 170
+    y_max: 230
+    on_release:
+      then:
+        - lambda: |-
+            ESP_LOGD("media_player_volume_mute", "touched zone muted button");
+        - homeassistant.service:
+            service: media_player.volume_mute
+            data:
+              entity_id: ${receiver_zone_media_player_entity}
+#              is_volume_muted: !lambda 'return (id(receiver_zone_muted).state == "on") ? false : true;'
+#              is_volume_muted: !lambda 'return id(receiver_zone_muted);'
+              is_volume_muted: |-
+                ESP_LOGD("media_player_volume_mute", "receiver_zone_muted: %d", id(receiver_zone_muted));
+                return id(receiver_zone_muted);
+
+  - platform: touchscreen
+    name: "${friendly_name} Volume Screen Zone State Button"
+    page_id: VolumePage
+    x_min: 70
+    x_max: 170
+    y_min: 70
+    y_max: 170
+    on_release:
+      then:
+        - lambda: |-
+            ESP_LOGD("media_player_zone_state", "touched zone muted button");
+        - homeassistant.service:
+            service: media_player.turn_on
+            data:
+              entity_id: ${receiver_zone_media_player_entity}

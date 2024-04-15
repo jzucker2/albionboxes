@@ -1,0 +1,24 @@
+- platform: homeassistant
+  name: "${friendly_name} Media Player Zone State"
+  id: receiver_zone_state
+  entity_id: ${receiver_zone_media_player_entity}
+  attribute: state
+  on_value:
+    - logger.log:
+        format: "The media_player state sensor reports value %s"
+        args: [ 'id(receiver_zone_state).state' ]
+    # always update volume
+    - lambda: |-
+        //std::string volume = x.c_str();
+        ESP_LOGD("hass_media_volume_callback", "got state %s", x.c_str());
+        id(media_zone_state) = x.c_str();
+    # don't forget to update the rotary encoder
+#    - sensor.rotary_encoder.set_value:
+#        id: rotaryencoder
+#        value: !lambda 'return id(media_volume_value);'
+    - if:
+        condition:
+          or:
+            - display.is_displaying_page: VolumePage
+        then:
+          - component.update: my_lcd

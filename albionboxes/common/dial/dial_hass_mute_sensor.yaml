@@ -1,0 +1,45 @@
+- platform: homeassistant
+  name: "${friendly_name} Media Player Zone Muted"
+  id: "receiver_zone_muted"
+  entity_id: ${receiver_zone_media_player_entity}
+  attribute: is_volume_muted
+  on_state:
+    - logger.log:
+        format: "The media_player volume muted sensor reports value %d"
+        args: [ '(id(receiver_zone_muted).state) ? "false" : "true"' ]
+    # always update volume
+    - lambda: |-
+        bool muted = id(receiver_zone_muted).state;
+        ESP_LOGD("hass_muted_callback", "got muted %d", muted);
+        id(media_volume_muted) = muted;
+        //id(media_volume_value) = (volume * 100.0);
+        //float volume = id(receiver_zone_volume).state;
+        //ESP_LOGD("hass media volume callback", "got volume %f", volume);
+        //id(media_volume_value) = (volume * 100.0);
+#    - if:
+#       condition:
+#         lambda: 'return (id(receiver_zone_muted).state == "on") ? true : false; // mute is on'
+#       then:
+#           - if:
+#              condition:
+#                - display.is_displaying_page: VolumePage
+#              then:
+#                 - display.page.show: MutedPage
+#
+#       else:
+#           - if:
+#              condition:
+#                - display.is_displaying_page: MutedPage
+#              then:
+#                 - display.page.show: VolumePage
+#    - logger.log:
+#        format: "The media player mute reports value %s"
+#        args: [ 'id(receiver_zone_muted).state == "on" ? "true" : "false"' ]
+#    - lambda: |-
+#        ESP_LOGD("dial_hass_media_player_muted", "The media player mute reports value %s", id(receiver_zone_muted).state == "on" ? "true" : "false");
+    - if:
+        condition:
+          or:
+            - display.is_displaying_page: VolumePage
+        then:
+          - component.update: my_lcd
