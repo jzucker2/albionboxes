@@ -175,7 +175,7 @@ binary_sensor:
     on_release:
       then:
         - lambda: |-
-            ESP_LOGD("media_player_zone_state", "touched zone muted button");
+            ESP_LOGD("media_player_zone_state", "touched zone state button");
         - homeassistant.service:
             service: media_player.turn_on
             data:
