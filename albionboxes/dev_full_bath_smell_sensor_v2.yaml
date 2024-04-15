@@ -1,7 +1,7 @@
 # Still want to convert to ethernet at some point
 # pattern for naming
 substitutions:
-  node_name: devfbsmellsensorv2
+  node_name: devfullbathsmellsensorv2
   friendly_name: Dev Full Bath Smell Sensor V2
   area: Full Bath
   comment: "This is for developing a proper methane sensor"
