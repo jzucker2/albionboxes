@@ -36,4 +36,5 @@ sensor:
   - platform: template
     id: esphome_version_number
     name: "ESPHome Version Number"
+    state_class: "measurement"
     entity_category: "diagnostic"
