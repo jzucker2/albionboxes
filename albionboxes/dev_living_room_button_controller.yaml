@@ -26,13 +26,14 @@ packages:
   albion_boxes_info: !include common/albionboxes_info.yaml
   i2c: !include common/default_i2c.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+  gpio_expander: !include common/mcp23017_expander.yaml
 
 binary_sensor:
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A0", pin_number: "0" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A1", pin_number: "1" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A2", pin_number: "2" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A3", pin_number: "3" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A4", pin_number: "4" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A5", pin_number: "5" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A6", pin_number: "6" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A7", pin_number: "7" } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A0", pin_number: 0 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A1", pin_number: 1 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A2", pin_number: 2 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A3", pin_number: 3 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A4", pin_number: 4 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A5", pin_number: 5 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A6", pin_number: 6 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A7", pin_number: 7 } }
