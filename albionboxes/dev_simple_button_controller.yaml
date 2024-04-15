@@ -26,7 +26,8 @@ packages:
   albion_boxes_info: !include common/albionboxes_info.yaml
   i2c: !include common/default_i2c.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
-  gpio_expander: !include common/mcp23017_expander.yaml
+#  gpio_expander: !include common/mcp23017_expander.yaml
+  gpio_expander: !include { file: common/mcp23017_expander.yaml, vars: { bus_name: "grove" } }
 
 binary_sensor:
   - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A0", pin_number: 0 } }

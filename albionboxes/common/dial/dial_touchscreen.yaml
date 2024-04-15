@@ -3,6 +3,7 @@
 - platform: ft5x06
   address: 0x38
   id: my_touchscreen
+  i2c_id: bus_internal
   update_interval: 50ms
   display: my_lcd
   # https://github.com/esphome/issues/issues/5265#issuecomment-1867168652
