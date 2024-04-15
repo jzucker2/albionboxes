@@ -14,6 +14,7 @@ text_sensor:
     id: esphome_version_text_sanitized
     # example => `20240302`
     name: "ESPHome Version Sanitized"
+    entity_category: "diagnostic"
     filters:
       - substitute:
           - ". -> 0"
@@ -35,3 +36,4 @@ sensor:
   - platform: template
     id: esphome_version_number
     name: "ESPHome Version Number"
+    entity_category: "diagnostic"
