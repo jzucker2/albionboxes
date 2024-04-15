@@ -32,8 +32,9 @@ packages:
 
 binary_sensor:
 #  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A0", pin_number: 0 } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A0", pin_number: 0, rufus_url: "${rufus_url}", activity: "vinyl" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A1", pin_number: 1 } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A0", pin_number: 0, rufus_url: "${rufus_url}", activity: "all-off?dining_room=0&kitchen=0" } }
+#  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A1", pin_number: 1 } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A1", pin_number: 1, rufus_url: "${rufus_url}", activity: "vinyl" } }
   - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A2", pin_number: 2 } }
   - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A3", pin_number: 3 } }
   - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A4", pin_number: 4 } }
