@@ -5,3 +5,4 @@ touchscreen:
     address: 0x38
     id: my_touchscreen
     update_interval: 50ms
+#    rotation: ${display_rotation}
