@@ -1,7 +1,7 @@
 # https://esphome.io/components/mcp230xx.html
 - platform: gpio
   # FIXME: redo the name
-  name: "${friendly_name} MCP23017 Pin ${pin_name} ${activity}"
+  name: "${friendly_name} ${activity_name} Button"
   pin:
     mcp23xxx: mcp23017_hub
     # Use pin 0 -> A0, 1 -> A1
@@ -14,9 +14,9 @@
 #    inverted: false
   on_release:
     then:
-      - logger.log: "Start Pin ${pin_name} ${activity} Button"
+      - logger.log: "Start Pin ${pin_name} ${activity_name} Button"
       - script.execute:
           id: rufus_activity_request
           rufus_url: "${rufus_url}"
-          activity: "${activity}"
-      - logger.log: "Done with Pin ${pin_name} ${activity} Button"
+          activity: "${activity_url_fragment}"
+      - logger.log: "Done with Pin ${pin_name} ${activity_name} Button"

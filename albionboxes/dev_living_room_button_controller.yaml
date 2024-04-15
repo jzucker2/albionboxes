@@ -31,11 +31,11 @@ packages:
   rufus_activity_request: !include common/rufus_activity_request.yaml
 
 binary_sensor:
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A0", pin_number: 0, rufus_url: "${rufus_url}", activity: "all-off?kitchen=0&dining_room=0" } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A1", pin_number: 1, rufus_url: "${rufus_url}", activity: "apple-tv?kitchen=0&dining_room=0" } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A2", pin_number: 2, rufus_url: "${rufus_url}", activity: "vinyl?kitchen=1&dining_room=1" } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A3", pin_number: 3, rufus_url: "${rufus_url}", activity: "nightly-movie" } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A4", pin_number: 4, rufus_url: "${rufus_url}", activity: "wfh?kitchen=1&dining_room=1" } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A5", pin_number: 5, rufus_url: "${rufus_url}", activity: "bedtime?kitchen=0&dining_room=0" } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A6", pin_number: 6, rufus_url: "${rufus_url}", activity: "nightlight?kitchen=0&dining_room=0" } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A7", pin_number: 7, rufus_url: "${rufus_url}", activity: "johncast" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A0", pin_number: 0, rufus_url: "${rufus_url}", activity_name: "All Off", activity_url_fragment: "all-off?kitchen=0&dining_room=0" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A1", pin_number: 1, rufus_url: "${rufus_url}", activity_name: "Apple TV", activity_url_fragment: "apple-tv?kitchen=0&dining_room=0" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A2", pin_number: 2, rufus_url: "${rufus_url}", activity_name: "Vinyl", activity_url_fragment: "vinyl?kitchen=1&dining_room=1" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A3", pin_number: 3, rufus_url: "${rufus_url}", activity_name: "Nightly Movie", activity_url_fragment: "nightly-movie" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A4", pin_number: 4, rufus_url: "${rufus_url}", activity_name: "WFH", activity_url_fragment: "wfh?kitchen=1&dining_room=1" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A5", pin_number: 5, rufus_url: "${rufus_url}", activity_name: "Bedtime", activity_url_fragment: "bedtime?kitchen=0&dining_room=0" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A6", pin_number: 6, rufus_url: "${rufus_url}", activity_name: "Nightlight", activity_url_fragment: "nightlight?kitchen=0&dining_room=0" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A7", pin_number: 7, rufus_url: "${rufus_url}", activity_name: "JohnCast", activity_url_fragment: "johncast" } }
