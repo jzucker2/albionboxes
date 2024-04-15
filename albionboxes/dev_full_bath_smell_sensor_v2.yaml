@@ -5,7 +5,7 @@ substitutions:
   friendly_name: Dev Full Bath Smell Sensor V2
   area: Full Bath
   comment: "This is for developing a proper methane sensor"
-  box_config_file_name: dev_full_bath_methane_sensor_v2
+  box_config_file_name: dev_full_bath_smell_sensor_v2
 
 packages:
   esphome: !include common/default_esphome.yaml
