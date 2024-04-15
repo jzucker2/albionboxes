@@ -31,13 +31,11 @@ packages:
   rufus_activity_request: !include common/rufus_activity_request.yaml
 
 binary_sensor:
-#  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A0", pin_number: 0 } }
   - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A0", pin_number: 0, rufus_url: "${rufus_url}", activity: "all-off?dining_room=0&kitchen=0" } }
-#  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A1", pin_number: 1 } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A1", pin_number: 1, rufus_url: "${rufus_url}", activity: "vinyl" } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A2", pin_number: 2 } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A3", pin_number: 3 } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A4", pin_number: 4 } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A5", pin_number: 5 } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A6", pin_number: 6 } }
-  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A7", pin_number: 7 } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A1", pin_number: 1, rufus_url: "${rufus_url}", activity: "apple-tv" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A2", pin_number: 2, rufus_url: "${rufus_url}", activity: "vinyl" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A3", pin_number: 3, rufus_url: "${rufus_url}", activity: "nightly-movie" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A4", pin_number: 4, rufus_url: "${rufus_url}", activity: "wfh" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A5", pin_number: 5, rufus_url: "${rufus_url}", activity: "bedtime" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A6", pin_number: 6, rufus_url: "${rufus_url}", activity: "nightlight" } }
+  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A7", pin_number: 7, rufus_url: "${rufus_url}", activity: "light-up-albion" } }
