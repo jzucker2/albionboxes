@@ -1,9 +1,10 @@
 # https://esphome.io/components/mcp230xx.html
 - platform: gpio
+  # FIXME: redo the name
   name: "MCP23017 Pin ${pin_name}"
   pin:
     mcp23xxx: mcp23017_hub
-    # Use pin A0
+    # Use pin 0 -> A0, 1 -> A1
     number: ${pin_number}
     # One of INPUT or INPUT_PULLUP
     mode:
