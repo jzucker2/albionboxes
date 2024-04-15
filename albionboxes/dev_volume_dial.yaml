@@ -29,3 +29,16 @@ packages:
   albion_boxes_info: !include common/albionboxes_info.yaml
 #  albion_volume_dial: !include common/albion_v2_volume_dial.yaml
   albion_volume_dial: !include common/albion_v3_volume_dial.yaml
+
+# https://esphome.io/components/button/index.html
+button:
+  - platform: ...
+    name: "${friendly_name} Test Speaker Button"
+    id: test_speaker_button
+
+    # Optional variables:
+    icon: "mdi:speaker-wireless"
+    on_press:
+      - logger.log: "${friendly_name} Test Speaker pressed started"
+      - rtttl.play: "success:d=24,o=5,b=100:c,g,b"
+      - logger.log: "${friendly_name} Test Speaker pressed done!"
