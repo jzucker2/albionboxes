@@ -1,0 +1,28 @@
+substitutions:
+  node_name: devvolumedial
+  friendly_name: Dev Volume Dial
+  area: Dev
+  comment: "Developing the next volume dial"
+  box_config_file_name: dev_volume_dial
+  display_rotation: '0'
+  receiver_zone_media_player_entity: "media_player.denon_avr_x4300h_main_zone_living_room"
+
+# inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
+
+packages:
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atoms3lite_device.yaml
+#  logging: !include common/s3_logger.yaml
+  logging: !include common/s3_debug_logger.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+#  albion_volume_dial: !include common/albion_v2_volume_dial.yaml
+  albion_volume_dial: !include common/albion_v3_volume_dial.yaml

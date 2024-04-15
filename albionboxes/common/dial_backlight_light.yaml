@@ -1,0 +1,6 @@
+- platform: monochromatic
+  id: backlight
+  name: "${friendly_name} Display Backlight"
+  restore_mode: ALWAYS_ON
+  output: oledbacklight
+  default_transition_length: 250ms

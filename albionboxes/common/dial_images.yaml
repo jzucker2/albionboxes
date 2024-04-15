@@ -1,0 +1,114 @@
+image:
+  - id: color_palette
+    file: mdi:palette
+    resize: 40x40
+
+  - id: atom_icon
+    file: mdi:atom-variant
+    resize: 40x40
+
+
+  - id: volume_mute
+    file: mdi:volume-variant-off
+    resize: 40x40
+  - id: volume_mute_large
+    file: mdi:volume-variant-off
+    resize: 80x80
+  - id: volume_low
+    file: mdi:volume-low
+    resize: 40x40
+  - id: volume_medium
+    file: mdi:volume-medium
+    resize: 40x40
+  - id: volume_high
+    file: mdi:volume-high
+    resize: 40x40
+  - id: volume_high_large
+    file: mdi:volume-high
+    resize: 80x80
+
+  - id: media_play_pause
+    file: mdi:play-pause
+    resize: 40x40
+  - id: media_pause
+    file: mdi:pause
+    resize: 40x40
+  - id: media_pause_large
+    file: mdi:pause
+    resize: 80x80
+  - id: media_play
+    file: mdi:play
+    resize: 40x40
+  - id: media_play_large
+    file: mdi:play
+    resize: 80x80
+  - id: media_home
+    file: mdi:television
+    resize: 40x40
+  - id: media_back
+    file: mdi:chevron-left
+    resize: 40x40
+  - id: media_remote
+    file: mdi:remote-tv
+    resize: 40x40
+
+
+  - id: power_large
+    file: mdi:power
+    resize: 80x80
+
+  - id: power_on
+    file: mdi:power-on
+    resize: 40x40
+  - id: power_on_large
+    file: mdi:power-on
+    resize: 80x80
+  - id: power_off
+    file: mdi:power-off
+    resize: 40x40
+  - id: power_off_large
+    file: mdi:power-off
+    resize: 80x80
+
+  - id: infoicon
+    file: mdi:information
+    resize: 40x40
+  - id: zoneicon
+    file: mdi:air-filter
+    resize: 25x25
+  - id: volumeknob_60
+    file: mdi:knob
+    resize: 60x60
+  - id: airconicon_60
+    file: mdi:air-conditioner
+    resize: 50X50
+  - id: lighticon_60
+    file: mdi:globe-light-outline
+    resize: 60x60
+  - id: light_menu_icon
+    file: mdi:globe-light-outline
+    resize: 30x30
+  - id: audio_menu_icon
+    file: mdi:volume-high
+    resize: 30x30
+  - id: threed_printer_menu_icon
+    file: mdi:printer-3d-nozzle
+    resize: 30x30
+  - id: tv_menu_icon
+    file: mdi:television
+    resize: 30x30
+  - id: alarm_menu_icon
+    file: mdi:alarm-light
+    resize: 30x30
+  - id: settings_menu_icon
+    file: mdi:cog
+    resize: 30x30
+  - id: power_icon
+    file: mdi:power
+    resize: 30x30
+  - id: wifi_menu_item
+    file: mdi:wifi-sync
+    resize: 30x30
+  - id: qr_icon
+    file: mdi:qrcode-scan
+    resize: 30x30

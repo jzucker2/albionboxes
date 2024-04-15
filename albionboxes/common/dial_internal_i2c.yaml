@@ -1,0 +1,8 @@
+# https://docs.m5stack.com/en/core/M5Dial
+# https://esphome.io/components/i2c.html
+i2c:
+  - id: bus_internal
+    sda: GPIO11
+    scl: GPIO12
+    scan: False
+    frequency: 400kHz

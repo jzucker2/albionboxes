@@ -1,0 +1,5 @@
+- id: oledbacklight
+  platform: ledc
+  pin: GPIO9
+  max_power: 1
+  min_power: 0

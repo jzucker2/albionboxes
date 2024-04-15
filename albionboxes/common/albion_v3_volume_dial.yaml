@@ -22,15 +22,6 @@ esphome:
     then:
       - light.turn_on: backlight
 
-packages:
-  colors: !include ./dial_colors.yaml
-  internal_ic2: !include ./dial_internal_i2c.yaml
-  fonts: !include ./dial_fonts.yaml
-  images: !include ./dial_images.yaml
-  spi: !include ./dial_spi.yaml
-  uart: !include ./dial_uart.yaml
-  dial_speaker: !include ./dial_speaker.yaml
-
 # https://esphome.io/guides/automations.html#global-variables
 globals:
   - id: light_brightness_value
@@ -49,6 +40,15 @@ globals:
     type: Color
     initial_value: very_dark_blue
     restore_value: no
+
+packages:
+  colors: !include ./dial_colors.yaml
+  internal_ic2: !include ./dial_internal_i2c.yaml
+  fonts: !include ./dial_fonts.yaml
+  images: !include ./dial_images.yaml
+  spi: !include ./dial_spi.yaml
+  uart: !include ./dial_uart.yaml
+  dial_speaker: !include ./dial_speaker.yaml
 
 sensor:
   # https://esphome.io/components/sensor/rotary_encoder.html
@@ -114,24 +114,7 @@ sensor:
 #rtttl:
 #  output: my_speaker_output
 #  id: my_rtttl
-#
-#light:
-#  - platform: monochromatic
-#    id: backlight
-#    name: "${friendly_name} Display Backlight"
-#    restore_mode: ALWAYS_ON
-#    output: oledbacklight
-#    default_transition_length: 250ms
-#
-#output:
-#  - id: oledbacklight
-#    platform: ledc
-#    pin: GPIO9
-#    max_power: 1
-#    min_power: 0
-#  - platform: ledc
-#    pin: GPIO3
-#    id: my_speaker_output
+
 light:
   - <<: !include ./dial_backlight_light.yaml
 #  - platform: monochromatic
@@ -144,6 +127,14 @@ light:
 output:
   - <<: !include ./dial_backlight_output.yaml
   - <<: !include ./dial_speaker_output.yaml
+#  - id: oledbacklight
+#    platform: ledc
+#    pin: GPIO9
+#    max_power: 1
+#    min_power: 0
+#  - platform: ledc
+#    pin: GPIO3
+#    id: my_speaker_output
 
 # https://esphome.io/components/display/ili9xxx
 display:
@@ -192,6 +183,8 @@ display:
 
 binary_sensor:
   - <<: !include ./dial_button.yaml
+
+#binary_sensor:
 #  - platform: gpio
 #    pin:
 #      number: 42

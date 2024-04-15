@@ -1,0 +1,10 @@
+- platform: gpio
+  pin:
+    number: 42
+    inverted: true
+  name: "${friendly_name} Toggle Backlight Button"
+  on_press:
+    then:
+      - logger.log: "Toggle Backlight Button Clicked"
+      - light.toggle: backlight
+      - logger.log: "Done with Toggle Backlight Button clicked!"
