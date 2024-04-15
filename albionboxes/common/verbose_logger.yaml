@@ -1,0 +1,6 @@
+# Enable logging
+# https://esphome.io/components/logger.html
+logger:
+  # https://esphome.io/components/logger.html#log-levels
+  # DEBUG, INFO, WARN, ERROR, VERBOSE
+  level: VERBOSE
