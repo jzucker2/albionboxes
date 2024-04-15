@@ -6,6 +6,7 @@
   on_state:
     - logger.log:
         format: "The media_player volume muted sensor reports value %d"
+        # TODO: is that correct below?
         args: [ '(id(receiver_zone_muted).state) ? "false" : "true"' ]
     # always update volume
     - lambda: |-
