@@ -41,10 +41,6 @@ globals:
     initial_value: very_dark_blue
     restore_value: no
 
-#external_components:
-#  - source: github://dgaust/esphome@gc9a01
-#    components: [ ft3267 ]
-
 packages:
   colors: !include ./dial/dial_colors.yaml
   internal_ic2: !include ./dial/dial_internal_i2c.yaml
@@ -53,6 +49,7 @@ packages:
   spi: !include ./dial/dial_spi.yaml
   uart: !include ./dial/dial_uart.yaml
   dial_speaker: !include ./dial/dial_speaker.yaml
+  touchscreen: !include ./dial/dial_touchscreen.yaml
 
 sensor:
   - <<: !include ./dial/dial_volume_rotary_encoder.yaml
@@ -70,14 +67,6 @@ light:
 output:
   - <<: !include ./dial/dial_backlight_output.yaml
   - <<: !include ./dial/dial_speaker_output.yaml
-
-touchscreen:
-  # https://github.com/esphome/feature-requests/issues/2500
-  # https://esphome.io/components/touchscreen/ft5x06.html
-  - platform: ft5x06
-    address: 0x38
-    id: my_touchscreen
-    update_interval: 50ms
 
 # https://esphome.io/components/display/ili9xxx
 display:
