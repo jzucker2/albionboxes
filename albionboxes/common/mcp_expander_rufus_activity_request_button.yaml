@@ -1,7 +1,7 @@
 # https://esphome.io/components/mcp230xx.html
 - platform: gpio
   # FIXME: redo the name
-  name: "MCP23017 Pin ${pin_name} ${activity}"
+  name: "${friendly_name} MCP23017 Pin ${pin_name} ${activity}"
   pin:
     mcp23xxx: mcp23017_hub
     # Use pin 0 -> A0, 1 -> A1
