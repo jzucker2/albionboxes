@@ -1,0 +1,181 @@
+# Main docs here:
+# https://shop.m5stack.com/products/m5stack-dial-esp32-s3-smart-rotary-knob-w-1-28-round-touch-screen
+# inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
+# https://community.home-assistant.io/t/m5stack-dial-esp32-s3-smart-rotary-knob/623518/14
+
+# https://github.com/esphome/issues/issues/5427
+# https://esphome.io/guides/faq#why-am-i-getting-a-warning-about-strapping-pins
+
+# Inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
+
+## Device-specific
+
+# FIXME: collapse into existing default_esphome.yaml
+esphome:
+  name: ${node_name}
+  # for more on friendly_name issues, see https://github.com/jzucker2/goober/blob/master/notes/ESPHOME.md
+#  friendly_name: ${friendly_name}
+  area: ${area}
+  comment: ${comment}
+  project: !include default_project.yaml
+  on_boot:
+    then:
+      - light.turn_on: backlight
+
+# https://esphome.io/guides/automations.html#global-variables
+globals:
+  - id: light_brightness_value
+    type: int
+    initial_value: '0'
+    restore_value: yes
+  - id: media_volume_value
+    type: float
+    initial_value: '0.0'
+    restore_value: yes
+  - id: volume_encoder_resolution
+    type: int
+    initial_value: '1'
+    restore_value: yes
+  - id: selected_color
+    type: Color
+    initial_value: very_dark_blue
+    restore_value: no
+
+packages:
+  colors: !include ./dial/dial_colors.yaml
+  internal_ic2: !include ./dial/dial_internal_i2c.yaml
+  fonts: !include ./dial/dial_fonts.yaml
+  images: !include ./dial/dial_images.yaml
+  spi: !include ./dial/dial_spi.yaml
+  uart: !include ./dial/dial_uart.yaml
+  dial_speaker: !include ./dial/dial_speaker.yaml
+
+sensor:
+  - <<: !include ./dial/dial_volume_rotary_encoder.yaml
+  - <<: !include ./dial/dial_hass_volume_sensor.yaml
+
+text_sensor:
+  - <<: !include ./dial/dial_hass_zone_state_sensor.yaml
+  - platform: template
+    name: "${friendly_name} Zone State Sensor"
+    id: media_zone_state
+
+light:
+  - <<: !include ./dial/dial_backlight_light.yaml
+
+output:
+  - <<: !include ./dial/dial_backlight_output.yaml
+  - <<: !include ./dial/dial_speaker_output.yaml
+
+touchscreen:
+  - <<: !include { file: ./dial/dial_touchscreen.yaml, vars: { swap_xy: "${swap_xy}", mirror_x: "${mirror_x}", mirror_y: "${mirror_y}" } }
+
+# https://esphome.io/components/display/ili9xxx
+display:
+  - platform: ili9xxx
+    model: gc9a01a
+    id: my_lcd
+    cs_pin: GPIO7
+    dc_pin: GPIO4
+    rotation: ${display_rotation}
+    update_interval: 1s
+    reset_pin: GPIO8
+    dimensions:
+      width: 240
+      height: 240
+    # https://esphome.io/components/display/index.html
+    pages:
+      - id: VolumePage
+        lambda: |-
+          float screenheight = it.get_height();
+          float screenwidth = it.get_width();
+          float halfscreenheight = screenheight / 2;
+          float halfscreenwidth = screenwidth / 2;
+          
+          ESP_LOGD("volume_page", "got muted %d", id(media_volume_muted).state);
+          ESP_LOGD("volume_page", "got state %s", id(media_zone_state).state.c_str());
+
+          // Print volume as percent
+          it.printf(halfscreenwidth, 20, id(roboto48), TextAlign::CENTER, "%.0f", id(media_volume_value));
+
+          // media_pause Circle
+          it.filled_circle(halfscreenwidth, halfscreenheight - 15, 50, my_light_blue);
+          if ( id(media_zone_state).state == "off" || id(media_zone_state).state == "standby" ) {
+            ESP_LOGD("volume_page", "drawing media_zone_state power off");
+            it.image(halfscreenwidth, halfscreenheight - 15, power_off_large, ImageAlign::CENTER);
+          } else {
+            ESP_LOGD("volume_page", "drawing media_zone_state power on");
+            it.image(halfscreenwidth, halfscreenheight - 15, power_on_large, ImageAlign::CENTER);
+          }
+
+          // Mute Toggle Circle
+          it.filled_circle(halfscreenwidth, 200, 30, my_light_blue);  
+          if (id(media_volume_muted).state) {
+            it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
+          } else {
+            it.image(halfscreenwidth, 200, volume_high, ImageAlign::CENTER);
+          }
+
+    on_page_change:
+      - to: VolumePage
+        then:
+          - sensor.rotary_encoder.set_value:
+              id: rotaryencoder
+              value: !lambda 'return id(receiver_zone_volume).state * 100.0;'
+          - component.update: my_lcd
+
+binary_sensor:
+  - <<: !include ./dial/dial_button.yaml
+  - <<: !include ./dial/dial_hass_mute_sensor.yaml
+
+  - platform: template
+    name: "${friendly_name} Zone Muted Sensor"
+    id: media_volume_muted
+
+  - platform: touchscreen
+    name: "${friendly_name} Volume Screen Zone Muted Button"
+    page_id: VolumePage
+    x_min: 90
+    x_max: 150
+    y_min: 170
+    y_max: 230
+    on_release:
+      then:
+        - lambda: |-
+            ESP_LOGD("media_player_volume_mute", "touched zone muted button");
+        - homeassistant.service:
+            service: media_player.volume_mute
+            data:
+              entity_id: ${receiver_zone_media_player_entity}
+              is_volume_muted: !lambda 'return (id(media_volume_muted).state) ? false : true;'
+        - lambda: |-
+            ESP_LOGD("media_player_volume_mute", "after hass muted action");
+
+  - platform: touchscreen
+    name: "${friendly_name} Volume Screen Zone State Button"
+    page_id: VolumePage
+    x_min: 70
+    x_max: 170
+    y_min: 70
+    y_max: 170
+    on_release:
+      then:
+        - lambda: |-
+            ESP_LOGD("media_player_zone_state", "touched zone power state button");
+        - if:
+            condition:
+              # Should return either true or false
+              lambda: |-
+                return ( id(media_zone_state).state == "off" || id(media_zone_state).state == "standby" );
+            then:
+              - homeassistant.service:
+                  service: media_player.turn_on
+                  data:
+                    entity_id: ${receiver_zone_media_player_entity}
+            else:
+              - homeassistant.service:
+                  service: media_player.turn_off
+                  data:
+                    entity_id: ${receiver_zone_media_player_entity}
+        - lambda: |-
+            ESP_LOGD("media_player_zone_state", "after hass power state action");

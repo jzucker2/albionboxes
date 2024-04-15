@@ -22,6 +22,15 @@ esphome:
     then:
       - light.turn_on: backlight
 
+packages:
+  colors: !include ./dial/dial_colors.yaml
+  internal_ic2: !include ./dial/dial_internal_i2c.yaml
+  fonts: !include ./dial/dial_fonts.yaml
+  images: !include ./dial/dial_images.yaml
+  spi: !include ./dial/dial_spi.yaml
+  uart: !include ./dial/dial_uart.yaml
+  dial_speaker: !include ./dial/dial_speaker.yaml
+
 # https://esphome.io/guides/automations.html#global-variables
 globals:
   - id: light_brightness_value
@@ -41,269 +50,16 @@ globals:
     initial_value: very_dark_blue
     restore_value: no
 
-color:
-  - id: my_white
-    hex: 'FFFFFF'
-  - id: black
-    hex: '000000'
-  - id: dark_green
-    hex: '013208'
-  - id: my_red
-    red: 100%
-    green: 3%
-    blue: 5%
-  - id: my_green
-    hex: 59981A
-  - id: my_blue
-    red: 3%
-    green: 5%
-    blue: 100%
-  - id: my_yellow
-    hex: FFFF00
-  - id: my_light_blue
-    hex: 145DA0
-  - id: my_light_red
-    hex: fc6d6d
-  - id: my_light_orange
-    hex: FD7F20
-  - id: my_light_yellow
-    hex: B58B00
-  - id: dark_blue
-    hex: '000040'
-  - id: dark_red
-    hex: '67091C'
-  - id: dark_grey
-    hex: '161616'
-  - id: very_dark_grey
-    hex: '101111'
-  - id: very_dark_blue
-    hex: '0C355C'
-
-image:
-  - id: color_palette
-    file: mdi:palette
-    resize: 40x40
-
-  - id: atom_icon
-    file: mdi:atom-variant
-    resize: 40x40
-
-
-  - id: volume_mute
-    file: mdi:volume-variant-off
-    resize: 40x40
-  - id: volume_mute_large
-    file: mdi:volume-variant-off
-    resize: 80x80
-  - id: volume_low
-    file: mdi:volume-low
-    resize: 40x40
-  - id: volume_medium
-    file: mdi:volume-medium
-    resize: 40x40
-  - id: volume_high
-    file: mdi:volume-high
-    resize: 40x40
-  - id: volume_high_large
-    file: mdi:volume-high
-    resize: 80x80
-
-  - id: media_play_pause
-    file: mdi:play-pause
-    resize: 40x40
-  - id: media_pause
-    file: mdi:pause
-    resize: 40x40
-  - id: media_pause_large
-    file: mdi:pause
-    resize: 80x80
-  - id: media_play
-    file: mdi:play
-    resize: 40x40
-  - id: media_play_large
-    file: mdi:play
-    resize: 80x80
-  - id: media_home
-    file: mdi:television
-    resize: 40x40
-  - id: media_back
-    file: mdi:chevron-left
-    resize: 40x40
-  - id: media_remote
-    file: mdi:remote-tv
-    resize: 40x40
-
-
-  - id: power_large
-    file: mdi:power
-    resize: 80x80
-
-
-
-  - id: infoicon
-    file: mdi:information
-    resize: 40x40
-  - id: zoneicon
-    file: mdi:air-filter
-    resize: 25x25
-  - id: volumeknob_60
-    file: mdi:knob
-    resize: 60x60
-  - id: airconicon_60
-    file: mdi:air-conditioner
-    resize: 50X50
-  - id: lighticon_60
-    file: mdi:globe-light-outline
-    resize: 60x60
-  - id: light_menu_icon
-    file: mdi:globe-light-outline
-    resize: 30x30
-  - id: audio_menu_icon
-    file: mdi:volume-high
-    resize: 30x30
-  - id: threed_printer_menu_icon
-    file: mdi:printer-3d-nozzle
-    resize: 30x30
-  - id: tv_menu_icon
-    file: mdi:television
-    resize: 30x30
-  - id: alarm_menu_icon
-    file: mdi:alarm-light
-    resize: 30x30
-  - id: settings_menu_icon
-    file: mdi:cog
-    resize: 30x30
-  - id: power_icon
-    file: mdi:power
-    resize: 30x30
-  - id: wifi_menu_item
-    file: mdi:wifi-sync
-    resize: 30x30
-  - id: qr_icon
-    file: mdi:qrcode-scan
-    resize: 30x30
-
-font:
-  - id: roboto16
-    file: "gfonts://Roboto"
-    size: 16
-
-  - id: roboto20
-    file: "gfonts://Roboto"
-    size: 20
-
-  - id: roboto24
-    file: "gfonts://Roboto"
-    size: 24
-
-  - id: roboto36
-    file: "gfonts://Roboto"
-    size: 36
-
-  - id: roboto48
-    file: "gfonts://Roboto"
-    size: 48
-
-i2c:
-  - id: bus_internal
-    sda: GPIO11
-    scl: GPIO12
-    scan: False
-    frequency: 400kHz
-
 sensor:
-  # https://esphome.io/components/sensor/rotary_encoder.html
-  - platform: rotary_encoder
-    name: "${friendly_name} Rotary Encoder"
-    id: rotaryencoder
-    max_value: 100
-    min_value: 0
-    resolution: 1
-    filters:
-      - throttle: 1s
-    pin_a:
-      number: GPIO40
-      mode:
-        input: true
-        pullup: true
-    pin_b:
-      number: GPIO41
-      mode:
-        input: true
-        pullup: true
-    accuracy_decimals: 1
-    on_value:
-      - if:
-          condition:
-            or:
-              - display.is_displaying_page: VolumePage
-          then:
-            - globals.set:
-                id: media_volume_value
-                value: !lambda 'int val = x * id(volume_encoder_resolution); return (val > 100) ? 100 : val;'
-            - homeassistant.service:
-                service: media_player.volume_set
-                data:
-                  entity_id: ${receiver_zone_media_player_entity}
-                  volume_level: !lambda 'return id(media_volume_value) / 100.0;'
-
-  - platform: homeassistant
-    name: "${friendly_name} Media Volume"
-    id: receiver_zone_volume
-    entity_id: ${receiver_zone_media_player_entity}
-    attribute: volume_level
-    on_value:
-      - logger.log:
-          format: "The media_player volume sensor reports value %f"
-          args: [ 'id(receiver_zone_volume).state' ]
-      # always update volume
-      - lambda: |-
-          float volume = id(receiver_zone_volume).state;
-          ESP_LOGD("hass media volume callback", "got volume %f", volume);
-          id(media_volume_value) = (volume * 100.0);
-      # don't forget to update the rotary encoder
-      - sensor.rotary_encoder.set_value:
-          id: rotaryencoder
-          value: !lambda 'return id(media_volume_value);'
-      - if:
-          condition:
-            or:
-              - display.is_displaying_page: VolumePage
-          then:
-            - component.update: my_lcd
-
-uart:
-  tx_pin: GPIO2
-  rx_pin: GPIO1
-  baud_rate: 256000
-  parity: NONE
-  stop_bits: 1
-
-spi:
-  mosi_pin: GPIO5
-  clk_pin: GPIO6
-
-rtttl:
-  output: my_speaker_output
-  id: my_rtttl
+  - <<: !include ./dial/dial_volume_rotary_encoder.yaml
+  - <<: !include ./dial/dial_hass_volume_sensor.yaml
 
 light:
-  - platform: monochromatic
-    id: backlight
-    name: "${friendly_name} Display Backlight"
-    restore_mode: ALWAYS_ON
-    output: oledbacklight
-    default_transition_length: 250ms
+  - <<: !include ./dial/dial_backlight_light.yaml
 
 output:
-  - id: oledbacklight
-    platform: ledc
-    pin: GPIO9
-    max_power: 1
-    min_power: 0
-  - platform: ledc
-    pin: GPIO3
-    id: my_speaker_output
+  - <<: !include ./dial/dial_backlight_output.yaml
+  - <<: !include ./dial/dial_speaker_output.yaml
 
 # https://esphome.io/components/display/ili9xxx
 display:
@@ -351,13 +107,4 @@ display:
           - component.update: my_lcd
 
 binary_sensor:
-  - platform: gpio
-    pin:
-      number: 42
-      inverted: true
-    name: "${friendly_name} Toggle Backlight Button"
-    on_press:
-      then:
-        - logger.log: "Test rotary goober Button Clicked"
-        - light.toggle: backlight
-        - logger.log: "Done with Test rotary goober Button clicked!"
+  - <<: !include ./dial/dial_button.yaml

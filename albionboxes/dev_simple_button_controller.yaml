@@ -1,0 +1,39 @@
+# Still want to convert to ethernet at some point
+# pattern for naming
+substitutions:
+  node_name: devsimplebuttoncontroller
+  friendly_name: Dev Simple Button Controller
+  area: Dev
+  comment: "Developing a new controller replacement for the Pis at Albion"
+  box_config_file_name: dev_simple_button_controller
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  i2c: !include common/default_i2c.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+  gpio_expander: !include common/mcp23017_expander.yaml
+
+binary_sensor:
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A0", pin_number: 0 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A1", pin_number: 1 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A2", pin_number: 2 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A3", pin_number: 3 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A4", pin_number: 4 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A5", pin_number: 5 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A6", pin_number: 6 } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A7", pin_number: 7 } }

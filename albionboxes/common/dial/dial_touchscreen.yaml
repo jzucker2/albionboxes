@@ -1,0 +1,12 @@
+# https://github.com/esphome/feature-requests/issues/2500
+# https://esphome.io/components/touchscreen/ft5x06.html
+- platform: ft5x06
+  address: 0x38
+  id: my_touchscreen
+  update_interval: 50ms
+  display: my_lcd
+  # https://github.com/esphome/issues/issues/5265#issuecomment-1867168652
+  transform:
+    swap_xy: ${swap_xy}
+    mirror_x: ${mirror_x}
+    mirror_y: ${mirror_y}

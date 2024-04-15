@@ -1,0 +1,26 @@
+- platform: homeassistant
+  name: "${friendly_name} Media Player Zone Muted"
+  id: "receiver_zone_muted"
+  entity_id: ${receiver_zone_media_player_entity}
+  attribute: is_volume_muted
+  on_state:
+    - logger.log:
+        format: "The media_player volume muted sensor reports value %d"
+        # TODO: is that correct below?
+        args: [ '(id(receiver_zone_muted).state) ? "false" : "true"' ]
+    # always update volume
+    - lambda: |-
+        bool muted = id(receiver_zone_muted).state;
+        ESP_LOGD("hass_muted_callback", "got muted %d", muted);
+        //id(media_volume_muted) = muted;
+        id(media_volume_muted).publish_state(muted);
+        //id(media_volume_value) = (volume * 100.0);
+        //float volume = id(receiver_zone_volume).state;
+        //ESP_LOGD("hass media volume callback", "got volume %f", volume);
+        //id(media_volume_value) = (volume * 100.0);
+    - if:
+        condition:
+          or:
+            - display.is_displaying_page: VolumePage
+        then:
+          - component.update: my_lcd
