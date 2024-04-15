@@ -12,7 +12,8 @@
     - lambda: |-
         bool muted = id(receiver_zone_muted).state;
         ESP_LOGD("hass_muted_callback", "got muted %d", muted);
-        id(media_volume_muted) = muted;
+        //id(media_volume_muted) = muted;
+        id(media_volume_muted).publish_state(muted);
         //id(media_volume_value) = (volume * 100.0);
         //float volume = id(receiver_zone_volume).state;
         //ESP_LOGD("hass media volume callback", "got volume %f", volume);

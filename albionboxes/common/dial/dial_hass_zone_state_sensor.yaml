@@ -2,16 +2,23 @@
   name: "${friendly_name} Media Player Zone State"
   id: receiver_zone_state
   entity_id: ${receiver_zone_media_player_entity}
-  attribute: state
+#  attribute: state
   on_value:
     - logger.log:
         format: "The media_player state sensor reports value %s"
-        args: [ 'id(receiver_zone_state).state' ]
+        args: [ 'x.c_str()' ]
+#        args: [ 'id(receiver_zone_state).state' ]
+#        args: [ 'x' ]
+#    - logger.log:
+#        format: "The media_player state sensor reports value %s"
+##        args: [ 'id(receiver_zone_state).state' ]
+#        args: [ 'x.c_str()' ]
     # always update volume
     - lambda: |-
         //std::string volume = x.c_str();
         ESP_LOGD("hass_media_state_callback", "got state %s", x.c_str());
-        id(media_zone_state) = x.c_str();
+        //id(media_zone_state) = x.c_str();
+        id(media_zone_state).publish_state(x.c_str());
     # don't forget to update the rotary encoder
 #    - sensor.rotary_encoder.set_value:
 #        id: rotaryencoder
