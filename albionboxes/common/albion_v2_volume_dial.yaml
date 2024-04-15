@@ -111,35 +111,8 @@ sensor:
           then:
             - component.update: my_lcd
 
-#rtttl:
-#  output: my_speaker_output
-#  id: my_rtttl
-#
-#light:
-#  - platform: monochromatic
-#    id: backlight
-#    name: "${friendly_name} Display Backlight"
-#    restore_mode: ALWAYS_ON
-#    output: oledbacklight
-#    default_transition_length: 250ms
-#
-#output:
-#  - id: oledbacklight
-#    platform: ledc
-#    pin: GPIO9
-#    max_power: 1
-#    min_power: 0
-#  - platform: ledc
-#    pin: GPIO3
-#    id: my_speaker_output
 light:
   - <<: !include ./dial_backlight_light.yaml
-#  - platform: monochromatic
-#    id: backlight
-#    name: "${friendly_name} Display Backlight"
-#    restore_mode: ALWAYS_ON
-#    output: oledbacklight
-#    default_transition_length: 250ms
 
 output:
   - <<: !include ./dial_backlight_output.yaml
@@ -192,13 +165,3 @@ display:
 
 binary_sensor:
   - <<: !include ./dial_button.yaml
-#  - platform: gpio
-#    pin:
-#      number: 42
-#      inverted: true
-#    name: "${friendly_name} Toggle Backlight Button"
-#    on_press:
-#      then:
-#        - logger.log: "Test rotary goober Button Clicked"
-#        - light.toggle: backlight
-#        - logger.log: "Done with Test rotary goober Button clicked!"
