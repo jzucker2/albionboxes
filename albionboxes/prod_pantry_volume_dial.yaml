@@ -6,9 +6,9 @@ substitutions:
   box_config_file_name: prod_pantry_volume_dial
   display_rotation: '270'
   receiver_zone_media_player_entity: "media_player.denon_avr_x4300h_main_zone_living_room"
-  swap_xy: false
-  mirror_x: false
-  mirror_y: false
+  swap_xy: "true"
+  mirror_x: "false"
+  mirror_y: "true"
 
 # inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
 
