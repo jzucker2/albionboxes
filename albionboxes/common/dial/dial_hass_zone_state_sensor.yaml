@@ -10,7 +10,7 @@
     # always update volume
     - lambda: |-
         //std::string volume = x.c_str();
-        ESP_LOGD("hass_media_volume_callback", "got state %s", x.c_str());
+        ESP_LOGD("hass_media_state_callback", "got state %s", x.c_str());
         id(media_zone_state) = x.c_str();
     # don't forget to update the rotary encoder
 #    - sensor.rotary_encoder.set_value:
