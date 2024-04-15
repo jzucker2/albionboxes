@@ -5,6 +5,7 @@
   id: my_touchscreen
   update_interval: 50ms
   display: my_lcd
+  # https://github.com/esphome/issues/issues/5265#issuecomment-1867168652
   transform:
     swap_xy: ${swap_xy}
     mirror_x: ${mirror_x}
