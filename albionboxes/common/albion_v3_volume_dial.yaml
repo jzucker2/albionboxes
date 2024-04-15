@@ -36,15 +36,6 @@ globals:
     type: int
     initial_value: '1'
     restore_value: yes
-#  - id: media_volume_muted
-#    type: bool
-#    initial_value: 'false'
-#    restore_value: yes
-#  - id: media_zone_state
-#    type: std::string
-#    max_restore_data_length: 64
-#    initial_value: '"unknown"'
-#    restore_value: yes
   - id: selected_color
     type: Color
     initial_value: very_dark_blue
@@ -66,7 +57,6 @@ packages:
 sensor:
   - <<: !include ./dial/dial_volume_rotary_encoder.yaml
   - <<: !include ./dial/dial_hass_volume_sensor.yaml
-#  - <<: !include ./dial/dial_hass_zone_state_sensor.yaml
 
 text_sensor:
   - <<: !include ./dial/dial_hass_zone_state_sensor.yaml
@@ -173,32 +163,6 @@ binary_sensor:
             data:
               entity_id: ${receiver_zone_media_player_entity}
               is_volume_muted: !lambda 'return (id(media_volume_muted).state) ? false : true;'
-#        - if:
-#            condition:
-#              # Should return either true or false
-#              lambda: |-
-#                return id(media_volume_muted).state;
-#            then:
-#              - homeassistant.service:
-#                  service: media_player.volume_mute
-#                  data:
-#                    entity_id: ${receiver_zone_media_player_entity}
-#                    is_volume_muted: "false"
-#            else:
-#              - homeassistant.service:
-#                  service: media_player.volume_mute
-#                  data:
-#                    entity_id: ${receiver_zone_media_player_entity}
-#                    is_volume_muted: "true"
-#        - homeassistant.service:
-#            service: media_player.volume_mute
-#            data:
-#              entity_id: ${receiver_zone_media_player_entity}
-##              is_volume_muted: !lambda 'return (id(receiver_zone_muted).state == "on") ? false : true;'
-##              is_volume_muted: !lambda 'return id(receiver_zone_muted);'
-#              is_volume_muted: |-
-#                ESP_LOGD("media_player_volume_mute", "receiver_zone_muted: %d", id(media_volume_muted).state);
-#                return !id(media_volume_muted).state;
         - lambda: |-
             ESP_LOGD("media_player_volume_mute", "after hass muted action");
 
