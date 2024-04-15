@@ -1,12 +1,11 @@
 # Still want to convert to ethernet at some point
 # pattern for naming
 substitutions:
-  node_name: devlrbuttoncontroller
-  friendly_name: Dev Living Room Button Controller
-  area: Living Room
-  comment: "Developing a new controller replacement for the Pis in the Living Room"
-  box_config_file_name: dev_living_room_button_controller
-  rufus_url: !secret rufus_url
+  node_name: devsimplebuttoncontroller
+  friendly_name: Dev Simple Button Controller
+  area: Dev
+  comment: "Developing a new controller replacement for the Pis at Albion"
+  box_config_file_name: dev_simple_button_controller
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -28,11 +27,9 @@ packages:
   i2c: !include common/default_i2c.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
   gpio_expander: !include common/mcp23017_expander.yaml
-  rufus_activity_request: !include common/rufus_activity_request.yaml
 
 binary_sensor:
-#  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A0", pin_number: 0 } }
-  - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A0", pin_number: 0, rufus_url: "${rufus_url}", activity: "vinyl" } }
+  - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A0", pin_number: 0 } }
   - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A1", pin_number: 1 } }
   - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A2", pin_number: 2 } }
   - <<: !include { file: common/mcp_expander_button.yaml, vars: { pin_name: "A3", pin_number: 3 } }
