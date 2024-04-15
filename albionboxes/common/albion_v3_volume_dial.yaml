@@ -105,15 +105,9 @@ display:
             ESP_LOGD("volume_page", "drawing media_zone_state power on");
             it.image(halfscreenwidth, halfscreenheight - 15, power_on_large, ImageAlign::CENTER);
           }
-          //if ( id(appletv_media).state == "paused" || id(appletv_media).state == "idle" ) {
-          //  it.image(halfscreenwidth, halfscreenheight - 15, media_play_large, ImageAlign::CENTER);
-          //} else {
-          //  it.image(halfscreenwidth, halfscreenheight - 15, media_pause_large, ImageAlign::CENTER);
-          //}
 
           // Mute Toggle Circle
           it.filled_circle(halfscreenwidth, 200, 30, my_light_blue);  
-          //it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
           if (id(media_volume_muted).state) {
             it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
           } else {
