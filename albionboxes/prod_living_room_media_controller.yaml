@@ -31,7 +31,7 @@ packages:
 #  gpio_expander: !include common/mcp23017_expander.yaml
   gpio_expander: !include { file: common/mcp23017_expander.yaml, vars: { bus_name: "grove" } }
   rufus_activity_request: !include common/rufus_activity_request.yaml
-  external_ic2_bus: !include common/dial/dial_port_a_ic2.yaml
+  external_ic2_bus: !include common/dial/dial_port_a_i2c.yaml
 
 binary_sensor:
   - <<: !include { file: common/mcp_expander_rufus_activity_request_button.yaml, vars: { pin_name: "A0", pin_number: 0, rufus_url: "${rufus_url}", activity_name: "All Off", activity_url_fragment: "all-off?kitchen=0&dining_room=0" } }
