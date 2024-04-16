@@ -42,3 +42,15 @@ button:
       - logger.log: "${friendly_name} Test Speaker pressed started"
       - rtttl.play: "success:d=24,o=5,b=100:c,g,b"
       - logger.log: "${friendly_name} Test Speaker pressed done!"
+
+  - platform: template
+    name: "${friendly_name} Play Song Button"
+    id: play_song_button
+
+    # Optional variables:
+    icon: "mdi:speaker-play"
+    on_press:
+      - logger.log: "${friendly_name} Play Song pressed started"
+      # https://codebender.cc/sketch:109888#RTTTL%20Songs.ino
+      - rtttl.play: "GoodBad:d=4,o=5,b=56:32p,32a#,32d#6,32a#,32d#6,8a#.,16f#.,16g#.,d#,32a#,32d#6,32a#,32d#6,8a#.,16f#.,16g#.,c#6,32a#,32d#6,32a#,32d#6,8a#.,16f#.,32f.,32d#.,c#,32a#,32d#6,32a#,32d#6,8a#.,16g#.,d#";
+      - logger.log: "${friendly_name} Play Song pressed done!"
