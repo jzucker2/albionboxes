@@ -25,10 +25,9 @@ packages:
   wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
   status_sensor: !include common/status_sensor.yaml
   internal_temp: !include common/internal_temp.yaml
-  albion_volume_dial: !include common/albion_v3_volume_dial.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
-#  gpio_expander: !include common/mcp23017_expander.yaml
+  albion_volume_dial: !include common/albion_v3_volume_dial.yaml
   gpio_expander: !include { file: common/mcp23017_expander.yaml, vars: { bus_name: "grove" } }
   rufus_activity_request: !include common/rufus_activity_request.yaml
   external_ic2_bus: !include common/dial/dial_port_a_i2c.yaml
