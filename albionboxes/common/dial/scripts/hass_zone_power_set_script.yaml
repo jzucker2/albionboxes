@@ -1,0 +1,27 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: hass_zone_power_set
+    mode: single
+    parameters:
+      entity_id: string
+      media_zone_state: string
+    then:
+      - lambda: |-
+          ESP_LOGD("hass_zone_power_set_script", "starting request for entity_id %s with media_zone_state: %s", entity_id.c_str(), media_zone_state.c_str());
+      - if:
+          condition:
+            # Should return either true or false
+            lambda: |-
+              return ( media_zone_state == "off" || media_zone_state == "standby" );
+          then:
+            - homeassistant.service:
+                service: media_player.turn_on
+                data:
+                  entity_id: !lambda return entity_id;
+          else:
+            - homeassistant.service:
+                service: media_player.turn_off
+                data:
+                  entity_id: !lambda return entity_id;
+      - lambda: |-
+          ESP_LOGD("hass_zone_power_set_script", "done with script request for entity_id %s with media_zone_state: %s", entity_id.c_str(), media_zone_state.c_str());

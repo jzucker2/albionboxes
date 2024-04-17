@@ -1,0 +1,23 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: hass_zone_volume_set
+    mode: single
+    parameters:
+      entity_id: string
+      input_value: int
+    then:
+      - lambda: |-
+          ESP_LOGD("hass_zone_volume_set_script", "starting request for entity_id %s with input_value: %d", entity_id.c_str(), input_value);
+      - globals.set:
+          id: media_volume_value
+          value: !lambda |-
+            int val = input_value * id(volume_encoder_resolution);
+            return (val > 100) ? 100 : val;
+      - homeassistant.service:
+          service: media_player.volume_set
+          data:
+            entity_id: !lambda return entity_id;
+            volume_level: !lambda |-
+              return id(media_volume_value) / 100.0;
+      - lambda: |-
+          ESP_LOGD("hass_zone_volume_set_script", "done with script request for entity_id %s with input_value: %d", entity_id.c_str(), input_value);

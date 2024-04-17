@@ -1,0 +1,38 @@
+# https://esphome.io/components/sensor/rotary_encoder.html
+- platform: rotary_encoder
+  name: "${friendly_name} Rotary Encoder"
+  id: rotaryencoder
+  max_value: 100
+  min_value: 0
+  resolution: 1
+  filters:
+    - throttle: 1s
+  pin_a:
+    number: GPIO40
+    mode:
+      input: true
+      pullup: true
+  pin_b:
+    number: GPIO41
+    mode:
+      input: true
+      pullup: true
+  accuracy_decimals: 1
+  on_value:
+    - if:
+        condition:
+          or:
+            - display.is_displaying_page: VolumePage
+        then:
+          - script.execute:
+              id: hass_zone_volume_set
+              entity_id: "${receiver_zone_media_player_entity}"
+              input_value: !lambda 'return x;'
+#          - globals.set:
+#              id: media_volume_value
+#              value: !lambda 'int val = x * id(volume_encoder_resolution); return (val > 100) ? 100 : val;'
+#          - homeassistant.service:
+#              service: media_player.volume_set
+#              data:
+#                entity_id: ${receiver_zone_media_player_entity}
+#                volume_level: !lambda 'return id(media_volume_value) / 100.0;'

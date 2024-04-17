@@ -1,0 +1,3 @@
+- platform: template
+  name: "${friendly_name} Zone Muted Sensor"
+  id: media_volume_muted

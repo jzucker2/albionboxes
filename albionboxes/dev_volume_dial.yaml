@@ -29,6 +29,7 @@ packages:
   albion_boxes_info: !include common/albionboxes_info.yaml
 #  albion_volume_dial: !include common/albion_v2_volume_dial.yaml
   albion_volume_dial: !include common/albion_v3_volume_dial.yaml
+  rfid_scanner: !include common/dial/dial_rfid_scanner.yaml
 
 # https://esphome.io/components/button/index.html
 button:

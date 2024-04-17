@@ -1,0 +1,7 @@
+rc522_i2c:
+  i2c_id:  bus_internal
+  address: 0x28
+  on_tag:
+    then:
+      - rtttl.play: "beep:d=8,o=5,b=100:b"
+      - homeassistant.tag_scanned: !lambda 'return x;'
