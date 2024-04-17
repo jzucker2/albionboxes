@@ -1,7 +1,10 @@
 # https://esphome.io/guides/automations.html#script-component
 script:
   - id: hass_zone_volume_set
-    mode: single
+    # either `single`, `restart`, or `parallel` seem to make the most sense
+    mode: restart
+    # only needed for `parallel` (assuming you read above note)
+#    max_runs: 0
     parameters:
       entity_id: string
       input_value: int

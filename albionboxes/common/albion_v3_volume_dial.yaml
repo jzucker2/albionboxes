@@ -43,7 +43,8 @@ packages:
   volume_power_script: !include ./dial/scripts/hass_zone_power_set_script.yaml
 
 sensor:
-  - <<: !include ./dial/rotary_encoder/dial_simple_volume_rotary_encoder.yaml
+#  - <<: !include ./dial/rotary_encoder/dial_simple_volume_rotary_encoder.yaml
+  - <<: !include ./dial/rotary_encoder/dial_scripted_volume_rotary_encoder.yaml
   - <<: !include ./dial/dial_hass_volume_sensor.yaml
 
 text_sensor:

@@ -24,11 +24,7 @@
           or:
             - display.is_displaying_page: VolumePage
         then:
-          - globals.set:
-              id: media_volume_value
-              value: !lambda 'int val = x * id(volume_encoder_resolution); return (val > 100) ? 100 : val;'
-          - homeassistant.service:
-              service: media_player.volume_set
-              data:
-                entity_id: ${receiver_zone_media_player_entity}
-                volume_level: !lambda 'return id(media_volume_value) / 100.0;'
+          - script.execute:
+              id: hass_zone_volume_set
+              entity_id: "${receiver_zone_media_player_entity}"
+              input_value: !lambda 'return x;'
