@@ -1,0 +1,16 @@
+- platform: touchscreen
+  name: "${friendly_name} Volume Screen Zone Muted Button"
+  page_id: VolumePage
+  x_min: 90
+  x_max: 150
+  y_min: 170
+  y_max: 230
+  on_release:
+    then:
+      - lambda: |-
+          ESP_LOGD("media_player_volume_mute", "touched zone muted button");
+      - script.execute:
+          id: hass_zone_mute_set
+          entity_id: "${receiver_zone_media_player_entity}"
+      - lambda: |-
+          ESP_LOGD("media_player_volume_mute", "after hass muted action");

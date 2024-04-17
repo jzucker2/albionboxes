@@ -27,5 +27,29 @@ packages:
   internal_temp: !include common/internal_temp.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
-#  albion_volume_dial: !include common/albion_v2_volume_dial.yaml
-  albion_volume_dial: !include common/albion_v3_volume_dial.yaml
+  albion_volume_dial: !include common/albion_v4_volume_dial.yaml
+
+# https://esphome.io/components/button/index.html
+button:
+  - platform: template
+    name: "${friendly_name} Test Speaker Button"
+    id: test_speaker_button
+
+    # Optional variables:
+    icon: "mdi:speaker-wireless"
+    on_press:
+      - logger.log: "${friendly_name} Test Speaker pressed started"
+      - rtttl.play: "success:d=24,o=5,b=100:c,g,b"
+      - logger.log: "${friendly_name} Test Speaker pressed done!"
+
+  - platform: template
+    name: "${friendly_name} Play Song Button"
+    id: play_song_button
+
+    # Optional variables:
+    icon: "mdi:speaker-play"
+    on_press:
+      - logger.log: "${friendly_name} Play Song pressed started"
+      # https://codebender.cc/sketch:109888#RTTTL%20Songs.ino
+      - rtttl.play: "GoodBad:d=4,o=5,b=56:32p,32a#,32d#6,32a#,32d#6,8a#.,16f#.,16g#.,d#,32a#,32d#6,32a#,32d#6,8a#.,16f#.,16g#.,c#6,32a#,32d#6,32a#,32d#6,8a#.,16f#.,32f.,32d#.,c#,32a#,32d#6,32a#,32d#6,8a#.,16g#.,d#"
+      - logger.log: "${friendly_name} Play Song pressed done!"

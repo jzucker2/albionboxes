@@ -1,9 +1,0 @@
-# https://docs.m5stack.com/en/core/M5Dial
-# https://esphome.io/components/i2c.html
-i2c:
-  - id: grove
-    sda: GPIO13
-    scl: GPIO15
-    scan: true
-#    scan: False
-    frequency: 400kHz

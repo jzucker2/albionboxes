@@ -1,11 +1,11 @@
 # Still want to convert to ethernet at some point
 # pattern for naming
 substitutions:
-  node_name: devlrbuttoncontroller
-  friendly_name: Dev Living Room Button Controller
+  node_name: lrbuttoncontroller
+  friendly_name: Living Room Button Controller
   area: Living Room
-  comment: "Developing a new controller replacement for the Pis in the Living Room"
-  box_config_file_name: dev_living_room_button_controller
+  comment: "Replaces the last (and original) RPi controller in the Living Room"
+  box_config_file_name: prod_living_room_button_controller
   rufus_url: !secret rufus_url
 
 packages:

@@ -38,12 +38,13 @@ packages:
   spi: !include ./dial/dial_spi.yaml
   uart: !include ./dial/dial_uart.yaml
   dial_speaker: !include ./dial/dial_speaker.yaml
+  rfid_scanner: !include ./dial/dial_rfid_scanner.yaml
   volume_set_script: !include ./dial/scripts/hass_zone_volume_set_script.yaml
   volume_mute_script: !include ./dial/scripts/hass_zone_mute_set_script.yaml
   volume_power_script: !include ./dial/scripts/hass_zone_power_set_script.yaml
 
 sensor:
-  - <<: !include ./dial/rotary_encoder/dial_simple_volume_rotary_encoder.yaml
+  - <<: !include ./dial/rotary_encoder/dial_filtered_volume_rotary_encoder.yaml
   - <<: !include ./dial/dial_hass_volume_sensor.yaml
 
 text_sensor:

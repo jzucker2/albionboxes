@@ -77,3 +77,8 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 * https://esphome.io/components/esp32.html
 * https://esphome.io/components/esphome
 * https://github.com/Chill-Division/M5Stack-ESPHome
+* https://github.com/SmartHome-yourself/m5-dial-for-esphome
+  * M5 Dial project
+* https://community.home-assistant.io/t/m5stack-dial-esp32-s3-smart-rotary-knob/623518/98
+  * Best M5 Dial project and notes so far
+  * https://www.thingiverse.com/thing:6477677

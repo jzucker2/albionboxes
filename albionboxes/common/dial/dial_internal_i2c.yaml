@@ -4,5 +4,5 @@ i2c:
   - id: bus_internal
     sda: GPIO11
     scl: GPIO12
-    scan: False
+    scan: false
     frequency: 400kHz
