@@ -5,7 +5,8 @@
   cs_pin: GPIO7
   dc_pin: GPIO4
   rotation: ${display_rotation}
-  update_interval: 1s
+  # default is 5s
+#  update_interval: 2s
   reset_pin: GPIO8
   dimensions:
     width: 240
