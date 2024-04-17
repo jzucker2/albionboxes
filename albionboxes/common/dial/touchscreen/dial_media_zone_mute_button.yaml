@@ -9,11 +9,6 @@
     then:
       - lambda: |-
           ESP_LOGD("media_player_volume_mute", "touched zone muted button");
-#      - homeassistant.service:
-#          service: media_player.volume_mute
-#          data:
-#            entity_id: ${receiver_zone_media_player_entity}
-#            is_volume_muted: !lambda 'return (id(media_volume_muted).state) ? false : true;'
       - script.execute:
           id: hass_zone_mute_set
           entity_id: "${receiver_zone_media_player_entity}"

@@ -13,20 +13,5 @@
           id: hass_zone_power_set
           entity_id: "${receiver_zone_media_player_entity}"
           media_zone_state: !lambda 'return id(media_zone_state).state;'
-#      - if:
-#          condition:
-#            # Should return either true or false
-#            lambda: |-
-#              return ( id(media_zone_state).state == "off" || id(media_zone_state).state == "standby" );
-#          then:
-#            - homeassistant.service:
-#                service: media_player.turn_on
-#                data:
-#                  entity_id: ${receiver_zone_media_player_entity}
-#          else:
-#            - homeassistant.service:
-#                service: media_player.turn_off
-#                data:
-#                  entity_id: ${receiver_zone_media_player_entity}
       - lambda: |-
           ESP_LOGD("media_player_zone_state", "after hass power state action");
