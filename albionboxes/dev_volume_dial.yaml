@@ -9,6 +9,8 @@ substitutions:
   swap_xy: "false"
   mirror_x: "false"
   mirror_y: "false"
+  dial_rfid_tag_1: "04-11-1D-7D-B8-2A-81"
+  rufus_url: !secret rufus_url
 
 # inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
 
@@ -27,7 +29,9 @@ packages:
   internal_temp: !include common/internal_temp.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
+  rufus_activity_request: !include common/rufus_activity_request.yaml
   albion_volume_dial: !include common/albion_v4_volume_dial.yaml
+
 
 # https://esphome.io/components/button/index.html
 button:
@@ -53,3 +57,17 @@ button:
       # https://codebender.cc/sketch:109888#RTTTL%20Songs.ino
       - rtttl.play: "GoodBad:d=4,o=5,b=56:32p,32a#,32d#6,32a#,32d#6,8a#.,16f#.,16g#.,d#,32a#,32d#6,32a#,32d#6,8a#.,16f#.,16g#.,c#6,32a#,32d#6,32a#,32d#6,8a#.,16f#.,32f.,32d#.,c#,32a#,32d#6,32a#,32d#6,8a#.,16g#.,d#"
       - logger.log: "${friendly_name} Play Song pressed done!"
+
+binary_sensor:
+  # https://esphome.io/components/binary_sensor/rc522.html#rc522-binary-sensor
+  - platform: rc522
+    uid: ${dial_rfid_tag_1}
+    name: "${friendly_name} RC522 RFID Tag"
+#    on_release:
+#      then:
+#        - logger.log: "Start Pin ${pin_name} ${activity_name} Button"
+#        - script.execute:
+#            id: rufus_activity_request
+#            rufus_url: "${rufus_url}"
+#            activity: "ps5"
+#        - logger.log: "Done with Pin ${pin_name} ${activity_name} Button"

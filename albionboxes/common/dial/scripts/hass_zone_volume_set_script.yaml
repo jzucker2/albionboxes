@@ -2,9 +2,11 @@
 script:
   - id: hass_zone_volume_set
     # either `single`, `restart`, or `parallel` seem to make the most sense
-    mode: restart
+#    mode: restart
+    mode: queued
     # only needed for `parallel` (assuming you read above note)
 #    max_runs: 0
+    max_runs: 5
     parameters:
       entity_id: string
       input_value: int
