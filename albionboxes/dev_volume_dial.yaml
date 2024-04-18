@@ -9,8 +9,11 @@ substitutions:
   swap_xy: "false"
   mirror_x: "false"
   mirror_y: "false"
-  dial_rfid_tag_1: "04-11-1D-7D-B8-2A-81"
   rufus_url: !secret rufus_url
+  dial_rfid_tag_1: "04-11-1D-7D-B8-2A-81"
+  first_tag_activity: "nintendo"
+  dial_rfid_tag_2: "04-11-1D-7D-B8-2A-81"
+  second_tag_activity: "johncast"
 
 # inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
 
@@ -62,12 +65,25 @@ binary_sensor:
   # https://esphome.io/components/binary_sensor/rc522.html#rc522-binary-sensor
   - platform: rc522
     uid: ${dial_rfid_tag_1}
-    name: "${friendly_name} RC522 RFID Tag"
+    name: "${friendly_name} NFC Tag ${first_tag_activity}"
     on_release:
       then:
-        - logger.log: "Got RFID Tag for first tag_1"
+        - logger.log: "Got RFID Tag for for activity: ${first_tag_activity}"
+        - script.execute:
+            id: rufus_activity_request
+            rufus_url: "${rufus_url}"
+            activity: "${first_tag_activity}"
+        - logger.log: "Done with RFID Tag for activity: ${first_tag_activity}"
+
+  # https://esphome.io/components/binary_sensor/rc522.html#rc522-binary-sensor
+#  - platform: rc522
+#    uid: ${dial_rfid_tag_2}
+#    name: "${friendly_name} NFC Tag ${second_tag_activity}"
+#    on_release:
+#      then:
+#        - logger.log: "Got RFID Tag for for activity: ${second_tag_activity}"
 #        - script.execute:
 #            id: rufus_activity_request
 #            rufus_url: "${rufus_url}"
-#            activity: "ps5"
-#        - logger.log: "Done with Pin ${pin_name} ${activity_name} Button"
+#            activity: "${second_tag_activity}"
+#        - logger.log: "Done with RFID Tag for activity: ${second_tag_activity}"
