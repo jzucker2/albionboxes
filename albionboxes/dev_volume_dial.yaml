@@ -63,9 +63,9 @@ binary_sensor:
   - platform: rc522
     uid: ${dial_rfid_tag_1}
     name: "${friendly_name} RC522 RFID Tag"
-#    on_release:
-#      then:
-#        - logger.log: "Start Pin ${pin_name} ${activity_name} Button"
+    on_release:
+      then:
+        - logger.log: "Got RFID Tag for first tag_1"
 #        - script.execute:
 #            id: rufus_activity_request
 #            rufus_url: "${rufus_url}"
