@@ -17,7 +17,7 @@ substitutions:
   expiration_light_delay: "3s"
 
 packages:
-#  esphome: !include common/default_esphome.yaml
+  # Not using default so we can turn off the light on boot
   esphome: !include common/gaggia_timer_esphome.yaml
   logging: !include common/default_logger.yaml
   wifi: !include common/wifi.yaml
