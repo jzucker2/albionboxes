@@ -1,8 +1,9 @@
 # Still want to convert to ethernet at some point
 # pattern for naming
 substitutions:
-  node_name: lrfoodcabinettempsensor
-  friendly_name: Living Room Food Cabinet Temp Sensor
+  node_name: lrcabinettempsensor
+  # we don't want "Food" in here to avoid prometheus matching rules
+  friendly_name: Living Room Cabinet Temp Sensor
   area: Living Room
   comment: "Temperature sensors for inside the food and snack cabinet in the Living Room"
   box_config_file_name: prod_living_room_cabinet_temp_sensor
