@@ -10,8 +10,9 @@ substitutions:
   first_sensor_name: "Pantry Food Cabinet Espresso Machine Shelf"
   second_sensor_name: "Pantry Food Cabinet Bulk Storage Shelf"
   third_sensor_name: "Pantry Food Cabinet Microwave Shelf"
-  fourth_sensor_name: "Pantry Food Cabinet Upper Box Shelf"
-  fifth_sensor_name: "Pantry Food Cabinet Lower Box Shelf"
+  # TODO: figure out a way to get sensors into the below cabinets
+#  fourth_sensor_name: "Pantry Food Cabinet Upper Box Shelf"
+#  fifth_sensor_name: "Pantry Food Cabinet Lower Box Shelf"
   oversampling_value: "16x"
   update_interval_value: "60s"
 
@@ -51,10 +52,10 @@ tca9548a:
         channel: 2
       - bus_id: multiplex0channel3
         channel: 3
-      - bus_id: multiplex0channel4
-        channel: 4
-      - bus_id: multiplex0channel5
-        channel: 5
+#      - bus_id: multiplex0channel4
+#        channel: 4
+#      - bus_id: multiplex0channel5
+#        channel: 5
 
 sensor:
   - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel0", env_iv_sensor_name: "${zeroth_sensor_name}" } }
@@ -65,7 +66,7 @@ sensor:
   - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel2", env_iv_sensor_name: "${second_sensor_name}" } }
   - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel3", env_iv_sensor_name: "${third_sensor_name}" } }
   - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel3", env_iv_sensor_name: "${third_sensor_name}" } }
-  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel4", env_iv_sensor_name: "${fourth_sensor_name}" } }
-  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel4", env_iv_sensor_name: "${fourth_sensor_name}" } }
-  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel5", env_iv_sensor_name: "${fifth_sensor_name}" } }
-  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel5", env_iv_sensor_name: "${fifth_sensor_name}" } }
+#  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel4", env_iv_sensor_name: "${fourth_sensor_name}" } }
+#  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel4", env_iv_sensor_name: "${fourth_sensor_name}" } }
+#  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel5", env_iv_sensor_name: "${fifth_sensor_name}" } }
+#  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel5", env_iv_sensor_name: "${fifth_sensor_name}" } }
