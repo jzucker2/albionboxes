@@ -36,7 +36,6 @@ packages:
   rufus_activity_request: !include common/rufus_activity_request.yaml
   albion_volume_dial: !include common/albion_v4_volume_dial.yaml
 
-
 # https://esphome.io/components/button/index.html
 button:
   - platform: template

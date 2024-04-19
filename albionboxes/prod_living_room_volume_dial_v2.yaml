@@ -31,6 +31,7 @@ packages:
   internal_temp: !include common/internal_temp.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
+  rufus_activity_request: !include common/rufus_activity_request.yaml
   albion_volume_dial: !include common/albion_v4_volume_dial.yaml
 
 binary_sensor:
