@@ -63,10 +63,6 @@ script:
       - logger.log: "Start Gaggia timer countdown"
       - lambda: |-
           ESP_LOGD("gaggia_timer_script", "Now count down delay_seconds: %d", delay_seconds);
-#      - logger.log:
-#          format: "Now count down delay_seconds: %d"
-#          args: [ 'delay_seconds' ]
-#      - logger.log: "Now count down delay_seconds: ${delay_seconds}"
       - lambda: !lambda |-
           id(timer_countdown_switch).publish_state(true);
       - light.turn_on:
@@ -83,7 +79,6 @@ script:
           args: [ 'delay_seconds' ]
       - lambda: |-
           ESP_LOGD("gaggia_timer_script", "Timer done and %d has elapsed, first play audio", delay_seconds);
-#      - logger.log: "Timer done and ${delay_seconds} has elapsed, first play audio"
       - media_player.play_media:
           id: media_out
           media_url: ${media_file}
