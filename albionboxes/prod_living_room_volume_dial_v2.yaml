@@ -1,0 +1,38 @@
+substitutions:
+  node_name: livingroomvolumedial
+  friendly_name: Living Room Volume Dial
+  area: Living Room
+  comment: "Volume rotary controller for the Living Room"
+  box_config_file_name: prod_living_room_volume_dial
+  display_rotation: '180'
+  receiver_zone_media_player_entity: "media_player.denon_avr_x4300h_main_zone_living_room"
+  swap_xy: "false"
+  mirror_x: "false"
+  mirror_y: "true"
+  rufus_url: !secret rufus_url
+  dial_rfid_tag_1: "04-51-22-7D-B8-2A-81"
+  first_tag_activity: "johncast"
+  dial_rfid_tag_2: "04-46-22-7D-B8-2A-81"
+  second_tag_activity: "nintendo"
+
+# inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
+
+packages:
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atoms3lite_device.yaml
+  logging: !include common/s3_logger.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  albion_volume_dial: !include common/albion_v4_volume_dial.yaml
+
+binary_sensor:
+  - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_1}", rufus_tag_activity: "${first_tag_activity}" } }
+  - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_2}", rufus_tag_activity: "${second_tag_activity}" } }

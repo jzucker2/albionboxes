@@ -71,28 +71,5 @@ binary_sensor:
       then:
         - logger.log: "Got RFID Tag for for tag dial"
 
-  # https://esphome.io/components/binary_sensor/rc522.html#rc522-binary-sensor
-  - platform: rc522
-    uid: ${dial_rfid_tag_1}
-    name: "${friendly_name} NFC Tag ${first_tag_activity}"
-    on_release:
-      then:
-        - logger.log: "Got RFID Tag for for activity: ${first_tag_activity}"
-        - script.execute:
-            id: rufus_activity_request
-            rufus_url: "${rufus_url}"
-            activity: "${first_tag_activity}"
-        - logger.log: "Done with RFID Tag for activity: ${first_tag_activity}"
-
-  # https://esphome.io/components/binary_sensor/rc522.html#rc522-binary-sensor
-  - platform: rc522
-    uid: ${dial_rfid_tag_2}
-    name: "${friendly_name} NFC Tag ${second_tag_activity}"
-    on_release:
-      then:
-        - logger.log: "Got RFID Tag for for activity: ${second_tag_activity}"
-        - script.execute:
-            id: rufus_activity_request
-            rufus_url: "${rufus_url}"
-            activity: "${second_tag_activity}"
-        - logger.log: "Done with RFID Tag for activity: ${second_tag_activity}"
+  - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_1}", rufus_tag_activity: "${first_tag_activity}" } }
+  - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_2}", rufus_tag_activity: "${second_tag_activity}" } }
