@@ -18,7 +18,7 @@ substitutions:
 
 packages:
   esphome: !include common/default_esphome.yaml
-  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atom_device.yaml
   light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
@@ -54,6 +54,12 @@ script:
     parameters:
       delay_seconds: int
     then:
+      - if:
+          condition:
+            media_player.is_playing: media_out
+          then:
+            - media_player.stop:
+                id: media_out
       - logger.log: "Start Gaggia timer countdown"
       - lambda: |-
           ESP_LOGD("gaggia_timer_script", "Now count down delay_seconds: %d", delay_seconds);
@@ -78,7 +84,9 @@ script:
       - lambda: |-
           ESP_LOGD("gaggia_timer_script", "Timer done and %d has elapsed, first play audio", delay_seconds);
 #      - logger.log: "Timer done and ${delay_seconds} has elapsed, first play audio"
-      - media_player.play_media: ${media_file}
+      - media_player.play_media:
+          id: media_out
+          media_url: ${media_file}
       - logger.log: "Now finish and trigger light timer_switch"
       - logger.log: "Finished Gaggia timer countdown (expired)"
       - lambda: !lambda |-
