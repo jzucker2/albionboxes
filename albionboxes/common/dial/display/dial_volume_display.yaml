@@ -30,10 +30,10 @@
         it.filled_circle(halfscreenwidth, halfscreenheight - 15, 50, my_light_blue);
         if ( id(media_zone_state).state == "off" || id(media_zone_state).state == "standby" ) {
           ESP_LOGD("volume_page", "drawing media_zone_state power off");
-          it.image(halfscreenwidth, halfscreenheight - 15, power_off_large, ImageAlign::CENTER);
+          it.image(halfscreenwidth, halfscreenheight - 15, power_plug_off_large, ImageAlign::CENTER);
         } else {
           ESP_LOGD("volume_page", "drawing media_zone_state power on");
-          it.image(halfscreenwidth, halfscreenheight - 15, power_on_large, ImageAlign::CENTER);
+          it.image(halfscreenwidth, halfscreenheight - 15, power_large, ImageAlign::CENTER);
         }
 
         // Mute Toggle Circle

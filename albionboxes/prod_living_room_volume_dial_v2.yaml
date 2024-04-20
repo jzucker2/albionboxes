@@ -14,6 +14,8 @@ substitutions:
   first_tag_activity: "johncast"
   dial_rfid_tag_2: "04-46-22-7D-B8-2A-81"
   second_tag_activity: "nintendo"
+  dial_rfid_tag_3: "04-E8-1C-7D-B8-2A-81"
+  third_tag_activity: "vinyl"
 
 # inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
 
@@ -37,3 +39,4 @@ packages:
 binary_sensor:
   - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_1}", rufus_tag_activity: "${first_tag_activity}" } }
   - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_2}", rufus_tag_activity: "${second_tag_activity}" } }
+  - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_3}", rufus_tag_activity: "${third_tag_activity}" } }

@@ -53,8 +53,18 @@ image:
     resize: 40x40
 
 
+  - id: power
+    file: mdi:power
+    resize: 40x40
   - id: power_large
     file: mdi:power
+    resize: 80x80
+
+  - id: power_plug_off
+    file: mdi:power-plug-off
+    resize: 40x40
+  - id: power_plug_off_large
+    file: mdi:power-plug-off
     resize: 80x80
 
   - id: power_on
