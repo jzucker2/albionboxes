@@ -16,5 +16,6 @@
             - script.execute:
                 id: hass_appletv_playpause_set
                 entity_id: "${appletv_media_player_entity}"
+                media_player_state: !lambda 'return id(appletv_media_state).state;'
             - lambda: |-
                 ESP_LOGD("media_player_appletv_playpause", "after hass playpause action");

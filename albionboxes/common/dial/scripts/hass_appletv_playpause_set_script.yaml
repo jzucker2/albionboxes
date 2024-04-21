@@ -4,14 +4,33 @@ script:
     mode: single
     parameters:
       entity_id: string
+      media_player_state: string
     then:
       - lambda: |-
           ESP_LOGD("hass_appletv_playpause_set_script", "starting request for entity_id %s", entity_id.c_str());
+      - lambda: |-
+          ESP_LOGD("hass_appletv_playpause_set_script", "starting request for entity_id %s with media_player_state: %s", entity_id.c_str(), media_player_state.c_str());
       - homeassistant.service:
-          service: media_player.volume_mute
+          service: media_player.media_playpause
           data:
             entity_id: !lambda return entity_id;
-            is_volume_muted: !lambda |-
-              return (id(media_volume_muted).state) ? false : true;
+#      - if:
+#          condition:
+#            # Should return either true or false
+#            lambda: |-
+#              return ( media_zone_state == "playing" );
+#          then:
+#            - homeassistant.service:
+#                service: media_player.media_playpause
+#                data:
+#                  entity_id: !lambda return entity_id;
+#          else:
+#            - homeassistant.service:
+#                service: media_player.media_play
+#                data:
+#                  entity_id: !lambda return entity_id;
+      - lambda: |-
+          ESP_LOGD("hass_appletv_playpause_set_script", "done with script request for entity_id %s with media_player_state: %s", entity_id.c_str(), media_player_state.c_str());
+
       - lambda: |-
           ESP_LOGD("hass_appletv_playpause_set_script", "done with script request for entity_id %s", entity_id.c_str());
