@@ -1,0 +1,20 @@
+- platform: touchscreen
+  name: "${friendly_name} AppleTV Screen Play Pause Button"
+  page_id: VolumePage
+  x_min: 90
+  x_max: 150
+  y_min: 170
+  y_max: 230
+  on_release:
+    then:
+      - lambda: |-
+          ESP_LOGD("media_player_appletv_playpause", "touched appletv playpause button");
+      - if:
+          condition:
+            light.is_on: backlight
+          then:
+            - script.execute:
+                id: hass_appletv_playpause_set
+                entity_id: "${appletv_media_player_entity}"
+            - lambda: |-
+                ESP_LOGD("media_player_appletv_playpause", "after hass playpause action");

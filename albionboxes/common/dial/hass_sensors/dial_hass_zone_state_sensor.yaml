@@ -1,17 +1,15 @@
 - platform: homeassistant
-  name: "${friendly_name} Media Player Zone State"
+  name: "${friendly_name} Media Player Receiver Zone State"
   id: receiver_zone_state
   entity_id: ${receiver_zone_media_player_entity}
 #  attribute: state
   on_value:
     - logger.log:
-        format: "The media_player state sensor reports value %s"
+        format: "The receiver media_player state sensor reports value %s"
         args: [ 'x.c_str()' ]
     # always update volume
     - lambda: |-
-        //std::string volume = x.c_str();
-        ESP_LOGD("hass_media_state_callback", "got state %s", x.c_str());
-        //id(media_zone_state) = x.c_str();
+        ESP_LOGD("hass_receiver_state_callback", "got state %s", x.c_str());
         id(media_zone_state).publish_state(x.c_str());
     - if:
         condition:

@@ -1,0 +1,17 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: hass_appletv_playpause_set
+    mode: single
+    parameters:
+      entity_id: string
+    then:
+      - lambda: |-
+          ESP_LOGD("hass_appletv_playpause_set_script", "starting request for entity_id %s", entity_id.c_str());
+      - homeassistant.service:
+          service: media_player.volume_mute
+          data:
+            entity_id: !lambda return entity_id;
+            is_volume_muted: !lambda |-
+              return (id(media_volume_muted).state) ? false : true;
+      - lambda: |-
+          ESP_LOGD("hass_appletv_playpause_set_script", "done with script request for entity_id %s", entity_id.c_str());
