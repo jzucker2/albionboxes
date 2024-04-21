@@ -34,7 +34,8 @@ packages:
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
   rufus_activity_request: !include common/rufus_activity_request.yaml
-  albion_volume_dial: !include common/albion_v4_volume_dial.yaml
+#  albion_volume_dial: !include common/albion_v4_volume_dial.yaml
+  albion_volume_dial: !include common/albion_v5_volume_dial.yaml
 
 # https://esphome.io/components/button/index.html
 button:
