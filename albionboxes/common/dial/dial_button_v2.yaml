@@ -11,9 +11,13 @@
         - OFF for at least 0.2s
       then:
         - logger.log: "Double Clicked"
-        - logger.log: "Dial button double clicked"
-        - display.page.show_next: my_lcd
-        - component.update: my_lcd
+        - if:
+            condition:
+              light.is_on: backlight
+            then:
+              - logger.log: "Dial button double clicked"
+              - display.page.show_next: my_lcd
+              - component.update: my_lcd
 #    - timing:
 #        - ON for 1s to 4s
 #        - OFF for at least 0.5s

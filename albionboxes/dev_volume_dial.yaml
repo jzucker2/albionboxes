@@ -6,6 +6,7 @@ substitutions:
   box_config_file_name: dev_volume_dial
   display_rotation: '0'
   receiver_zone_media_player_entity: "media_player.denon_avr_x4300h_main_zone_living_room"
+  appletv_media_player_entity: "media_player.superduper_appletv"
   swap_xy: "false"
   mirror_x: "false"
   mirror_y: "false"

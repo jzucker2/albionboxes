@@ -24,6 +24,7 @@ packages:
   volume_set_script: !include ./dial/scripts/hass_zone_volume_set_script.yaml
   volume_mute_script: !include ./dial/scripts/hass_zone_mute_set_script.yaml
   volume_power_script: !include ./dial/scripts/hass_zone_power_set_script.yaml
+  appletv_playpause_script: !include ./dial/scripts/hass_appletv_playpause_set_script.yaml
 
 sensor:
   - <<: !include ./dial/rotary_encoder/dial_filtered_volume_rotary_encoder.yaml
@@ -32,6 +33,8 @@ sensor:
 text_sensor:
   - <<: !include ./dial/hass_sensors/dial_hass_zone_state_sensor.yaml
   - <<: !include ./dial/template_sensors/dial_template_zone_power_sensor.yaml
+  - <<: !include ./dial/hass_sensors/dial_hass_appletv_state_sensor.yaml
+  - <<: !include ./dial/template_sensors/dial_template_appletv_sensor.yaml
 
 light:
   - <<: !include ./dial/dial_backlight_light.yaml
@@ -44,7 +47,7 @@ touchscreen:
   - <<: !include { file: ./dial/touchscreen/dial_touchscreen.yaml, vars: { swap_xy: "${swap_xy}", mirror_x: "${mirror_x}", mirror_y: "${mirror_y}" } }
 
 display:
-  - <<: !include ./dial/display/dial_volume_display.yaml
+  - <<: !include ./dial/display/dial_media_display.yaml
 
 binary_sensor:
   - <<: !include ./dial/dial_button_v2.yaml
@@ -52,3 +55,4 @@ binary_sensor:
   - <<: !include ./dial/template_sensors/dial_template_mute_sensor.yaml
   - <<: !include ./dial/touchscreen/dial_media_zone_mute_button.yaml
   - <<: !include ./dial/touchscreen/dial_media_zone_power_button.yaml
+  - <<: !include ./dial/touchscreen/dial_media_appletv_playpause_button.yaml
