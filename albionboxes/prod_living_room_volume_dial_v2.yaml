@@ -23,7 +23,8 @@ substitutions:
 packages:
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atoms3lite_device.yaml
-  logging: !include common/s3_logger.yaml
+#  logging: !include common/s3_logger.yaml
+  logging: !include common/s3_debug_logger.yaml
   networking: !include common/networking.yaml
   http: !include common/http.yaml
   version: !include common/version.yaml
