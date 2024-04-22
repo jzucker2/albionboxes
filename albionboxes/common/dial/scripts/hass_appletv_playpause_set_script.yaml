@@ -11,7 +11,7 @@ script:
       - lambda: |-
           ESP_LOGD("hass_appletv_playpause_set_script", "starting request for entity_id %s with media_player_state: %s", entity_id.c_str(), media_player_state.c_str());
       - homeassistant.service:
-          service: media_player.media_playpause
+          service: media_player.media_play_pause
           data:
             entity_id: !lambda return entity_id;
 #      - if:

@@ -58,12 +58,12 @@
 
         // media_pause Circle
         it.filled_circle(halfscreenwidth, halfscreenheight - 15, 50, my_light_orange);
-        if ( id(appletv_media_state).state != "playing" ) {
+        if ( id(appletv_media_state).state == "playing" ) {
           ESP_LOGD("appletv_page", "drawing appletv_media_state playpause => play");
           it.image(halfscreenwidth, halfscreenheight - 15, media_play_large, ImageAlign::CENTER);
         } else {
           ESP_LOGD("appletv_page", "drawing appletv_media_state playpause => paused");
-          it.image(halfscreenwidth, halfscreenheight - 15, media_play_pause, ImageAlign::CENTER);
+          it.image(halfscreenwidth, halfscreenheight - 15, media_pause_large, ImageAlign::CENTER);
         }
 
         // Mute Toggle Circle
