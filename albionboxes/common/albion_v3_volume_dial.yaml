@@ -49,5 +49,5 @@ binary_sensor:
   - <<: !include ./dial/dial_button.yaml
   - <<: !include ./dial/hass_sensors/dial_hass_mute_sensor.yaml
   - <<: !include ./dial/template_sensors/dial_template_mute_sensor.yaml
-  - <<: !include ./dial/touchscreen/dial_media_zone_mute_button.yaml
-  - <<: !include ./dial/touchscreen/dial_media_zone_power_button.yaml
+  - <<: !include { file: ./dial/touchscreen/dial_media_zone_mute_button.yaml, vars: { page_id: "VolumePage" } }
+  - <<: !include { file: ./dial/touchscreen/dial_media_zone_power_button.yaml, vars: { page_id: "VolumePage" } }

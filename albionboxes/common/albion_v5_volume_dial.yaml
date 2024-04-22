@@ -27,7 +27,7 @@ packages:
   appletv_playpause_script: !include ./dial/scripts/hass_appletv_playpause_set_script.yaml
 
 sensor:
-  - <<: !include ./dial/rotary_encoder/dial_filtered_volume_rotary_encoder.yaml
+  - <<: !include ./dial/rotary_encoder/dial_scripted_volume_rotary_encoder_v2.yaml
   - <<: !include ./dial/hass_sensors/dial_hass_volume_sensor.yaml
 
 text_sensor:
@@ -53,6 +53,7 @@ binary_sensor:
   - <<: !include ./dial/dial_button_v2.yaml
   - <<: !include ./dial/hass_sensors/dial_hass_mute_sensor.yaml
   - <<: !include ./dial/template_sensors/dial_template_mute_sensor.yaml
-  - <<: !include ./dial/touchscreen/dial_media_zone_mute_button.yaml
-  - <<: !include ./dial/touchscreen/dial_media_zone_power_button.yaml
-  - <<: !include ./dial/touchscreen/dial_media_appletv_playpause_button.yaml
+  - <<: !include { file: ./dial/touchscreen/dial_media_zone_mute_button.yaml, vars: { page_id: "VolumePage" } }
+  - <<: !include { file: ./dial/touchscreen/dial_media_zone_power_button.yaml, vars: { page_id: "VolumePage" } }
+  - <<: !include { file: ./dial/touchscreen/dial_media_zone_mute_button.yaml, vars: { page_id: "AppleTVPage" } }
+  - <<: !include { file: ./dial/touchscreen/dial_media_appletv_playpause_button.yaml, vars: { page_id: "AppleTVPage" } }

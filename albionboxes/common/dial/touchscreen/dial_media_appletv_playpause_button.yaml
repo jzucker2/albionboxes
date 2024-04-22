@@ -1,6 +1,6 @@
 - platform: touchscreen
   name: "${friendly_name} AppleTV Screen Play Pause Button"
-  page_id: VolumePage
+  page_id: "${page_id}"
   x_min: 90
   x_max: 150
   y_min: 170
