@@ -1,10 +1,10 @@
 - platform: touchscreen
   name: "${friendly_name} AppleTV Screen Play Pause Button"
   page_id: "${page_id}"
-  x_min: 90
-  x_max: 150
-  y_min: 170
-  y_max: 230
+  x_min: 70
+  x_max: 170
+  y_min: 70
+  y_max: 170
   on_release:
     then:
       - lambda: |-
