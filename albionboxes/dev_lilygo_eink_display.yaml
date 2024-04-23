@@ -74,6 +74,8 @@ script:
   - id: any_data_received
     then:
       # TODO: take a timestamp of an update and apply if it's been more than 30s and increase screen update time to 120 or 240 even
+      # https://esphome.io/components/time/index.html#use-in-lambdas
+      # https://esphome.io/components/datetime/index.html
       - logger.log: "Starting any_data_received"
 #      - component.update: t5_display
 
