@@ -73,70 +73,72 @@ external_components:
 text_sensor:
   - platform: homeassistant
     name: "Bart Next Train Antioch Status"
-    entity_id: sensor.bart_next_train_antioch_status
+    entity_id: text.bart_next_train_antioch_status
     id: bart_next_train_antioch_status
     on_value:
       then:
+        - lambda: |-
+            ESP_LOGD("bart_next_train_antioch_sensor", "The current antioch sensor is %s", x.c_str());
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train Berryessa Status"
-    entity_id: sensor.bart_next_train_berryessa_status
+    entity_id: text.bart_next_train_berryessa_status
     id: bart_next_train_berryessa_status
     on_value:
       then:
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train Daly City Status"
-    entity_id: sensor.bart_next_train_daly_city_status
+    entity_id: text.bart_next_train_daly_city_status
     id: bart_next_train_daly_city_status
     on_value:
       then:
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train Dublin/Pleasanton Status"
-    entity_id: sensor.bart_next_train_dublin_pleasanton_status
+    entity_id: text.bart_next_train_dublin_pleasanton_status
     id: bart_next_train_dublin_pleasanton_status
     on_value:
       then:
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train Millbrae Status"
-    entity_id: sensor.bart_next_train_millbrae_status
+    entity_id: text.bart_next_train_millbrae_status
     id: bart_next_train_millbrae_status
     on_value:
       then:
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train Pittsburg/Bay Point Status"
-    entity_id: sensor.bart_next_train_pittsburg_bay_point_status
+    entity_id: text.bart_next_train_pittsburg_bay_point_status
     id: bart_next_train_pittsburg_bay_point_status
     on_value:
       then:
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train Richmond Status"
-    entity_id: sensor.bart_next_train_richmond_status
+    entity_id: text.bart_next_train_richmond_status
     id: bart_next_train_richmond_status
     on_value:
       then:
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train SF Airport Status"
-    entity_id: sensor.bart_next_train_sf_airport_status
+    entity_id: text.bart_next_train_sf_airport_status
     id: bart_next_train_sf_airport_status
     on_value:
       then:
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train SFO/Millbrae Status"
-    entity_id: sensor.bart_next_train_sfo_millbrae_status
+    entity_id: text.bart_next_train_sfo_millbrae_status
     id: bart_next_train_sfo_millbrae_status
     on_value:
       then:
         - component.update: t5_display
   - platform: homeassistant
     name: "Bart Next Train 24th Street Status"
-    entity_id: sensor.bart_next_train_24th_street_status
+    entity_id: text.bart_next_train_24th_street_status
     id: bart_next_train_24th_street_status
     on_value:
       then:
@@ -147,12 +149,12 @@ display:
     id: t5_display
     update_interval: 30s
     lambda: |-
-      ESP_LOGD("display", "got antioch state %s", id(bart_next_train_antioch_status).state);
-      ESP_LOGD("display", "got daly city state %s", id(bart_next_train_daly_city_status).state);
-      ESP_LOGD("display", "got antioch state to string %s", id(bart_next_train_antioch_status).state.c_str());
-      ESP_LOGD("display", "got daly city state to string %s", id(bart_next_train_daly_city_status).state.c_str());
-      ESP_LOGD("display", "got antioch numerical state %d", id(bart_next_train_antioch_status).state);
-      ESP_LOGD("display", "got daly city numerical state %d", id(bart_next_train_daly_city_status).state);
+      //ESP_LOGD("display", "got antioch state %s", id(bart_next_train_antioch_status).state);
+      //ESP_LOGD("display", "got daly city state %s", id(bart_next_train_daly_city_status).state);
+      //ESP_LOGD("display", "got antioch state to string %s", id(bart_next_train_antioch_status).state.c_str());
+      //ESP_LOGD("display", "got daly city state to string %s", id(bart_next_train_daly_city_status).state.c_str());
+      //ESP_LOGD("display", "got antioch numerical state %d", id(bart_next_train_antioch_status).state);
+      //ESP_LOGD("display", "got daly city numerical state %d", id(bart_next_train_daly_city_status).state);
       it.printf(0, 0, id(my_font), "The next Antioch is: %s", id(bart_next_train_antioch_status).state.c_str());
       it.printf(0, 20, id(my_font), "The next Berryessa is: %s", id(bart_next_train_berryessa_status).state.c_str());
       it.printf(0, 40, id(my_font), "The next Daly City is: %s", id(bart_next_train_daly_city_status).state.c_str());
