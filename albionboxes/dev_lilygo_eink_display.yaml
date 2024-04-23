@@ -1,0 +1,77 @@
+# https://www.reddit.com/r/homeassistant/comments/rm71z4/lilygo_t5_epaper_display_now_using_esphome/
+# https://community.home-assistant.io/t/lilygo-t5-4-7-inch-e-paper-idiots-guide/407267/3
+# https://github.com/esphome/feature-requests/issues/1109#issuecomment-986018421
+# https://www.stdin.co.uk/blog2/2023/11/lilygo-t5-4.7-e-paper-display-esphome/
+substitutions:
+  node_name: devlilygoeinkdisplay
+  friendly_name: Dev Lilygo E-Ink Display
+  area: Dev
+  comment: "This is for developing a decently sized E-Ink display at Albion"
+  box_config_file_name: dev_lilygo_eink_display
+
+esphome:
+  name: ${node_name}
+#  friendly_name: Paper1Screen
+  area: ${area}
+  comment: ${comment}
+  project: !include common/default_project.yaml
+  platformio_options:
+    board_build.f_flash: 80000000L
+    #board_upload.flash_size: 16MB
+    board_build.flash_mode: qio
+    board_build.psram_type: opi
+    board_build.partitions: default_16MB.csv
+    board_build.arduino.memory_type: qio_opi
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+    version: 2.0.7
+  flash_size: 16MB
+
+packages:
+#  esphome: !include common/default_esphome.yaml
+#  esp32: !include common/m5atoms3lite_device.yaml
+#  esp32: !include common/lilygot5display_device.yaml
+  #  logging: !include common/s3_logger.yaml
+  wifi: !include common/wifi.yaml
+  logging: !include common/s3_debug_logger.yaml
+#  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+#  i2c: !include common/default_i2c.yaml
+#  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+i2c:
+  sda: GPIO17
+  scl: GPIO18
+  # There is some problems with i2c scan so turn scan off if problem appear on your board
+  scan: false
+  id: bus_a
+
+#external_components:
+#  - source: github://nickolay/esphome-lilygo-t547plus
+#    components: ["t547"]
+
+external_components:
+  - source: github://bvarick/esphome-lilygo-t547plus
+    components: ["t547"]
+#  - source: github://kaeltis/esphome-lilygo-t547plus
+#    components: ["lilygo_t5_47_battery"]
+
+display:
+  - platform: t547
+    id: t5_display
+    update_interval: 30s
+    lambda: |-
+      it.line(0, 0, 50, 50);
