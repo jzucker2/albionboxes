@@ -150,7 +150,7 @@ text_sensor:
 display:
   - platform: t547
     id: t5_display
-    update_interval: 30s
+    update_interval: 120s
     lambda: |-
       //ESP_LOGD("display", "got antioch state %s", id(bart_next_train_antioch_status).state);
       //ESP_LOGD("display", "got daly city state %s", id(bart_next_train_daly_city_status).state);
