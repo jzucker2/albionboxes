@@ -1,5 +1,5 @@
 - platform: touchscreen
-  name: "${friendly_name} Volume Screen Zone State Button"
+  name: "${friendly_name} ${page_id} Zone State Button"
   page_id: "${page_id}"
   x_min: 70
   x_max: 170

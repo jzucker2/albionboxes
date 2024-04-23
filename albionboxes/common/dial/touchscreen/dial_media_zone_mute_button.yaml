@@ -1,5 +1,5 @@
 - platform: touchscreen
-  name: "${friendly_name} Volume Screen Zone Muted Button"
+  name: "${friendly_name} ${page_id} Zone Muted Button"
   page_id: "${page_id}"
   x_min: 90
   x_max: 150
