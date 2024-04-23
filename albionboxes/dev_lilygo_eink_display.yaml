@@ -164,15 +164,15 @@ display:
       //ESP_LOGD("display", "got daly city numerical state %d", id(bart_next_train_daly_city_status).state);
       // south direction
       it.print(0, 0, id(big_title_roboto), TextAlign::LEFT, "South");
-      it.printf(0, 60, id(bart_time_roboto), TextAlign::LEFT, "Daly City => %s", id(bart_next_train_daly_city_status).state.c_str());
-      it.printf(0, 100, id(bart_time_roboto), TextAlign::LEFT, "Millbrae => %s", id(bart_next_train_millbrae_status).state.c_str());
-      it.printf(0, 140, id(bart_time_roboto), TextAlign::LEFT, "SF Airport => %s", id(bart_next_train_sf_airport_status).state.c_str());
-      it.printf(0, 180, id(bart_time_roboto), TextAlign::LEFT, "SFO/Millbrae => %s", id(bart_next_train_sfo_millbrae_status).state.c_str());
-      it.printf(0, 220, id(bart_time_roboto), TextAlign::LEFT, "24th Street => %s", id(bart_next_train_24th_street_status).state.c_str());
+      it.printf(0, 80, id(bart_time_roboto), TextAlign::LEFT, "Daly City => %s", id(bart_next_train_daly_city_status).state.c_str());
+      it.printf(0, 130, id(bart_time_roboto), TextAlign::LEFT, "Millbrae => %s", id(bart_next_train_millbrae_status).state.c_str());
+      it.printf(0, 180, id(bart_time_roboto), TextAlign::LEFT, "SF Airport => %s", id(bart_next_train_sf_airport_status).state.c_str());
+      it.printf(0, 230, id(bart_time_roboto), TextAlign::LEFT, "SFO/Millbrae => %s", id(bart_next_train_sfo_millbrae_status).state.c_str());
+      it.printf(0, 280, id(bart_time_roboto), TextAlign::LEFT, "24th Street => %s", id(bart_next_train_24th_street_status).state.c_str());
       // north direction
       it.print(halfscreenwidth, 0, id(big_title_roboto), TextAlign::LEFT, "North");
-      it.printf(halfscreenwidth, 60, id(bart_time_roboto), TextAlign::LEFT, "Antioch => %s", id(bart_next_train_antioch_status).state.c_str());
-      it.printf(halfscreenwidth, 100, id(bart_time_roboto), TextAlign::LEFT, "Berryessa => %s", id(bart_next_train_berryessa_status).state.c_str());
-      it.printf(halfscreenwidth, 140, id(bart_time_roboto), TextAlign::LEFT, "Dublin/Pleasanton => %s", id(bart_next_train_dublin_pleasanton_status).state.c_str());
-      it.printf(halfscreenwidth, 180, id(bart_time_roboto), TextAlign::LEFT, "Pittsburg/Bay Point => %s", id(bart_next_train_pittsburg_bay_point_status).state.c_str());
-      it.printf(halfscreenwidth, 220, id(bart_time_roboto), TextAlign::LEFT, "Richmond => %s", id(bart_next_train_richmond_status).state.c_str());
+      it.printf(halfscreenwidth, 80, id(bart_time_roboto), TextAlign::LEFT, "Antioch => %s", id(bart_next_train_antioch_status).state.c_str());
+      it.printf(halfscreenwidth, 130, id(bart_time_roboto), TextAlign::LEFT, "Berryessa => %s", id(bart_next_train_berryessa_status).state.c_str());
+      it.printf(halfscreenwidth, 180, id(bart_time_roboto), TextAlign::LEFT, "Dublin/Pleasanton => %s", id(bart_next_train_dublin_pleasanton_status).state.c_str());
+      it.printf(halfscreenwidth, 230, id(bart_time_roboto), TextAlign::LEFT, "Pittsburg/Bay Point => %s", id(bart_next_train_pittsburg_bay_point_status).state.c_str());
+      it.printf(halfscreenwidth, 280, id(bart_time_roboto), TextAlign::LEFT, "Richmond => %s", id(bart_next_train_richmond_status).state.c_str());
