@@ -70,14 +70,28 @@ external_components:
 #  - source: github://kaeltis/esphome-lilygo-t547plus
 #    components: ["lilygo_t5_47_battery"]
 
+# https://esphome.io/guides/automations.html#script-component
 script:
   - id: any_data_received
+    parameters:
+      updated_status: string
     then:
       # TODO: take a timestamp of an update and apply if it's been more than 30s and increase screen update time to 120 or 240 even
+      # TODO: force updates more frequently when status is "Leaving" (and pass in recent status)
       # https://esphome.io/components/time/index.html#use-in-lambdas
       # https://esphome.io/components/datetime/index.html
-      - logger.log: "Starting any_data_received"
-#      - component.update: t5_display
+      - lambda: |-
+          ESP_LOGD("any_data_received_script", "got updated_status %s", updated_status.c_str());
+      - if:
+          condition:
+            lambda: 'return ( updated_status == "Leaving" );'
+          then:
+            - lambda: |-
+                ESP_LOGD("any_data_received_script", "force an update for leaving %s", updated_status.c_str());
+            - component.update: t5_display
+          else:
+            - lambda: |-
+                ESP_LOGD("any_data_received_script", "no update now for normal %s", updated_status.c_str());
 
 text_sensor:
   - platform: homeassistant
@@ -86,70 +100,90 @@ text_sensor:
     id: bart_next_train_antioch_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train Berryessa Status"
     entity_id: text.bart_next_train_berryessa_status
     id: bart_next_train_berryessa_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train Daly City Status"
     entity_id: text.bart_next_train_daly_city_status
     id: bart_next_train_daly_city_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train Dublin/Pleasanton Status"
     entity_id: text.bart_next_train_dublin_pleasanton_status
     id: bart_next_train_dublin_pleasanton_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train Millbrae Status"
     entity_id: text.bart_next_train_millbrae_status
     id: bart_next_train_millbrae_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train Pittsburg/Bay Point Status"
     entity_id: text.bart_next_train_pittsburg_bay_point_status
     id: bart_next_train_pittsburg_bay_point_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train Richmond Status"
     entity_id: text.bart_next_train_richmond_status
     id: bart_next_train_richmond_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train SF Airport Status"
     entity_id: text.bart_next_train_sf_airport_status
     id: bart_next_train_sf_airport_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train SFO/Millbrae Status"
     entity_id: text.bart_next_train_sfo_millbrae_status
     id: bart_next_train_sfo_millbrae_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
   - platform: homeassistant
     name: "Bart Next Train 24th Street Status"
     entity_id: text.bart_next_train_24th_street_status
     id: bart_next_train_24th_street_status
     on_value:
       then:
-        - script.execute: any_data_received
+        - script.execute:
+            id: any_data_received
+            updated_status: !lambda 'return x;'
 
 display:
   - platform: t547
