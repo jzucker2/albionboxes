@@ -1,5 +1,6 @@
 # https://www.reddit.com/r/homeassistant/comments/rm71z4/lilygo_t5_epaper_display_now_using_esphome/
 # https://community.home-assistant.io/t/lilygo-t5-4-7-inch-e-paper-idiots-guide/407267/3
+# https://gist.github.com/Plawasan/4ae826b05aaa7812f3a191714ca47a50
 # https://github.com/esphome/feature-requests/issues/1109#issuecomment-986018421
 # https://www.stdin.co.uk/blog2/2023/11/lilygo-t5-4.7-e-paper-display-esphome/
 substitutions:
@@ -9,31 +10,9 @@ substitutions:
   comment: "This is for developing a decently sized E-Ink display at Albion"
   box_config_file_name: dev_lilygo_eink_display
 
-esphome:
-  name: ${node_name}
-#  friendly_name: Paper1Screen
-  area: ${area}
-  comment: ${comment}
-  project: !include common/default_project.yaml
-  platformio_options:
-    board_build.f_flash: 80000000L
-    #board_upload.flash_size: 16MB
-    board_build.flash_mode: qio
-    board_build.psram_type: opi
-    board_build.partitions: default_16MB.csv
-    board_build.arduino.memory_type: qio_opi
-
-esp32:
-  board: esp32-s3-devkitc-1
-  framework:
-    type: arduino
-    version: 2.0.7
-  flash_size: 16MB
-
 packages:
-#  esphome: !include common/default_esphome.yaml
-#  esp32: !include common/m5atoms3lite_device.yaml
-#  esp32: !include common/lilygot5display_device.yaml
+  esphome: !include common/dashboards/utils/default_lilygo_eink_esphome.yaml
+  esp32: !include common/lilygo_eink_device.yaml
   #  logging: !include common/s3_logger.yaml
   wifi: !include common/wifi.yaml
   logging: !include common/s3_debug_logger.yaml
@@ -50,171 +29,19 @@ packages:
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
   default_fonts: !include common/fonts.yaml
-#  i2c: !include common/default_i2c.yaml
+  dashboard_scripts: !include common/dashboards/scripts/any_data_received.yaml
+  dashboard_display: !include common/dashboards/display/lilygo_eink_display.yaml
+  i2c: !include common/dashboards/utils/lilygo_eink_i2c.yaml
 #  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
 
-i2c:
-  sda: GPIO17
-  scl: GPIO18
-  # There is some problems with i2c scan so turn scan off if problem appear on your board
-  scan: false
-  id: bus_a
-
-#external_components:
-#  - source: github://nickolay/esphome-lilygo-t547plus
-#    components: ["t547"]
-
-external_components:
-  - source: github://bvarick/esphome-lilygo-t547plus
-    components: ["t547"]
-#  - source: github://kaeltis/esphome-lilygo-t547plus
-#    components: ["lilygo_t5_47_battery"]
-
-# https://esphome.io/guides/automations.html#script-component
-script:
-  - id: any_data_received
-    parameters:
-      updated_status: string
-    then:
-      # TODO: take a timestamp of an update and apply if it's been more than 30s and increase screen update time to 120 or 240 even
-      # TODO: force updates more frequently when status is "Leaving" (and pass in recent status)
-      # https://esphome.io/components/time/index.html#use-in-lambdas
-      # https://esphome.io/components/datetime/index.html
-      - lambda: |-
-          ESP_LOGD("any_data_received_script", "got updated_status %s", updated_status.c_str());
-      - if:
-          condition:
-            lambda: 'return ( updated_status == "Leaving" );'
-          then:
-            - lambda: |-
-                ESP_LOGD("any_data_received_script", "force an update for leaving %s", updated_status.c_str());
-            - component.update: t5_display
-          else:
-            - lambda: |-
-                ESP_LOGD("any_data_received_script", "no update now for normal %s", updated_status.c_str());
-
 text_sensor:
-  - platform: homeassistant
-    name: "Bart Next Train Antioch Status"
-    entity_id: text.bart_next_train_antioch_status
-    id: bart_next_train_antioch_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train Berryessa Status"
-    entity_id: text.bart_next_train_berryessa_status
-    id: bart_next_train_berryessa_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train Daly City Status"
-    entity_id: text.bart_next_train_daly_city_status
-    id: bart_next_train_daly_city_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train Dublin/Pleasanton Status"
-    entity_id: text.bart_next_train_dublin_pleasanton_status
-    id: bart_next_train_dublin_pleasanton_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train Millbrae Status"
-    entity_id: text.bart_next_train_millbrae_status
-    id: bart_next_train_millbrae_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train Pittsburg/Bay Point Status"
-    entity_id: text.bart_next_train_pittsburg_bay_point_status
-    id: bart_next_train_pittsburg_bay_point_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train Richmond Status"
-    entity_id: text.bart_next_train_richmond_status
-    id: bart_next_train_richmond_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train SF Airport Status"
-    entity_id: text.bart_next_train_sf_airport_status
-    id: bart_next_train_sf_airport_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train SFO/Millbrae Status"
-    entity_id: text.bart_next_train_sfo_millbrae_status
-    id: bart_next_train_sfo_millbrae_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-  - platform: homeassistant
-    name: "Bart Next Train 24th Street Status"
-    entity_id: text.bart_next_train_24th_street_status
-    id: bart_next_train_24th_street_status
-    on_value:
-      then:
-        - script.execute:
-            id: any_data_received
-            updated_status: !lambda 'return x;'
-
-display:
-  - platform: t547
-    id: t5_display
-    update_interval: 30s
-    lambda: |-
-      float screenheight = it.get_height();
-      float screenwidth = it.get_width();
-      float halfscreenheight = screenheight / 2;
-      float halfscreenwidth = screenwidth / 2;
-      //ESP_LOGD("display", "got antioch state %s", id(bart_next_train_antioch_status).state);
-      //ESP_LOGD("display", "got daly city state %s", id(bart_next_train_daly_city_status).state);
-      //ESP_LOGD("display", "got antioch state to string %s", id(bart_next_train_antioch_status).state.c_str());
-      //ESP_LOGD("display", "got daly city state to string %s", id(bart_next_train_daly_city_status).state.c_str());
-      //ESP_LOGD("display", "got antioch numerical state %d", id(bart_next_train_antioch_status).state);
-      //ESP_LOGD("display", "got daly city numerical state %d", id(bart_next_train_daly_city_status).state);
-      // south direction
-      it.print(0, 0, id(big_title_roboto), TextAlign::LEFT, "South");
-      it.printf(0, 80, id(bart_time_roboto), TextAlign::LEFT, "Daly City => %s", id(bart_next_train_daly_city_status).state.c_str());
-      it.printf(0, 130, id(bart_time_roboto), TextAlign::LEFT, "Millbrae => %s", id(bart_next_train_millbrae_status).state.c_str());
-      it.printf(0, 180, id(bart_time_roboto), TextAlign::LEFT, "SF Airport => %s", id(bart_next_train_sf_airport_status).state.c_str());
-      if (id(bart_next_train_sfo_millbrae_status).state != "unknown") {
-        it.printf(0, 230, id(bart_time_roboto), TextAlign::LEFT, "SFO/Millbrae => %s", id(bart_next_train_sfo_millbrae_status).state.c_str());
-      }
-      if (id(bart_next_train_24th_street_status).state != "unknown") {
-        it.printf(0, 280, id(bart_time_roboto), TextAlign::LEFT, "24th Street => %s", id(bart_next_train_24th_street_status).state.c_str());
-      }
-      // north direction
-      it.print(halfscreenwidth, 0, id(big_title_roboto), TextAlign::LEFT, "North");
-      it.printf(halfscreenwidth, 80, id(bart_time_roboto), TextAlign::LEFT, "Antioch => %s", id(bart_next_train_antioch_status).state.c_str());
-      it.printf(halfscreenwidth, 130, id(bart_time_roboto), TextAlign::LEFT, "Berryessa => %s", id(bart_next_train_berryessa_status).state.c_str());
-      it.printf(halfscreenwidth, 180, id(bart_time_roboto), TextAlign::LEFT, "Dublin/Pleasanton => %s", id(bart_next_train_dublin_pleasanton_status).state.c_str());
-      it.printf(halfscreenwidth, 230, id(bart_time_roboto), TextAlign::LEFT, "Pittsburg/Bay Point => %s", id(bart_next_train_pittsburg_bay_point_status).state.c_str());
-      it.printf(halfscreenwidth, 280, id(bart_time_roboto), TextAlign::LEFT, "Richmond => %s", id(bart_next_train_richmond_status).state.c_str());
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Antioch", bart_stop_object_id: "bart_next_train_antioch_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Berryessa", bart_stop_object_id: "bart_next_train_berryessa_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Daly City", bart_stop_object_id: "bart_next_train_daly_city_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Dublin/Pleasanton", bart_stop_object_id: "bart_next_train_dublin_pleasanton_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Millbrae", bart_stop_object_id: "bart_next_train_millbrae_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Pittsburg/Bay Point", bart_stop_object_id: "bart_next_train_pittsburg_bay_point_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Richmond", bart_stop_object_id: "bart_next_train_richmond_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "SF Airport", bart_stop_object_id: "bart_next_train_sf_airport_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "SFO/Millbrae", bart_stop_object_id: "bart_next_train_sfo_millbrae_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "24th Street", bart_stop_object_id: "bart_next_train_24th_street_status" } }
