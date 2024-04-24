@@ -31,6 +31,6 @@ binary_sensor:
   - platform: gpio
     name: "${friendly_name} Reed Switch"
     pin:
-      number: GPIO04
+      number: GPIO33
       mode: INPUT_PULLUP
-      inverted: False
+      inverted: true
