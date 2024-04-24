@@ -1,6 +1,6 @@
 substitutions:
   node_name: devreedswitchsensor
-  friendly_name: Dev Reed Switch Sensor Sensor
+  friendly_name: Dev Reed Switch Sensor
   area: Dev
   comment: "This is the first dev device for using a reed switch"
   box_config_file_name: dev_reed_switch_sensor
