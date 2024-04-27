@@ -13,8 +13,8 @@ substitutions:
   friend_finder_beta_friendly_name: !secret friend_finder_beta_friendly_name
 
 packages:
-#  esphome: !include common/default_esphome.yaml
-  esphome: !include common/friend_finder/utils/default_friend_finder_esphome.yaml
+  esphome: !include common/default_esphome.yaml
+#  esphome: !include common/friend_finder/utils/default_friend_finder_esphome.yaml
 #  logging: !include common/default_logger.yaml
   logging: !include common/debug_logger.yaml
   wifi: !include common/wifi.yaml
