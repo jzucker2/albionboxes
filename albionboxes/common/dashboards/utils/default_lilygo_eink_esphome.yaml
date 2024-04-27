@@ -1,3 +1,4 @@
+# https://esphome.io/components/esphome
 esphome:
   name: ${node_name}
 #  friendly_name: Paper1Screen

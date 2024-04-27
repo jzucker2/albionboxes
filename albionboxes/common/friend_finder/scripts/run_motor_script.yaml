@@ -1,0 +1,16 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: run_motor
+    parameters:
+      delay_ms: int
+    then:
+      - output.turn_on: vibration_motor
+      - output.set_level:
+          id: vibration_motor
+          level: "40%"
+      - delay: !lambda return delay_ms;
+      - output.set_level:
+          id: vibration_motor
+          level: "20%"
+      - delay: !lambda return delay_ms;
+      - output.turn_off: vibration_motor

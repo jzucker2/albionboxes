@@ -1,0 +1,9 @@
+- platform: template
+  name: "${friendly_name} Stop Motor Button"
+  id: stop_motor_button
+  icon: mdi:engine-off
+  on_press:
+    then:
+      - logger.log: Stop Motor Button Pressed
+      - output.turn_off: vibration_motor
+      - logger.log: "Done with Stop Motor Button Pressed"

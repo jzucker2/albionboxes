@@ -1,0 +1,11 @@
+- platform: template
+  name: "${friendly_name} Test Motor Button"
+  id: test_motor_button
+  icon: mdi:engine
+  on_press:
+    then:
+      - logger.log: Test Motor Button Pressed
+      - script.execute:
+          id: run_motor
+          delay_ms: 500
+      - logger.log: "Done with Test Motor Button Pressed"

@@ -1,0 +1,48 @@
+# Still want to convert to ethernet at some point
+# pattern for naming
+substitutions:
+  node_name: devfriendfinderalpha
+  friendly_name: Dev Friend Friend Finder Alpha
+  area: Dev
+  comment: "Developing a rumbling friend finder (alpha instance)"
+  box_config_file_name: dev_friend_finder_alpha
+  # Below is custom for this project
+  friend_finder_alpha_uuid: !secret friend_finder_alpha_uuid
+  friend_finder_alpha_friendly_name: !secret friend_finder_alpha_friendly_name
+  friend_finder_beta_uuid: !secret friend_finder_beta_uuid
+  friend_finder_beta_friendly_name: !secret friend_finder_beta_friendly_name
+
+packages:
+#  esphome: !include common/default_esphome.yaml
+  esphome: !include common/friend_finder/utils/default_friend_finder_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+  scripts: !include common/friend_finder/scripts/run_motor_script.yaml
+  vibration_motor: !include common/friend_finder/components/vibration_motor.yaml
+#  ibeacon_broadcast: !include { file: common/friend_finder/ble/ble_beacon_broadcast.yaml, vars: { ibeacon_uuid: "${friend_finder_alpha_uuid}" } }
+
+# https://esphome.io/components/button/index.html
+button:
+  - <<: !include common/friend_finder/buttons/test_motor_button.yaml
+  - <<: !include common/friend_finder/buttons/stop_motor_button.yaml
+
+# https://esphome.io/components/esp32_ble_tracker
+esp32_ble_tracker:
+
+binary_sensor:
+  - <<: !include { file: common/friend_finder/ble/ble_beacon_sensor.yaml, vars: { ibeacon_uuid: "${friend_finder_beta_uuid}", ibeacon_friendly_name: "${friend_finder_beta_friendly_name}" } }
