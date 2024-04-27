@@ -2,7 +2,7 @@
 # pattern for naming
 substitutions:
   node_name: devfriendfinderbeta
-  friendly_name: Dev Friend Friend Finder Beta
+  friendly_name: Dev Friend Finder Beta
   area: Dev
   comment: "Developing a rumbling friend finder (beta instance)"
   box_config_file_name: dev_friend_finder_beta
