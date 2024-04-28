@@ -1,0 +1,19 @@
+# https://esphome.io/components/switch/template.html
+- platform: template
+  name: "${friendly_name} Motor Active Switch"
+  id: motor_active_switch
+  icon: "mdi:bell-ring"
+  optimistic: true
+  assumed_state: true
+  # https://esphome.io/components/switch/
+  restore_mode: RESTORE_DEFAULT_OFF
+#  lambda: |-
+#    if (id(some_binary_sensor).state) {
+#      return true;
+#    } else {
+#      return false;
+#    }
+#  turn_on_action:
+#    - switch.turn_on: switch2
+#  turn_off_action:
+#    - switch.turn_on: switch1

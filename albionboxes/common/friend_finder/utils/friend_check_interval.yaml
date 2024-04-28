@@ -2,13 +2,31 @@
 interval:
   - interval: 10s
     then:
-      - logger.log: "Friend check interval started"
+      - logger.log:
+          format: "Friend check interval started"
+          level: "VERBOSE"
+          tag: "friend_check_interval"
       - if:
           condition:
-            binary_sensor.is_on: friend_present_binary_sensor
+            lambda: |-
+              ESP_LOGV("friend_check_interval", "friend_check_interval: %d", id(motor_active_switch).state);
+              if (id(motor_active_switch).state) {
+                ESP_LOGV("friend_check_interval", "motor_active_switch is ON");
+              } else {
+                ESP_LOGV("friend_check_interval", "motor_active_switch is off");
+                return false;
+              }
+              ESP_LOGV("friend_check_interval", "friend_present_binary_sensor: %d", id(friend_present_binary_sensor).state);
+              return id(friend_present_binary_sensor).state;
           then:
-            - logger.log: "Friend check interval friend present sensor is ON! (run motor)"
+            - logger.log:
+                format: "Friend check interval friend present sensor is ON! (run motor)"
+                level: "VERBOSE"
+                tag: "friend_check_interval"
             - script.execute:
                 id: run_motor
                 delay_ms: 500
-      - logger.log: "Friend check interval ended"
+      - logger.log:
+          format: "Friend check interval ended"
+          level: "VERBOSE"
+          tag: "friend_check_interval"

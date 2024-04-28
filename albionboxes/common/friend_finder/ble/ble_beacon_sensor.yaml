@@ -2,17 +2,7 @@
 # Presence based on iBeacon UUID
 - platform: ble_presence
   ibeacon_uuid: "${ibeacon_uuid}"
-  name: "${ibeacon_friendly_name} iBeacon"
+  name: "${ibeacon_friendly_name} iBeacon Presence Detected"
   id: "${ibeacon_sensor_id_prefix}_ble_presence_binary_sensor"
 #  min_rssi: -80db
-#  timeout: 45s
-#  on_state:
-#    then:
-#      - lambda: |-
-#          // Within lambda, get the binary sensor state and conditionally do something
-#          ESP_LOGD("ibeacon_presence", "got x.state: %d", x.state);
-#          //if (id(my_binary_sensor).state) {
-#          //  // Binary sensor is ON, do something here
-#          //} else {
-#          //  // Binary sensor is OFF, do something else here
-#          //}
+  timeout: 30s
