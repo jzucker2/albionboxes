@@ -1,0 +1,14 @@
+# https://esphome.io/guides/automations.html#interval
+interval:
+  - interval: 10s
+    then:
+      - logger.log: "Friend check interval started"
+      - if:
+          condition:
+            binary_sensor.is_on: friend_present_binary_sensor
+          then:
+            - logger.log: "Friend check interval friend present sensor is ON! (run motor)"
+            - script.execute:
+                id: run_motor
+                delay_ms: 500
+      - logger.log: "Friend check interval ended"
