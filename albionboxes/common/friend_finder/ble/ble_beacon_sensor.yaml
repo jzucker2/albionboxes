@@ -5,4 +5,4 @@
   name: "${ibeacon_friendly_name} iBeacon Presence Detected"
   id: "${ibeacon_sensor_id_prefix}_ble_presence_binary_sensor"
 #  min_rssi: -80db
-  timeout: 30s
+  timeout: 15s
