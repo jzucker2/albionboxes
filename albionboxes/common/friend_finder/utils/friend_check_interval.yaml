@@ -10,13 +10,13 @@ interval:
           condition:
             lambda: |-
               ESP_LOGV("friend_check_interval", "friend_check_interval: %d", id(motor_active_switch).state);
+              ESP_LOGV("friend_check_interval", "friend_present_binary_sensor: %d", id(friend_present_binary_sensor).state);
               if (id(motor_active_switch).state) {
                 ESP_LOGV("friend_check_interval", "motor_active_switch is ON");
               } else {
-                ESP_LOGV("friend_check_interval", "motor_active_switch is off");
+                ESP_LOGV("friend_check_interval", "motor_active_switch is off, return early");
                 return false;
               }
-              ESP_LOGV("friend_check_interval", "friend_present_binary_sensor: %d", id(friend_present_binary_sensor).state);
               return id(friend_present_binary_sensor).state;
           then:
             - logger.log:
