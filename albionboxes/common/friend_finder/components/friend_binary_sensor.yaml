@@ -1,0 +1,12 @@
+# https://esphome.io/components/binary_sensor/template.html
+- platform: template
+  name: "${friendly_name} Friend Present Sensor"
+  id: friend_present_binary_sensor
+  lambda: |-
+    if (id(${ibeacon_sensor_id_prefix}_ble_presence_binary_sensor).state) {
+      ESP_LOGV("friend_present_binary_sensor", "we have detected friends!");
+      return true;
+    } else {
+      ESP_LOGV("friend_present_binary_sensor", "no friends present");
+      return false;
+    }

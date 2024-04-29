@@ -1,0 +1,22 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: any_data_received
+    parameters:
+      updated_status: string
+    then:
+      # TODO: take a timestamp of an update and apply if it's been more than 30s and increase screen update time to 120 or 240 even
+      # TODO: force updates more frequently when status is "Leaving" (and pass in recent status)
+      # https://esphome.io/components/time/index.html#use-in-lambdas
+      # https://esphome.io/components/datetime/index.html
+      - lambda: |-
+          ESP_LOGD("any_data_received_script", "got updated_status %s", updated_status.c_str());
+      - if:
+          condition:
+            lambda: 'return ( updated_status == "Leaving" );'
+          then:
+            - lambda: |-
+                ESP_LOGD("any_data_received_script", "force an update for leaving %s", updated_status.c_str());
+            - component.update: t5_display
+          else:
+            - lambda: |-
+                ESP_LOGD("any_data_received_script", "no update now for normal %s", updated_status.c_str());

@@ -1,0 +1,9 @@
+- platform: homeassistant
+  name: "Bart Next Train ${bart_stop_name} Status"
+  entity_id: "text.${bart_stop_object_id}"
+  id: "${bart_stop_object_id}"
+  on_value:
+    then:
+      - script.execute:
+          id: any_data_received
+          updated_status: !lambda 'return x;'

@@ -1,0 +1,47 @@
+# https://www.reddit.com/r/homeassistant/comments/rm71z4/lilygo_t5_epaper_display_now_using_esphome/
+# https://community.home-assistant.io/t/lilygo-t5-4-7-inch-e-paper-idiots-guide/407267/3
+# https://gist.github.com/Plawasan/4ae826b05aaa7812f3a191714ca47a50
+# https://github.com/esphome/feature-requests/issues/1109#issuecomment-986018421
+# https://www.stdin.co.uk/blog2/2023/11/lilygo-t5-4.7-e-paper-display-esphome/
+substitutions:
+  node_name: devlilygoeinkdisplay
+  friendly_name: Dev Lilygo E-Ink Display
+  area: Dev
+  comment: "This is for developing a decently sized E-Ink display at Albion"
+  box_config_file_name: dev_lilygo_eink_display
+
+packages:
+  esphome: !include common/dashboards/utils/default_lilygo_eink_esphome.yaml
+  esp32: !include common/lilygo_eink_device.yaml
+  #  logging: !include common/s3_logger.yaml
+  wifi: !include common/wifi.yaml
+  logging: !include common/s3_debug_logger.yaml
+#  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  default_fonts: !include common/fonts.yaml
+  dashboard_scripts: !include common/dashboards/scripts/any_data_received.yaml
+  dashboard_display: !include common/dashboards/display/lilygo_eink_display.yaml
+  i2c: !include common/dashboards/utils/lilygo_eink_i2c.yaml
+#  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+text_sensor:
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Antioch", bart_stop_object_id: "bart_next_train_antioch_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Berryessa", bart_stop_object_id: "bart_next_train_berryessa_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Daly City", bart_stop_object_id: "bart_next_train_daly_city_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Dublin/Pleasanton", bart_stop_object_id: "bart_next_train_dublin_pleasanton_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Millbrae", bart_stop_object_id: "bart_next_train_millbrae_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Pittsburg/Bay Point", bart_stop_object_id: "bart_next_train_pittsburg_bay_point_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "Richmond", bart_stop_object_id: "bart_next_train_richmond_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "SF Airport", bart_stop_object_id: "bart_next_train_sf_airport_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "SFO/Millbrae", bart_stop_object_id: "bart_next_train_sfo_millbrae_status" } }
+  - <<: !include { file: ./common/dashboards/hass_sensors/hass_bart_next_train_text_sensor.yaml, vars: { bart_stop_name: "24th Street", bart_stop_object_id: "bart_next_train_24th_street_status" } }

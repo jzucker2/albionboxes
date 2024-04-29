@@ -1,0 +1,89 @@
+# https://esphome.io/components/display/ili9xxx
+- platform: ili9xxx
+  model: gc9a01a
+  id: my_lcd
+  cs_pin: GPIO7
+  dc_pin: GPIO4
+  rotation: ${display_rotation}
+  # default is 5s
+#  update_interval: 2s
+  reset_pin: GPIO8
+  dimensions:
+    width: 240
+    height: 240
+  # https://esphome.io/components/display/index.html
+  pages:
+    - id: VolumePage
+      lambda: |-
+        float screenheight = it.get_height();
+        float screenwidth = it.get_width();
+        float halfscreenheight = screenheight / 2;
+        float halfscreenwidth = screenwidth / 2;
+        
+        ESP_LOGD("volume_page", "got muted %d", id(media_volume_muted).state);
+        ESP_LOGD("volume_page", "got state %s", id(media_zone_state).state.c_str());
+
+        // Print volume as percent
+        it.printf(halfscreenwidth, 20, id(roboto48), TextAlign::CENTER, "%.0f", id(media_volume_value));
+
+        // media_pause Circle
+        it.filled_circle(halfscreenwidth, halfscreenheight - 15, 50, my_light_blue);
+        if ( id(media_zone_state).state == "off" || id(media_zone_state).state == "standby" ) {
+          ESP_LOGD("volume_page", "drawing media_zone_state power off");
+          it.image(halfscreenwidth, halfscreenheight - 15, power_plug_off_large, ImageAlign::CENTER);
+        } else {
+          ESP_LOGD("volume_page", "drawing media_zone_state power on");
+          it.image(halfscreenwidth, halfscreenheight - 15, power_large, ImageAlign::CENTER);
+        }
+
+        // Mute Toggle Circle
+        it.filled_circle(halfscreenwidth, 200, 30, my_light_blue);  
+        if (id(media_volume_muted).state) {
+          it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
+        } else {
+          it.image(halfscreenwidth, 200, volume_high, ImageAlign::CENTER);
+        }
+    - id: AppleTVPage
+      lambda: |-
+        float screenheight = it.get_height();
+        float screenwidth = it.get_width();
+        float halfscreenheight = screenheight / 2;
+        float halfscreenwidth = screenwidth / 2;
+        
+        ESP_LOGD("appletv_page", "got muted %d", id(media_volume_muted).state);
+        ESP_LOGD("appletv_page", "got state %s", id(appletv_media_state).state.c_str());
+
+        // Print volume as percent
+        it.printf(halfscreenwidth, 20, id(roboto48), TextAlign::CENTER, "%.0f", id(media_volume_value));
+
+        // media_pause Circle
+        it.filled_circle(halfscreenwidth, halfscreenheight - 15, 50, my_light_orange);
+        if ( id(appletv_media_state).state == "playing" ) {
+          ESP_LOGD("appletv_page", "drawing appletv_media_state playpause => play");
+          it.image(halfscreenwidth, halfscreenheight - 15, media_play_large, ImageAlign::CENTER);
+        } else {
+          ESP_LOGD("appletv_page", "drawing appletv_media_state playpause => paused");
+          it.image(halfscreenwidth, halfscreenheight - 15, media_pause_large, ImageAlign::CENTER);
+        }
+
+        // Mute Toggle Circle
+        it.filled_circle(halfscreenwidth, 200, 30, my_light_orange);  
+        if (id(media_volume_muted).state) {
+          it.image(halfscreenwidth, 200, volume_mute, ImageAlign::CENTER);
+        } else {
+          it.image(halfscreenwidth, 200, volume_high, ImageAlign::CENTER);
+        }
+
+  on_page_change:
+    - to: VolumePage
+      then:
+        - sensor.rotary_encoder.set_value:
+            id: rotaryencoder
+            value: !lambda 'return id(receiver_zone_volume).state * 100.0;'
+        - component.update: my_lcd
+    - to: AppleTVPage
+      then:
+        - sensor.rotary_encoder.set_value:
+            id: rotaryencoder
+            value: !lambda 'return id(receiver_zone_volume).state * 100.0;'
+        - component.update: my_lcd

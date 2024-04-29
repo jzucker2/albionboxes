@@ -1,0 +1,8 @@
+# https://esphome.io/components/binary_sensor/ble_presence
+# Presence based on iBeacon UUID
+- platform: ble_presence
+  ibeacon_uuid: "${ibeacon_uuid}"
+  name: "${ibeacon_friendly_name} iBeacon Presence Detected"
+  id: "${ibeacon_sensor_id_prefix}_ble_presence_binary_sensor"
+#  min_rssi: -80db
+  timeout: 15s

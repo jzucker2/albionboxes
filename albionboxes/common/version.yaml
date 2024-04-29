@@ -21,16 +21,17 @@ text_sensor:
     # https://esphome.io/cookbook/lambda_magic.html#update-numeric-values-from-text-input
     on_value:
       then:
-        - sensor.template.publish:
-            id: esphome_version_number
-            state: !lambda |-
-              ESP_LOGD("esphome_version", "starting with x: %s", x.c_str());
-              ESP_LOGD("esphome_version", "checking starting x: %s", x.c_str());
-              //std::string clean_string = str_sanitize(x.c_str());
-              //ESP_LOGD("esphome_version", "got clean_string: %s", clean_string);
-              auto n = parse_number<float>(x.c_str());
-              ESP_LOGD("esphome_version", "got final n: %f", n.value());
-              return n.has_value() ? n.value() : NAN;
+        - lambda: |-
+            ESP_LOGD("esphome_version", "starting with x: %s", x.c_str());
+            // There's a loss of precision on int->float conversion
+            //auto converted = parse_number<float>(x);
+            auto int_converted = parse_number<int>(x);
+            //ESP_LOGD("esphome_version", "got final converted: %f", converted.value());
+            ESP_LOGD("esphome_version", "got final int_converted: %d", int_converted.value());
+            float final_float = static_cast<float>(int_converted.value_or(0));
+            ESP_LOGD("esphome_version", "got final_float: %f", final_float);
+            // now publish the new number
+            id(esphome_version_number).publish_state(final_float);
 
 sensor:
   - platform: template

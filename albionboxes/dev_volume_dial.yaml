@@ -6,9 +6,16 @@ substitutions:
   box_config_file_name: dev_volume_dial
   display_rotation: '0'
   receiver_zone_media_player_entity: "media_player.denon_avr_x4300h_main_zone_living_room"
+  appletv_media_player_entity: "media_player.superduper_appletv"
   swap_xy: "false"
   mirror_x: "false"
   mirror_y: "false"
+  rufus_url: !secret rufus_url
+  dial_rfid_tag_test: "04-11-1D-7D-B8-2A-81"
+  dial_rfid_tag_1: "04-51-22-7D-B8-2A-81"
+  first_tag_activity: "johncast"
+  dial_rfid_tag_2: "04-46-22-7D-B8-2A-81"
+  second_tag_activity: "nintendo"
 
 # inspired by https://github.com/RoyalPineapple/esphome/blob/main/m5dial/m5_dial_test.yaml
 
@@ -27,7 +34,9 @@ packages:
   internal_temp: !include common/internal_temp.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
-  albion_volume_dial: !include common/albion_v4_volume_dial.yaml
+  rufus_activity_request: !include common/rufus_activity_request.yaml
+#  albion_volume_dial: !include common/albion_v4_volume_dial.yaml
+  albion_volume_dial: !include common/albion_v5_volume_dial.yaml
 
 # https://esphome.io/components/button/index.html
 button:
@@ -53,3 +62,15 @@ button:
       # https://codebender.cc/sketch:109888#RTTTL%20Songs.ino
       - rtttl.play: "GoodBad:d=4,o=5,b=56:32p,32a#,32d#6,32a#,32d#6,8a#.,16f#.,16g#.,d#,32a#,32d#6,32a#,32d#6,8a#.,16f#.,16g#.,c#6,32a#,32d#6,32a#,32d#6,8a#.,16f#.,32f.,32d#.,c#,32a#,32d#6,32a#,32d#6,8a#.,16g#.,d#"
       - logger.log: "${friendly_name} Play Song pressed done!"
+
+binary_sensor:
+  # https://esphome.io/components/binary_sensor/rc522.html#rc522-binary-sensor
+  - platform: rc522
+    uid: ${dial_rfid_tag_test}
+    name: "${friendly_name} NFC Tag Dial"
+    on_release:
+      then:
+        - logger.log: "Got RFID Tag for for tag dial"
+
+  - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_1}", rufus_tag_activity: "${first_tag_activity}" } }
+  - <<: !include { file: common/dial/dial_rfid_tag_rufus_activity_sensor.yaml, vars: { rfid_tag_uid: "${dial_rfid_tag_2}", rufus_tag_activity: "${second_tag_activity}" } }

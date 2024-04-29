@@ -1,8 +1,9 @@
 # Still want to convert to ethernet at some point
 # pattern for naming
 substitutions:
-  node_name: lrfoodcabinettempsensor
-  friendly_name: Living Room Food Cabinet Temp Sensor
+  node_name: lrcabinettempsensor
+  # we don't want "Food" in here to avoid prometheus matching rules
+  friendly_name: Living Room Cabinet Temp Sensor
   area: Living Room
   comment: "Temperature sensors for inside the food and snack cabinet in the Living Room"
   box_config_file_name: prod_living_room_cabinet_temp_sensor
@@ -11,7 +12,7 @@ substitutions:
   second_sensor_name: "Living Room Food Cabinet Weed Shelf"
 #  third_sensor_name: "Living Room Food Cabinet NUC Shelf"
 #  fourth_sensor_name: "Living Room Food Cabinet PS5 Shelf"
-#  fifth_sensor_name: "Living Room Food Cabinet RPi Shelf"
+  fifth_sensor_name: "Living Room Food Cabinet Controllers Shelf"
   oversampling_value: "16x"
   update_interval_value: "60s"
 
@@ -53,8 +54,8 @@ tca9548a:
 #        channel: 3
 #      - bus_id: multiplex0channel4
 #        channel: 4
-#      - bus_id: multiplex0channel5
-#        channel: 5
+      - bus_id: multiplex0channel5
+        channel: 5
 
 sensor:
   - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel0", env_iv_sensor_name: "${zeroth_sensor_name}" } }
@@ -63,3 +64,5 @@ sensor:
   - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel1", env_iv_sensor_name: "${first_sensor_name}" } }
   - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel2", env_iv_sensor_name: "${second_sensor_name}" } }
   - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel2", env_iv_sensor_name: "${second_sensor_name}" } }
+  - <<: !include { file: common/env_iv_sht4x_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel5", env_iv_sensor_name: "${fifth_sensor_name}" } }
+  - <<: !include { file: common/env_iv_bmp280_sensor.yaml, vars: { env_iv_i2c_id: "multiplex0channel5", env_iv_sensor_name: "${fifth_sensor_name}" } }

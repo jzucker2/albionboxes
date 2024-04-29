@@ -1,0 +1,36 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: hass_appletv_playpause_set
+    mode: single
+    parameters:
+      entity_id: string
+      media_player_state: string
+    then:
+      - lambda: |-
+          ESP_LOGD("hass_appletv_playpause_set_script", "starting request for entity_id %s", entity_id.c_str());
+      - lambda: |-
+          ESP_LOGD("hass_appletv_playpause_set_script", "starting request for entity_id %s with media_player_state: %s", entity_id.c_str(), media_player_state.c_str());
+      - homeassistant.service:
+          service: media_player.media_play_pause
+          data:
+            entity_id: !lambda return entity_id;
+#      - if:
+#          condition:
+#            # Should return either true or false
+#            lambda: |-
+#              return ( media_zone_state == "playing" );
+#          then:
+#            - homeassistant.service:
+#                service: media_player.media_playpause
+#                data:
+#                  entity_id: !lambda return entity_id;
+#          else:
+#            - homeassistant.service:
+#                service: media_player.media_play
+#                data:
+#                  entity_id: !lambda return entity_id;
+      - lambda: |-
+          ESP_LOGD("hass_appletv_playpause_set_script", "done with script request for entity_id %s with media_player_state: %s", entity_id.c_str(), media_player_state.c_str());
+
+      - lambda: |-
+          ESP_LOGD("hass_appletv_playpause_set_script", "done with script request for entity_id %s", entity_id.c_str());

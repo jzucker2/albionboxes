@@ -1,0 +1,19 @@
+- platform: homeassistant
+  name: "${friendly_name} Media Player AppleTV Play Pause"
+  id: "appletv_playpause"
+  entity_id: ${appletv_media_player_entity}
+#  attribute: state
+  on_value:
+    - logger.log:
+        format: "The media_player state sensor reports value %s"
+        args: [ 'x.c_str()' ]
+    # always update volume
+    - lambda: |-
+        ESP_LOGD("hass_appletv_state_callback", "got state %s", x.c_str());
+        id(appletv_media_state).publish_state(x.c_str());
+    - if:
+        condition:
+          or:
+            - display.is_displaying_page: VolumePage
+        then:
+          - component.update: my_lcd

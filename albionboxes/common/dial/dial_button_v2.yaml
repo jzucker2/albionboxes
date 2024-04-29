@@ -1,0 +1,33 @@
+- platform: gpio
+  pin:
+    number: 42
+    inverted: true
+  name: "${friendly_name} Toggle Backlight Button"
+  on_multi_click:
+    - timing:
+        - ON for at most 1s
+        - OFF for at most 1s
+        - ON for at most 1s
+        - OFF for at least 0.2s
+      then:
+        - logger.log: "Double Clicked"
+        - if:
+            condition:
+              light.is_on: backlight
+            then:
+              - logger.log: "Dial button double clicked"
+              - display.page.show_next: my_lcd
+              - component.update: my_lcd
+#    - timing:
+#        - ON for 1s to 4s
+#        - OFF for at least 0.5s
+#      then:
+#        - logger.log: "Single Long Clicked"
+    - timing:
+        - ON for at most 1s
+        - OFF for at least 0.5s
+      then:
+        - logger.log: "Single Short Clicked"
+        - logger.log: "Toggle Backlight Button Clicked"
+        - light.toggle: backlight
+        - logger.log: "Done with Toggle Backlight Button clicked!"

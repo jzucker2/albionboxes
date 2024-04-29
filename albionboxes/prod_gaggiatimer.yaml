@@ -17,7 +17,8 @@ substitutions:
   expiration_light_delay: "3s"
 
 packages:
-  esphome: !include common/default_esphome.yaml
+  # Not using default so we can turn off the light on boot
+  esphome: !include common/gaggia_timer_esphome.yaml
   logging: !include common/default_logger.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atom_device.yaml
@@ -54,11 +55,15 @@ script:
     parameters:
       delay_seconds: int
     then:
+      - if:
+          condition:
+            media_player.is_playing: media_out
+          then:
+            - media_player.stop:
+                id: media_out
       - logger.log: "Start Gaggia timer countdown"
-      - logger.log:
-          format: "Now count down delay_seconds: %d"
-          args: [ 'delay_seconds' ]
-#      - logger.log: "Now count down delay_seconds: ${delay_seconds}"
+      - lambda: |-
+          ESP_LOGD("gaggia_timer_script", "Now count down delay_seconds: %d", delay_seconds);
       - lambda: !lambda |-
           id(timer_countdown_switch).publish_state(true);
       - light.turn_on:
@@ -73,8 +78,11 @@ script:
       - logger.log:
           format: "Timer done and %d has elapsed, first play audio"
           args: [ 'delay_seconds' ]
-#      - logger.log: "Timer done and ${delay_seconds} has elapsed, first play audio"
-      - media_player.play_media: ${media_file}
+      - lambda: |-
+          ESP_LOGD("gaggia_timer_script", "Timer done and %d has elapsed, first play audio", delay_seconds);
+      - media_player.play_media:
+          id: media_out
+          media_url: ${media_file}
       - logger.log: "Now finish and trigger light timer_switch"
       - logger.log: "Finished Gaggia timer countdown (expired)"
       - lambda: !lambda |-

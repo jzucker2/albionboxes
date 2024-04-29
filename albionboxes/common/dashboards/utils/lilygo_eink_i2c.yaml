@@ -1,0 +1,6 @@
+i2c:
+  sda: GPIO17
+  scl: GPIO18
+  # There is some problems with i2c scan so turn scan off if problem appear on your board
+  scan: false
+  id: bus_a

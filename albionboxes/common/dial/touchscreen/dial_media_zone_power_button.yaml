@@ -1,6 +1,6 @@
 - platform: touchscreen
-  name: "${friendly_name} Volume Screen Zone State Button"
-  page_id: VolumePage
+  name: "${friendly_name} ${page_id} Zone State Button"
+  page_id: "${page_id}"
   x_min: 70
   x_max: 170
   y_min: 70
@@ -9,9 +9,13 @@
     then:
       - lambda: |-
           ESP_LOGD("media_player_zone_state", "touched zone power state button");
-      - script.execute:
-          id: hass_zone_power_set
-          entity_id: "${receiver_zone_media_player_entity}"
-          media_zone_state: !lambda 'return id(media_zone_state).state;'
-      - lambda: |-
-          ESP_LOGD("media_player_zone_state", "after hass power state action");
+      - if:
+          condition:
+            light.is_on: backlight
+          then:
+            - script.execute:
+                id: hass_zone_power_set
+                entity_id: "${receiver_zone_media_player_entity}"
+                media_zone_state: !lambda 'return id(media_zone_state).state;'
+            - lambda: |-
+                ESP_LOGD("media_player_zone_state", "after hass power state action");

@@ -1,0 +1,12 @@
+# https://esphome.io/components/binary_sensor/rc522.html#rc522-binary-sensor
+- platform: rc522
+  uid: "${rfid_tag_uid}"
+  name: "${friendly_name} NFC Tag ${rufus_tag_activity}"
+  on_release:
+    then:
+      - logger.log: "Got RFID Tag for activity: ${rufus_tag_activity}"
+      - script.execute:
+          id: rufus_activity_request
+          rufus_url: "${rufus_url}"
+          activity: "${rufus_tag_activity}"
+      - logger.log: "Done with RFID Tag for activity: ${rufus_tag_activity}"

@@ -1,0 +1,14 @@
+# https://esphome.io/components/esphome
+esphome:
+  name: ${node_name}
+#  friendly_name: Paper1Screen
+  area: ${area}
+  comment: ${comment}
+  project: !include ../../default_project.yaml
+  platformio_options:
+    board_build.f_flash: 80000000L
+    #board_upload.flash_size: 16MB
+    board_build.flash_mode: qio
+    board_build.psram_type: opi
+    board_build.partitions: default_16MB.csv
+    board_build.arduino.memory_type: qio_opi

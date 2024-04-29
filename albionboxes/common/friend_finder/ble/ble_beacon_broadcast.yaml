@@ -1,0 +1,7 @@
+# https://esphome.io/components/esp32_ble_beacon
+esp32_ble_beacon:
+  type: iBeacon
+  uuid: "${ibeacon_uuid}"
+  # Below are 5 digit numbers
+#  major: 11988
+#  minor: 61958
