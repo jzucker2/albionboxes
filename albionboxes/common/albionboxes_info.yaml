@@ -15,7 +15,7 @@ sensor:
     id: albionboxes_version_number
     name: "${friendly_name} AlbionBoxes Version Number"
     lambda: |-
-      return 0.12;
+      return 1.0;
     accuracy_decimals: 2
     icon: "mdi:update"
     state_class: measurement
