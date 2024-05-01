@@ -13,4 +13,5 @@
     on_boot:
       then:
         - lambda: "adc_power_acquire();"
+        - light.turn_off: atom_light
         - output.turn_off: vibration_motor

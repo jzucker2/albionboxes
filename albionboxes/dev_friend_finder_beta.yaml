@@ -34,7 +34,8 @@ packages:
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
-  scripts: !include common/friend_finder/scripts/run_motor_script.yaml
+  motor_scripts: !include common/friend_finder/scripts/run_motor_script.yaml
+  motor_active_light_scripts: !include common/friend_finder/scripts/turn_on_atom_motor_active_light_script.yaml
   vibration_motor: !include common/friend_finder/components/vibration_motor.yaml
   friend_check_interval: !include common/friend_finder/utils/friend_check_interval.yaml
 #  ibeacon_broadcast: !include { file: common/friend_finder/ble/ble_beacon_broadcast.yaml, vars: { ibeacon_uuid: "${friend_finder_beta_uuid}" } }
