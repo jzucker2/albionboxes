@@ -15,3 +15,14 @@
         - lambda: "adc_power_acquire();"
         - light.turn_off: atom_light
         - output.turn_off: vibration_motor
+        - if:
+            condition:
+              lambda: 'return id(motor_active_switch).state;'
+            then:
+              - logger.log: "Booting up with motor active"
+              - script.execute:
+                  id: turn_on_atom_motor_active_light
+                  delay_ms: 1
+            else:
+              - logger.log: "Booting up with motor NOT active"
+              - light.turn_off: atom_light
