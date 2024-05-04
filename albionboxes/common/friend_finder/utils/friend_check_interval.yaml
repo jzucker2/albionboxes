@@ -1,6 +1,6 @@
 # https://esphome.io/guides/automations.html#interval
 interval:
-  - interval: 10s
+  - interval: 5s
     then:
       - logger.log:
           format: "Friend check interval started"

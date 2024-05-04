@@ -1,0 +1,11 @@
+# https://esphome.io/components/binary_sensor/template.html
+- platform: gpio
+  pin:
+    number: ${button_pin}
+    inverted: true
+  name: "${friendly_name} Button"
+  on_release:
+    then:
+      - logger.log: "${friendly_name} Button tapped"
+      - switch.toggle: motor_active_switch
+      - logger.log: "Done with ${friendly_name} button tapped!"

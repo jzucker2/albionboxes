@@ -1,0 +1,20 @@
+# https://esphome.io/guides/automations.html#script-component
+# would be cool to do on and off and handle whether a friend is present?
+script:
+  - id: turn_on_atom_motor_active_light
+    parameters:
+      delay_ms: int
+    then:
+      - light.turn_on:
+          id: atom_light
+          brightness: 100%
+          red: 100%
+          green: 100%
+          blue: 1.0
+          effect: rainbow
+#      - delay: !lambda return delay_ms;
+#      - output.set_level:
+#          id: vibration_motor
+#          level: "10%"
+#      - delay: !lambda return delay_ms;
+#      - output.turn_off: vibration_motor
