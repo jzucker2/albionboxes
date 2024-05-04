@@ -1,0 +1,51 @@
+# Still want to convert to ethernet at some point
+# pattern for naming
+# https://github.com/screekworkshop/screek-water-sensor/blob/main/water-sensor-ws2-github.yaml
+# https://community.home-assistant.io/t/water-level-sensor-xkc-y25-npn-sends-wet-dry-wet-dry-ten-times-per-seconds/425036
+substitutions:
+  node_name: devwatersensor
+  friendly_name: Dev Water Sensor
+  area: Dev
+  comment: "Developing a water sensor for the Burn"
+  box_config_file_name: dev_water_sensor
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+binary_sensor:
+  # https://esphome.io/components/binary_sensor/index.html
+  - platform: gpio
+    name: ${friendly_name} Water Level Detected Sensor
+    id: water_level_detected
+    icon: mdi:water
+    pin:
+      number: GPIO32
+      inverted: true
+      # this is for NPN XKC-Y23 sensor
+      mode:
+        input: true
+        pullup: true
+#        pulldown: true
+    on_state:
+      then:
+        logger.log:
+          format: "Water level detected has new state x: %d"
+          args: [ 'x' ]
+          level: DEBUG
+          tag: "water_level_detected_sensor"
