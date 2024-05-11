@@ -1,11 +1,12 @@
 # https://esphome.io/components/light/esp32_rmt_led_strip
 # https://esphome.io/components/light/
+# intended for https://www.amazon.com/gp/product/B079ZW1265
 light:
   - platform: esp32_rmt_led_strip
     rgb_order: GRB
     pin: "${light_data_pin}"
     num_leds: "${num_leds}"
-    is_wrgb: true
+    is_rgbw: true
     restore_mode: RESTORE_DEFAULT_OFF
     rmt_channel: 0
     chipset: SK6812
