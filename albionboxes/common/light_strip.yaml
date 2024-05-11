@@ -1,24 +1,6 @@
-# https://esphome.io/components/light/neopixelbus.html
+# https://esphome.io/components/light/esp32_rmt_led_strip
 # https://esphome.io/components/light/
 light:
-#  - platform: neopixelbus
-##    type: GRB
-##    type: RGBW
-##    type: GRBW
-##    type: RGBW
-#    type: RGB
-#    variant: SK6812
-#    pin: ${light_data_pin}
-#    num_leds: ${num_leds}
-#    restore_mode: RESTORE_DEFAULT_OFF
-#    id: led_strip
-#    name: "${friendly_name} Light Strip"
-#    effects:
-#      - random:
-#      - flicker:
-#      - addressable_rainbow:
-
-# https://esphome.io/components/light/esp32_rmt_led_strip
   - platform: esp32_rmt_led_strip
     rgb_order: GRB
     pin: ${light_data_pin}
