@@ -3,8 +3,8 @@
 light:
   - platform: esp32_rmt_led_strip
     rgb_order: GRB
-    pin: ${light_data_pin}
-    num_leds: ${num_leds}
+    pin: "${light_data_pin}"
+    num_leds: "${num_leds}"
     is_wrgb: true
     restore_mode: RESTORE_DEFAULT_OFF
     rmt_channel: 0
