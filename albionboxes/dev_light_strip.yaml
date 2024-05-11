@@ -4,6 +4,8 @@ substitutions:
   area: Dev
   comment: "This is the first dev device for using a simple LED strip"
   box_config_file_name: dev_light_strip
+  light_strip_data_pin: "22"
+#  light_strip_data_pin: "26"
   light_strip_num_leds: "100"
 
 packages:
@@ -25,4 +27,4 @@ packages:
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
-  light_strip: !include { file: common/light_strip.yaml, vars: { light_data_pin: 26, num_leds: "${light_strip_num_leds}" } }
+  light_strip: !include { file: common/light_strip.yaml, vars: { light_data_pin: "${light_strip_data_pin}", num_leds: "${light_strip_num_leds}" } }
