@@ -4,7 +4,7 @@ substitutions:
   area: Dev
   comment: "This is the first dev device for using a simple LED strip"
   box_config_file_name: dev_light_strip
-  light_strip_num_leds: "20"
+  light_strip_num_leds: "100"
 
 packages:
   esphome: !include common/default_esphome.yaml
