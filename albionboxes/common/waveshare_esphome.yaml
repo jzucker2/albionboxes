@@ -1,0 +1,11 @@
+# https://esphome.io/components/esphome
+esphome:
+  name: '${node_name}'
+  # https://github.com/esphome/feature-requests/issues/2476
+  # https://community.home-assistant.io/t/how-is-friendly-name-supposed-to-behave/542570/9
+  # see more info at https://github.com/jzucker2/goober/blob/master/notes/ESPHOME.md
+#  friendly_name: ${friendly_name}
+#  name_add_mac_suffix: false
+  area: ${area}
+  comment: ${comment}
+  project: !include default_project.yaml
