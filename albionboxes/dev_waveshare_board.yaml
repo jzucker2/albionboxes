@@ -28,6 +28,8 @@ packages:
   albion_boxes_info: !include common/albionboxes_info.yaml
 #  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
 
+# https://blog.wijman.net/e-ink-weather-frame-with-esphome-and-home-assistant/
+
 spi:
   clk_pin: 13
   mosi_pin: 14
