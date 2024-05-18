@@ -1,0 +1,5 @@
+i2c:
+   - id: internal_bus_a
+     sda: GPIO21
+     scl: GPIO22
+     scan: True

@@ -1,0 +1,3 @@
+spi:
+  clk_pin: GPIO13
+  mosi_pin: GPIO15

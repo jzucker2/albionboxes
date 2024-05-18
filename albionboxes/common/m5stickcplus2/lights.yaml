@@ -1,0 +1,10 @@
+light:
+  - platform: monochromatic
+    output:  builtin_led
+    name: ${friendly_name} Led
+    id: led1
+
+  - platform: monochromatic
+    output:  backlight
+    name: ${friendly_name} Backlight
+    id: display_bl

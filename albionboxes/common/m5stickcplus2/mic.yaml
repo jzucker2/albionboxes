@@ -1,0 +1,7 @@
+microphone:
+  - platform: i2s_audio
+    i2s_din_pin: GPIO34
+    i2s_audio_id: bus_i2s
+    adc_type: external
+    pdm: true
+    id: mic
