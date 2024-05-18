@@ -1,6 +1,6 @@
 output:
   - platform: ledc
-    pin: 10
+    pin: 19
     inverted: true
     id: builtin_led
 
