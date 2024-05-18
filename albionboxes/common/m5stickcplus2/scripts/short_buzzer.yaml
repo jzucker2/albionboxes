@@ -11,5 +11,5 @@ script:
       - output.set_level:
           id: buzzer
           level: "50%"
-      - delay: !lambda return delay_ms
+      - delay: !lambda return delay_ms;
       - output.turn_off: buzzer
