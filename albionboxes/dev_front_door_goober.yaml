@@ -2,11 +2,11 @@
 # pattern for naming
 # https://devices.esphome.io/devices/M5Stack-M5StickC-PLUS2
 substitutions:
-  node_name: devm5stickcplus2
-  friendly_name: Dev M5StickC Plus2
+  node_name: devfrontdoorgoober
+  friendly_name: Dev Front Door Goober
   area: Dev
-  comment: "Developing the M5StickC Plus2 for basic usage"
-  box_config_file_name: dev_m5stickcplus2
+  comment: "Developing a M5StickC Plus2 for front door lock control"
+  box_config_file_name: dev_front_door_goober
   front_door_nfc_card_uid: !secret front_door_nfc_card_uid
 
 packages:
@@ -37,9 +37,27 @@ packages:
   external_i2c: !include common/m5stickcplus2/external_i2c.yaml
   short_buzzer_script: !include common/m5stickcplus2/scripts/short_buzzer.yaml
 
+external_components:
+  - source:
+      type: git
+      url: https://github.com/chill-Division/M5Stack-ESPHome/
+      ref: main
+    components: mfrc522_i2c
+
+mfrc522_i2c:
+  i2c_id: external_bus_b
+  address: 0x28 # I2C adress
+  update_interval: 200ms # It seems happiest with 200ms minimum
+  on_tag:
+    then:
+      - logger.log: "Found tag!"
+      - homeassistant.tag_scanned: !lambda 'return x;'
+      - script.execute:
+          id: short_buzzer
+          delay_ms: 750
+
 sensor:
   - <<: !include common/m5stickcplus2/battery_sensor.yaml
-  - <<: !include common/m5stickcplus2/motion_sensor.yaml
 
 binary_sensor:
   # Turn on display backlight while Button A is pressed
@@ -62,3 +80,7 @@ binary_sensor:
         - script.execute:
             id: short_buzzer
             delay_ms: 750
+
+  - platform: rc522
+    uid: "${front_door_nfc_card_uid}"
+    name: "${friendly_name} Front Door NFC Card"
