@@ -46,7 +46,7 @@ binary_sensor:
   - platform: gpio
     pin:
       number: GPIO37
-      inverted: false
+      inverted: true
     name: "${friendly_name} Button A"
     on_release:
       - light.toggle: display_bl
