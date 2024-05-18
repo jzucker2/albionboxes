@@ -34,6 +34,7 @@ packages:
   outputs: !include common/m5stickcplus2/outputs.yaml
   spi: !include common/m5stickcplus2/spi.yaml
   external_i2c: !include common/m5stickcplus2/external_i2c.yaml
+  short_buzzer_script: !include common/m5stickcplus2/scripts/short_buzzer.yaml
 
 external_components:
   - source:
@@ -48,16 +49,11 @@ mfrc522_i2c:
   update_interval: 200ms # It seems happiest with 200ms minimum
   on_tag:
     then:
+      - logger.log: "Found tag!"
       - homeassistant.tag_scanned: !lambda 'return x;'
-      - output.turn_on: buzzer
-      - output.ledc.set_frequency:
-          id: buzzer
-          frequency: "1000Hz"
-      - output.set_level:
-          id: buzzer
-          level: "50%"
-      - delay: 1s
-      - output.turn_off: buzzer
+      - script.execute:
+          id: short_buzzer
+          delay_ms: 750
 
 sensor:
   - <<: !include common/m5stickcplus2/battery_sensor.yaml
@@ -69,32 +65,18 @@ binary_sensor:
     pin:
       number: GPIO37
       inverted: false
-    name: ${friendly_name} Button A
+    name: "${friendly_name} Button A"
     on_release:
       - light.toggle: display_bl
-#    on_press:
-#      then:
-#        - light.turn_on: display_bl
-#    on_release:
-#      then:
-#        - light.turn_off: display_bl
 
   # Play 1000Hz tone through buzzer while Button B is pressed
   - platform: gpio
     pin:
       number: GPIO39
       inverted: true
-    name: ${friendly_name} Button B
-    on_press:
-      then:
-        - output.turn_on: buzzer
-        - output.ledc.set_frequency:
-            id: buzzer
-            frequency: "1000Hz"
-        - output.set_level:
-            id: buzzer
-            level: "50%"
-
+    name: "${friendly_name} Button B"
     on_release:
       then:
-        - output.turn_off: buzzer
+        - script.execute:
+            id: short_buzzer
+            delay_ms: 750

@@ -1,0 +1,15 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: short_buzzer
+    parameters:
+      delay_ms: int
+    then:
+      - output.turn_on: buzzer
+      - output.ledc.set_frequency:
+          id: buzzer
+          frequency: "1000Hz"
+      - output.set_level:
+          id: buzzer
+          level: "50%"
+      - delay: !lambda return delay_ms
+      - output.turn_off: buzzer
