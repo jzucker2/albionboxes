@@ -7,6 +7,7 @@ substitutions:
   area: Dev
   comment: "Developing the M5StickC Plus2 for basic usage"
   box_config_file_name: dev_m5stickcplus2
+  front_door_nfc_card_uid: "5c2f2fbe-9e26-4538-b4aa-3040720288cd"
 
 packages:
   esphome: !include common/m5stickcplus2/m5stickcplus2_esphome.yaml
@@ -80,3 +81,7 @@ binary_sensor:
         - script.execute:
             id: short_buzzer
             delay_ms: 750
+
+  - platform: rc522
+    uid: "${front_door_nfc_card_uid}"
+    name: "${friendly_name} Front Door NFC Card"
