@@ -1,0 +1,9 @@
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: flash_red_light
+    parameters:
+      delay_ms: int
+    then:
+      - output.turn_on: builtin_led
+      - delay: !lambda return delay_ms;
+      - output.turn_off: builtin_led

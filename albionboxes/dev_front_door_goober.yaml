@@ -36,6 +36,8 @@ packages:
   spi: !include common/m5stickcplus2/spi.yaml
   external_i2c: !include common/m5stickcplus2/external_i2c.yaml
   short_buzzer_script: !include common/m5stickcplus2/scripts/short_buzzer.yaml
+  flash_red_light_script: !include common/m5stickcplus2/scripts/flash_red_light.yaml
+  flash_and_buzz_script: !include common/m5stickcplus2/scripts/flash_and_buzz.yaml
 
 external_components:
   - source:
@@ -53,7 +55,7 @@ mfrc522_i2c:
       - logger.log: "Found tag!"
       - homeassistant.tag_scanned: !lambda 'return x;'
       - script.execute:
-          id: short_buzzer
+          id: flash_and_buzz
           delay_ms: 750
 
 sensor:
