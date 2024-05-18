@@ -33,7 +33,31 @@ packages:
   mic: !include common/m5stickcplus2/mic.yaml
   outputs: !include common/m5stickcplus2/outputs.yaml
   spi: !include common/m5stickcplus2/spi.yaml
-#  external_i2c: !include common/m5stickcplus2/external_i2c.yaml
+  external_i2c: !include common/m5stickcplus2/external_i2c.yaml
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/chill-Division/M5Stack-ESPHome/
+      ref: main
+    components: mfrc522_i2c
+
+mfrc522_i2c:
+  i2c_id: external_bus_b
+  address: 0x28 # I2C adress
+  update_interval: 200ms # It seems happiest with 200ms minimum
+  on_tag:
+    then:
+      - homeassistant.tag_scanned: !lambda 'return x;'
+      - output.turn_on: buzzer
+      - output.ledc.set_frequency:
+          id: buzzer
+          frequency: "1000Hz"
+      - output.set_level:
+          id: buzzer
+          level: "50%"
+      - delay: 1s
+      - output.turn_off: buzzer
 
 sensor:
   - <<: !include common/m5stickcplus2/battery_sensor.yaml
