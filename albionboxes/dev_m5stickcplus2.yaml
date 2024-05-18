@@ -7,7 +7,7 @@ substitutions:
   area: Dev
   comment: "Developing the M5StickC Plus2 for basic usage"
   box_config_file_name: dev_m5stickcplus2
-  front_door_nfc_card_uid: !secrets front_door_nfc_card_uid
+  front_door_nfc_card_uid: !secret front_door_nfc_card_uid
 
 packages:
   esphome: !include common/m5stickcplus2/m5stickcplus2_esphome.yaml
