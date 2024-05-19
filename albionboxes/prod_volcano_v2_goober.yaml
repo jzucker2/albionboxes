@@ -1,10 +1,10 @@
 # https://github.com/wifwucite/esphome-ble-controller
 substitutions:
   node_name: volcanov2goober
-  friendly_name: Volcano Goober V2
+  friendly_name: Volcano V2 Goober
   area: Living Room
-  comment: "Trying to run the Volcano goober on a ESP32-S3"
-  box_config_file_name: prod_volcano_goober_v2
+  comment: "Trying to redo the Volcano goober on a ESP32-S3"
+  box_config_file_name: prod_volcano_v2_goober
   # FIXME: need to fill this out a bit
   volcano_mac_address: !secret volcano_mac_address
   autoconnect: "true"
