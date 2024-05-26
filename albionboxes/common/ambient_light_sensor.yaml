@@ -1,0 +1,6 @@
+# https://esphome.io/components/sensor/bh1750.html
+- platform: bh1750
+  name: "${friendly_name} Illuminance"
+  id: ambient_light_sensor
+  address: 0x23
+  update_interval: 60s
