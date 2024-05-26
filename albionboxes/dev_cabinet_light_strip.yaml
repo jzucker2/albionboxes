@@ -7,6 +7,7 @@ substitutions:
   light_strip_data_pin: "22"
 #  light_strip_data_pin: "26"
   light_strip_num_leds: "100"
+  cabinet_light_sensor_update_interval: "1s"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -31,4 +32,4 @@ packages:
   i2c_bus: !include common/default_i2c.yaml
 
 sensor:
-  - <<: !include common/ambient_light_sensor.yaml
+  - <<: !include { file: common/ambient_light_sensor.yaml, vars: { light_sensor_update_interval: "${cabinet_light_sensor_update_interval}" } }

@@ -3,4 +3,4 @@
   name: "${friendly_name} Illuminance"
   id: ambient_light_sensor
   address: 0x23
-  update_interval: 1s
+  update_interval: "${light_sensor_update_interval}"
