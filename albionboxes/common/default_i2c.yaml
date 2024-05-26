@@ -1,4 +1,5 @@
 # https://esphome.io/components/i2c.html
+# https://www.aliexpress.us/item/3256803586230219.html
 i2c:
   - id: grove
     sda: GPIO26

@@ -28,6 +28,7 @@ packages:
   albion_boxes_info: !include common/albionboxes_info.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
   light_strip: !include { file: common/light_strip.yaml, vars: { light_data_pin: "${light_strip_data_pin}", num_leds: "${light_strip_num_leds}" } }
+  i2c_bus: !include common/default_i2c.yaml
 
 sensor:
   - <<: !include common/ambient_light_sensor.yaml
