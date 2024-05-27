@@ -8,10 +8,12 @@ substitutions:
   choc_light_strip_id: "chocolate_light_strip"
   choc_light_strip_data_pin: "22"
   choc_light_strip_rmt_channel: "0"
+  choc_light_strip_icon: "mdi:led-strip-variant"
   snack_light_strip_name: "Snack"
   snack_light_strip_id: "snack_light_strip"
   snack_light_strip_data_pin: "23"
   snack_light_strip_rmt_channel: "1"
+  snack_light_strip_icon: "mdi:led-strip"
 #  light_strip_data_pin: "26"
   # 26 for 2 long sides and 19 for the short side
   light_strip_num_leds: "71"
@@ -42,5 +44,5 @@ sensor:
   - <<: !include { file: common/ambient_light_sensor.yaml, vars: { light_sensor_update_interval: "${cabinet_light_sensor_update_interval}" } }
 
 light:
-  - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${choc_light_strip_name}", led_strip_id: "${choc_light_strip_id}", light_data_pin: "${choc_light_strip_data_pin}", rmt_channel: "${choc_light_strip_rmt_channel}", num_leds: "${light_strip_num_leds}" } }
-  - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${snack_light_strip_name}", led_strip_id: "${snack_light_strip_id}", light_data_pin: "${snack_light_strip_data_pin}", rmt_channel: "${snack_light_strip_rmt_channel}", num_leds: "${light_strip_num_leds}" } }
+  - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${choc_light_strip_name}", led_strip_id: "${choc_light_strip_id}", light_data_pin: "${choc_light_strip_data_pin}", rmt_channel: "${choc_light_strip_rmt_channel}", led_strip_icon: "${choc_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
+  - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${snack_light_strip_name}", led_strip_id: "${snack_light_strip_id}", light_data_pin: "${snack_light_strip_data_pin}", rmt_channel: "${snack_light_strip_rmt_channel}", led_strip_icon: "${snack_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }

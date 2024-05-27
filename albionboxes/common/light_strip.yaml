@@ -10,6 +10,7 @@
   restore_mode: RESTORE_DEFAULT_OFF
   chipset: SK6812
   id: "${led_strip_id}"
+  icon: "${led_strip_icon}"
   name: "${friendly_name} ${led_strip_name} Light Strip"
 #  name: "${led_strip_name} Light Strip"
   effects:
