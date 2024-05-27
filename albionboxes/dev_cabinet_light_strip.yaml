@@ -6,8 +6,8 @@ substitutions:
   box_config_file_name: dev_cabinet_light_strip
   light_strip_data_pin: "22"
 #  light_strip_data_pin: "26"
-  # 26 for 2 long sides and
-  light_strip_num_leds: "26"
+  # 26 for 2 long sides and 19 for the short side
+  light_strip_num_leds: "71"
   cabinet_light_sensor_update_interval: "1s"
 
 packages:
