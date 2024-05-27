@@ -39,6 +39,12 @@ output:
     id: fan_motor
     inverted: false
 
+# https://esphome.io/components/fan/speed.html
+fan:
+  - platform: speed
+    output: fan_motor
+    name: "${friendly_name} Fan"
+
 # TODO: make fan speed variable
 
 # template switch
