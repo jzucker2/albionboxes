@@ -6,10 +6,10 @@ substitutions:
   box_config_file_name: dev_light_strip
   light_strip_name: "RGBW"
   light_strip_id: "dev_light_strip"
-  light_strip_data_pin: "22"
   light_strip_rmt_channel: "0"
   light_strip_icon: "mdi:led-strip-variant"
-#  light_strip_data_pin: "26"
+#  light_strip_data_pin: "22"
+  light_strip_data_pin: "26"
   light_strip_num_leds: "50"
 
 packages:
