@@ -10,8 +10,8 @@
   restore_mode: RESTORE_DEFAULT_OFF
   chipset: SK6812
   id: "${led_strip_id}"
-#  name: "${friendly_name} ${led_strip_name} Light Strip"
-  name: "${led_strip_name} Light Strip"
+  name: "${friendly_name} ${led_strip_name} Light Strip"
+#  name: "${led_strip_name} Light Strip"
   effects:
     - random:
     - flicker:
