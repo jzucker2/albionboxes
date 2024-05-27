@@ -1,24 +1,24 @@
 # https://esphome.io/components/light/esp32_rmt_led_strip
 # https://esphome.io/components/light/
 # intended for https://www.amazon.com/gp/product/B079ZW1265
-light:
-  - platform: esp32_rmt_led_strip
-    rgb_order: GRB
-    pin: "${light_data_pin}"
-    num_leds: "${num_leds}"
-    is_rgbw: true
-    restore_mode: RESTORE_DEFAULT_OFF
-    rmt_channel: 0
-    chipset: SK6812
-    id: "${led_strip_id}"
-    name: "${friendly_name} ${led_strip_name} Light Strip"
-    effects:
-      - random:
-      - flicker:
-      - addressable_rainbow:
-      - addressable_scan:
-      - addressable_color_wipe:
-      - addressable_twinkle:
-      - addressable_random_twinkle:
-      - addressable_fireworks:
-      - addressable_flicker:
+- platform: esp32_rmt_led_strip
+  rgb_order: GRB
+  pin: "${light_data_pin}"
+  rmt_channel: "${rmt_channel}"
+  num_leds: "${num_leds}"
+  is_rgbw: true
+  restore_mode: RESTORE_DEFAULT_OFF
+  chipset: SK6812
+  id: "${led_strip_id}"
+#  name: "${friendly_name} ${led_strip_name} Light Strip"
+  name: "${led_strip_name} Light Strip"
+  effects:
+    - random:
+    - flicker:
+    - addressable_rainbow:
+    - addressable_scan:
+    - addressable_color_wipe:
+    - addressable_twinkle:
+    - addressable_random_twinkle:
+    - addressable_fireworks:
+    - addressable_flicker:
