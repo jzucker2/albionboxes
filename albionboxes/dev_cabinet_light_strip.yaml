@@ -7,11 +7,8 @@ substitutions:
   choc_light_strip_name: "Chocolate"
   choc_light_strip_id: "chocolate_light_strip"
   choc_light_strip_data_pin: "22"
-  snack_light_strip_name: "Snack"
-  snack_light_strip_id: "snack_light_strip"
-  snack_light_strip_data_pin: "23"
-
-#  light_strip_data_pin: "26"
+  choc_light_strip_rmt_channel: "0"
+  choc_light_strip_icon: "mdi:led-strip-variant"
   # 26 for 2 long sides and 19 for the short side
   light_strip_num_leds: "71"
   cabinet_light_sensor_update_interval: "1s"
@@ -35,9 +32,7 @@ packages:
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
-  choc_light_strip: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${choc_light_strip_name}", led_strip_id: "${choc_light_strip_id}", light_data_pin: "${choc_light_strip_data_pin}", num_leds: "${light_strip_num_leds}" } }
-#  snack_light_strip: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${snack_light_strip_name}", led_strip_id: "${snack_light_strip_id}", light_data_pin: "${snack_light_strip_data_pin}", num_leds: "${light_strip_num_leds}" } }
   i2c_bus: !include common/default_i2c.yaml
 
-sensor:
-  - <<: !include { file: common/ambient_light_sensor.yaml, vars: { light_sensor_update_interval: "${cabinet_light_sensor_update_interval}" } }
+light:
+  - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${choc_light_strip_name}", led_strip_id: "${choc_light_strip_id}", light_data_pin: "${choc_light_strip_data_pin}", rmt_channel: "${choc_light_strip_rmt_channel}", led_strip_icon: "${choc_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
