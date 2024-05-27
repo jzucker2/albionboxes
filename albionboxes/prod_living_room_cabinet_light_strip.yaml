@@ -1,16 +1,15 @@
 substitutions:
-  node_name: devcabinetlightstrip
-  friendly_name: Dev Cabinet Light Strip
-  area: Dev
-  comment: "This is the first dev build out for a proper cabinet light"
-  box_config_file_name: dev_cabinet_light_strip
+  node_name: lrcabinetlightstrip
+  friendly_name: Living Room Cabinet Light Strip
+  area: Living Room
+  comment: "This powers a light strip in the living room snack and chocolate cabinet"
+  box_config_file_name: prod_living_room_cabinet_light_strip
   choc_light_strip_name: "Chocolate"
   choc_light_strip_id: "chocolate_light_strip"
   choc_light_strip_data_pin: "22"
   snack_light_strip_name: "Snack"
   snack_light_strip_id: "snack_light_strip"
   snack_light_strip_data_pin: "23"
-
 #  light_strip_data_pin: "26"
   # 26 for 2 long sides and 19 for the short side
   light_strip_num_leds: "71"
