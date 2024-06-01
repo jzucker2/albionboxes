@@ -17,6 +17,7 @@ substitutions:
   # 26 for 2 long sides and 19 for the short side
   light_strip_num_leds: "71"
   cabinet_light_sensor_update_interval: "1s"
+  atom_button_bin: "39"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -45,3 +46,16 @@ sensor:
 light:
   - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${choc_light_strip_name}", led_strip_id: "${choc_light_strip_id}", light_data_pin: "${choc_light_strip_data_pin}", rmt_channel: "${choc_light_strip_rmt_channel}", led_strip_icon: "${choc_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
   - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${snack_light_strip_name}", led_strip_id: "${snack_light_strip_id}", light_data_pin: "${snack_light_strip_data_pin}", rmt_channel: "${snack_light_strip_rmt_channel}", led_strip_icon: "${snack_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: ${atom_button_bin}
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "${friendly_name} Button tapped"
+        - light.toggle: "${choc_light_strip_id}"
+        - light.toggle: "${snack_light_strip_id}"
+        - logger.log: "Done with ${friendly_name} button tapped!"
