@@ -4,6 +4,8 @@ substitutions:
   area: Dev
   comment: "This is the first dev device for using a reed switch"
   box_config_file_name: dev_reed_switch_sensor
+#  reed_switch_pin: "GPIO33"
+  reed_switch_pin: "26"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -23,7 +25,6 @@ packages:
   internal_temp: !include common/internal_temp.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
-  i2c: !include common/default_i2c.yaml
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
 
 binary_sensor:
@@ -31,6 +32,6 @@ binary_sensor:
   - platform: gpio
     name: "${friendly_name} Reed Switch"
     pin:
-      number: GPIO33
+      number: "${reed_switch_pin}"
       mode: INPUT_PULLUP
       inverted: true
