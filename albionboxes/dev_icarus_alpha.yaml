@@ -38,13 +38,14 @@ uart:
 
 # https://esphome.io/components/modbus
 modbus:
+  id: modbus_1
   uart_id: modbus_uart
 
 # https://esphome.io/components/modbus_controller.html
 modbus_controller:
 - id: modbus_device
   address: "${modbus_controller_address}"   ## address of the Modbus slave device on the bus
-  modbus_id: modbus1
+  modbus_id: modbus_1
   setup_priority: -10
 
 sensor:
