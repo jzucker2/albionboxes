@@ -1,12 +1,13 @@
 # based around https://community.home-assistant.io/t/modbus-data-from-sma-inverter/122425/229?page=9
 # https://community.home-assistant.io/t/best-way-to-connect-sma-sb-4000tl-20-to-ha/390754
+# https://files.sma.de/downloads/EDMx-Modbus-TI-en-16.pdf
 substitutions:
   node_name: devicarusalpha
   friendly_name: Dev Icarus Alpha
   area: Dev
   comment: "This is the first dev device for interacting with Icarus"
   box_config_file_name: dev_icarus_alpha
-  uart_baud_rate: "115200"
+  uart_baud_rate: "1200"
   modbus_controller_address: "0x1"
 
 packages:
@@ -53,6 +54,7 @@ sensor:
   modbus_controller_id: modbus_device
   name: "Battery Capacity"
   register_type: holding
-  address: 0x9001    ## address of the register inside the Modbus slave device
+#  address: 0x9001    ## address of the register inside the Modbus slave device
+  address: 30001
   unit_of_measurement: "AH"
-  value_type: U_WORD
+  value_type: U_DWORD
