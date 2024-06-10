@@ -28,7 +28,7 @@ packages:
   button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
 
 binary_sensor:
-  # Reports when the reed switch from GPIO04 to GND is sensing a magnet and the door is closed.
+  # - pin is ground, middle pin is vcc, and right S pin is signal for binary_sensor
   - platform: gpio
     name: "${friendly_name} Hall Sensor"
     pin:
