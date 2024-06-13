@@ -6,11 +6,12 @@ substitutions:
   box_config_file_name: prod_media_console_light_strip
   edge_light_strip_name: "Edge"
   edge_light_strip_id: "edge_light_strip"
-  edge_light_strip_data_pin: "19"
+  edge_light_strip_data_pin: "22"
   edge_light_strip_rmt_channel: "0"
   edge_light_strip_icon: "mdi:led-strip-variant"
   # 33 for 2 short sides and 69 for the long side
-  light_strip_num_leds: "135"
+#  light_strip_num_leds: "135"
+  light_strip_num_leds: "33"
   cabinet_light_sensor_update_interval: "1s"
   atom_button_bin: "39"
   red_button_name: "Snack"
