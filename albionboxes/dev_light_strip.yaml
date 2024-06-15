@@ -10,7 +10,7 @@ substitutions:
   light_strip_icon: "mdi:led-strip-variant"
 #  light_strip_data_pin: "22"
   light_strip_data_pin: "26"
-  light_strip_num_leds: "50"
+  light_strip_num_leds: "70"
 
 packages:
   esphome: !include common/default_esphome.yaml
