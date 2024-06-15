@@ -9,8 +9,8 @@ substitutions:
   edge_light_strip_data_pin: "26"
   edge_light_strip_rmt_channel: "0"
   edge_light_strip_icon: "mdi:led-strip-variant"
-  # 33 for 2 short sides and 69 for the long side
-  light_strip_num_leds: "135"
+  # 33 x 2 for vertical sides and 27 x 2 for the horizontal side
+  light_strip_num_leds: "120"
 #  light_strip_num_leds: "33"
   cabinet_light_sensor_update_interval: "1s"
   atom_button_bin: "39"
