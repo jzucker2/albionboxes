@@ -17,7 +17,7 @@ substitutions:
   # 26 for 2 long sides and 19 for the short side
   light_strip_num_leds: "71"
   cabinet_light_sensor_update_interval: "1s"
-  atom_button_bin: "39"
+  atom_button_pin: "39"
   red_button_name: "Snack"
   red_button_pin: "23"
   blue_button_name: "Chocolate"
@@ -54,7 +54,7 @@ binary_sensor:
   # built in button
   - platform: gpio
     pin:
-      number: "${atom_button_bin}"
+      number: "${atom_button_pin}"
       inverted: true
     name: "${friendly_name} Button"
     on_release:
