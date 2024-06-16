@@ -9,12 +9,6 @@ substitutions:
   comment: "This is for testing out the AtomEcho Mic"
   box_config_file_name: dev_echo_mic
   onboard_light_id: "atom_light"
-  timer_script_mode: restart
-  # FIXME: make this dynamic
-  media_file: !secret gaggia_timer_alarm_media_file_path
-  # we want 19 because there's a ~1s delay right now and ultimate goal is ~20s
-  timer_length: "19"
-  expiration_light_delay: "3s"
 
 packages:
   # Not using default so we can turn off the light on boot
