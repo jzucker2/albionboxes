@@ -1,3 +1,4 @@
+# https://github.com/esphome/firmware/blob/main/voice-assistant/m5stack-atom-echo.yaml
 # https://esphome.io/components/microphone/
 microphone:
   - platform: i2s_audio

@@ -1,0 +1,54 @@
+# https://community.home-assistant.io/t/example-m5stack-atom-matrix-with-led-matrix-effect-no-home-assistant/298419
+# https://community.home-assistant.io/t/esphome-switch/494042
+# https://esphome.io/guides/automations.html#timers-and-timeouts
+# https://karlquinsland.com/esphome-dynamic-timer/
+substitutions:
+  node_name: devechomic
+  friendly_name: "Dev AtomEcho Mic"
+  area: Dev
+  comment: "This is for testing out the AtomEcho Mic"
+  box_config_file_name: dev_echo_mic
+  onboard_light_id: "atom_light"
+  timer_script_mode: restart
+  # FIXME: make this dynamic
+  media_file: !secret gaggia_timer_alarm_media_file_path
+  # we want 19 because there's a ~1s delay right now and ultimate goal is ~20s
+  timer_length: "19"
+  expiration_light_delay: "3s"
+
+packages:
+  # Not using default so we can turn off the light on boot
+  esphome: !include common/gaggia_timer_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  i2s_audio: !include common/i2s_audio.yaml
+#  media_player: !include common/media_player.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  microphone: !include common/microphone.yaml
+
+## Device-specific
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      # pin can ghost on sometimes https://community.m5stack.com/topic/3955/atom-button-at-gpio39-without-pullup/4
+      number: GPIO39
+      inverted: true
+    name: ${friendly_name} Button
+    publish_initial_state: false
+    on_press:
+      - logger.log: "Button pressed, begin custom actions"
+      - logger.log: "Done with custom button actions"
