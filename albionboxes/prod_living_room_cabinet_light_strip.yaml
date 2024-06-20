@@ -63,7 +63,7 @@ button:
           id: turn_on_white_lights
   - platform: template
     name: "${friendly_name} Turn Off Lights"
-    id: turn_off_white_lights_button
+    id: turn_off_lights_button
     icon: "mdi:emoticon-outline"
     on_press:
       - logger.log: "${friendly_name} Virtual Button pressed"
