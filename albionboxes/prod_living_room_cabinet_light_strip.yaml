@@ -50,6 +50,21 @@ light:
   - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${choc_light_strip_name}", led_strip_id: "${choc_light_strip_id}", light_data_pin: "${choc_light_strip_data_pin}", rmt_channel: "${choc_light_strip_rmt_channel}", led_strip_icon: "${choc_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
   - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${snack_light_strip_name}", led_strip_id: "${snack_light_strip_id}", light_data_pin: "${snack_light_strip_data_pin}", rmt_channel: "${snack_light_strip_rmt_channel}", led_strip_icon: "${snack_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
 
+# https://esphome.io/components/button/index.html
+button:
+  - platform: template
+    name: "${friendly_name} Toggle White Lights"
+    id: toggle_white_lights_button
+    icon: "mdi:emoticon-outline"
+    on_press:
+      - logger.log: "${friendly_name} Virtual Button pressed"
+      - script.execute:
+          id: toggle_basic_light
+          light_id: "${choc_light_strip_id}"
+      - script.execute:
+          id: toggle_basic_light
+          light_id: "${snack_light_strip_id}"
+
 # https://esphome.io/guides/automations.html#script-component
 script:
   - id: toggle_basic_light
