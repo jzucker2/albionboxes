@@ -50,6 +50,78 @@ light:
   - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${choc_light_strip_name}", led_strip_id: "${choc_light_strip_id}", light_data_pin: "${choc_light_strip_data_pin}", rmt_channel: "${choc_light_strip_rmt_channel}", led_strip_icon: "${choc_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
   - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${snack_light_strip_name}", led_strip_id: "${snack_light_strip_id}", light_data_pin: "${snack_light_strip_data_pin}", rmt_channel: "${snack_light_strip_rmt_channel}", led_strip_icon: "${snack_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
 
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: toggle_basic_light
+    parameters:
+      light_id: string
+    then:
+      - lambda: |-
+          if (id(light_id).state) {
+            // Switch is ON, do something here
+            id(light_id).publish_state(false);
+          } else {
+            // Switch is OFF, do something else here
+            id(light_id).publish_state(true);
+          }
+      - log.logger: 'Done with basic light toggle'
+
+  - id: toggle_white_light
+    parameters:
+      light_id: string
+    then:
+      - lambda: |-
+          if (id(light_id).state) {
+            // Switch is ON, do something here
+            auto call = id(light_id).turn_off();
+            // set parameters (optional)
+            call.set_transition_length(1000); // in ms
+            // perform action:
+            call.perform();
+          } else {
+            // Switch is OFF, do something else here
+            auto call = id(light_id).turn_on();
+            // set parameters (optional)
+            call.set_transition_length(1000); // in ms
+            call.set_brightness(1.0); // 1.0 is full brightness
+            call.set_color_mode(ColorMode::RGB_COLD_WARM_WHITE);
+            call.set_rgb(0.5, 0.25, 1.0); // color in RGB order, this example is purple
+            call.set_cold_white(0.5);
+            call.set_warm_white(0.75);
+            call.set_effect("The Effect");
+            // perform action:
+            call.perform();
+          }
+      - log.logger: 'Done with white light toggle'
+
+  - id: toggle_color_effect_light
+    parameters:
+      light_id: string
+    then:
+      - lambda: |-
+          if (id(light_id).state) {
+            // Switch is ON, do something here
+            auto call = id(light_id).turn_off();
+            // set parameters (optional)
+            call.set_transition_length(1000); // in ms
+            // perform action:
+            call.perform();
+          } else {
+            // Switch is OFF, do something else here
+            auto call = id(light_id).turn_on();
+            // set parameters (optional)
+            call.set_transition_length(1000); // in ms
+            call.set_brightness(1.0); // 1.0 is full brightness
+            call.set_color_mode(ColorMode::RGB_COLD_WARM_WHITE);
+            call.set_rgb(0.5, 0.25, 1.0); // color in RGB order, this example is purple
+            call.set_cold_white(0.5);
+            call.set_warm_white(0.75);
+            call.set_effect("The Effect");
+            // perform action:
+            call.perform();
+          }
+      - log.logger: 'Done with color effect light toggle'
+
 binary_sensor:
   # built in button
   - platform: gpio
@@ -60,8 +132,12 @@ binary_sensor:
     on_release:
       then:
         - logger.log: "${friendly_name} Button tapped"
-        - light.toggle: "${choc_light_strip_id}"
-        - light.toggle: "${snack_light_strip_id}"
+        - script.execute:
+            id: toggle_basic_light
+            light_id: "${choc_light_strip_id}"
+        - script.execute:
+            id: toggle_basic_light
+            light_id: "${snack_light_strip_id}"
         - logger.log: "Done with ${friendly_name} button tapped!"
   # extended buttons
   - platform: gpio
@@ -72,7 +148,9 @@ binary_sensor:
     on_press:
       then:
         - logger.log: "Red Button Clicked"
-        - light.toggle: "${snack_light_strip_id}"
+        - script.execute:
+            id: toggle_basic_light
+            light_id: "${snack_light_strip_id}"
 
   - platform: gpio
     pin:
@@ -82,4 +160,6 @@ binary_sensor:
     on_press:
       then:
         - logger.log: "Blue Button Clicked"
-        - light.toggle: "${choc_light_strip_id}"
+        - script.execute:
+            id: toggle_basic_light
+            light_id: "${choc_light_strip_id}"
