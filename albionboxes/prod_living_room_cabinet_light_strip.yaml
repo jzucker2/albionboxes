@@ -22,7 +22,7 @@ substitutions:
   red_button_pin: "23"
   blue_button_name: "Chocolate"
   blue_button_pin: "33"
-  default_turn_on_color_effect: "addressable_rainbow"
+  default_turn_on_color_effect: "Rainbow"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -60,7 +60,7 @@ button:
     on_press:
       - logger.log: "${friendly_name} Virtual Button pressed"
       - script.execute:
-          id: turn_on_white_lights
+          id: turn_on_good_white_lights
   - platform: template
     name: "${friendly_name} Turn Off Lights"
     id: turn_off_lights_button
@@ -88,7 +88,8 @@ script:
           id: "${snack_light_strip_id}"
       - logger.log: 'Done with turn off lights'
 
-  - id: turn_on_white_lights
+  # I don't actually like this look, it's kind of purple for some reason
+  - id: turn_on_actual_white_lights
     then:
       - light.turn_on:
           id: "${choc_light_strip_id}"
@@ -104,6 +105,29 @@ script:
           color_mode: WHITE
 #          color_mode: RGB_WHITE
           white: 1.0
+      - logger.log: 'Done with turn on white lights'
+
+  # I **actually** like this look better than true white
+  - id: turn_on_good_white_lights
+    then:
+      - light.turn_on:
+          id: "${choc_light_strip_id}"
+          transition_length: 500ms
+          brightness: 1.0 # 1.0 is full brightness
+          color_mode: RGB_WHITE
+          # the following is purple
+          red: 1.0
+          green: 1.0
+          blue: 0.98
+#          effect: "${default_turn_on_color_effect}"
+      - light.turn_on:
+          id: "${snack_light_strip_id}"
+          transition_length: 500ms
+          brightness: 1.0 # 1.0 is full brightness
+          color_mode: RGB_WHITE
+          red: 1.0
+          green: 1.0
+          blue: 0.98
       - logger.log: 'Done with turn on white lights'
 
   - id: turn_on_color_lights
