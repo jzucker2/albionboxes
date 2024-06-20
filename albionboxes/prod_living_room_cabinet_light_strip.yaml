@@ -54,7 +54,7 @@ light:
 # https://esphome.io/components/button/index.html
 button:
   - platform: template
-    name: "${friendly_name} Turn On White Lights"
+    name: "${friendly_name} White Lights On"
     id: turn_on_white_lights_button
     icon: "mdi:emoticon-outline"
     on_press:
@@ -70,7 +70,7 @@ button:
       - script.execute:
           id: turn_off_lights
   - platform: template
-    name: "${friendly_name} Turn on Color Lights"
+    name: "${friendly_name} Color Lights On"
     id: turn_on_color_lights_button
     icon: "mdi:emoticon-outline"
     on_press:
@@ -95,11 +95,15 @@ script:
           transition_length: 500ms
           brightness: 1.0 # 1.0 is full brightness
           color_mode: WHITE
+#          color_mode: RGB_WHITE
+          white: 1.0
       - light.turn_on:
           id: "${snack_light_strip_id}"
           transition_length: 500ms
           brightness: 1.0 # 1.0 is full brightness
           color_mode: WHITE
+#          color_mode: RGB_WHITE
+          white: 1.0
       - logger.log: 'Done with turn on white lights'
 
   - id: turn_on_color_lights
@@ -107,24 +111,24 @@ script:
       - light.turn_on:
           id: "${choc_light_strip_id}"
           brightness: 1.0 # 1.0 is full brightness
-          color_mode: RGB_COLD_WARM_WHITE
+          color_mode: RGB_WHITE
           # the following is purple
           red: 0.5
           green: 0.25
           blue: 1.0
-          cold_white: 0.5
-          warm_white: 0.75
+#          cold_white: 0.5
+#          warm_white: 0.75
           effect: "${default_turn_on_color_effect}"
       - light.turn_on:
           id: "${snack_light_strip_id}"
           brightness: 1.0 # 1.0 is full brightness
-          color_mode: RGB_COLD_WARM_WHITE
+          color_mode: RGB_WHITE
           # the following is purple
           red: 0.5
           green: 0.25
           blue: 1.0
-          cold_white: 0.5
-          warm_white: 0.75
+#          cold_white: 0.5
+#          warm_white: 0.75
           effect: "${default_turn_on_color_effect}"
       - logger.log: 'Done with turn on color lights'
 
