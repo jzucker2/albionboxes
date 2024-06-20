@@ -110,7 +110,6 @@ script:
     then:
       - light.turn_on:
           id: "${choc_light_strip_id}"
-          transition_length: 500ms
           brightness: 1.0 # 1.0 is full brightness
           color_mode: RGB_WHITE
           # the following is actually white
@@ -118,9 +117,9 @@ script:
           green: 1.0
           blue: 0.98
           white: 1.0
+          effect: None
       - light.turn_on:
           id: "${snack_light_strip_id}"
-          transition_length: 500ms
           brightness: 1.0 # 1.0 is full brightness
           color_mode: RGB_WHITE
           # the following is actually white
@@ -128,6 +127,7 @@ script:
           green: 1.0
           blue: 0.98
           white: 1.0
+          effect: None
       - logger.log: 'Done with turn on white lights'
 
   - id: turn_on_color_lights
