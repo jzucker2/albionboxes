@@ -96,14 +96,12 @@ script:
           transition_length: 500ms
           brightness: 1.0 # 1.0 is full brightness
           color_mode: WHITE
-#          color_mode: RGB_WHITE
           white: 1.0
       - light.turn_on:
           id: "${snack_light_strip_id}"
           transition_length: 500ms
           brightness: 1.0 # 1.0 is full brightness
           color_mode: WHITE
-#          color_mode: RGB_WHITE
           white: 1.0
       - logger.log: 'Done with turn on white lights'
 
@@ -115,19 +113,21 @@ script:
           transition_length: 500ms
           brightness: 1.0 # 1.0 is full brightness
           color_mode: RGB_WHITE
-          # the following is purple
+          # the following is actually white
           red: 1.0
           green: 1.0
           blue: 0.98
-#          effect: "${default_turn_on_color_effect}"
+          white: 1.0
       - light.turn_on:
           id: "${snack_light_strip_id}"
           transition_length: 500ms
           brightness: 1.0 # 1.0 is full brightness
           color_mode: RGB_WHITE
+          # the following is actually white
           red: 1.0
           green: 1.0
           blue: 0.98
+          white: 1.0
       - logger.log: 'Done with turn on white lights'
 
   - id: turn_on_color_lights
@@ -140,8 +140,7 @@ script:
           red: 0.5
           green: 0.25
           blue: 1.0
-#          cold_white: 0.5
-#          warm_white: 0.75
+          white: 0
           effect: "${default_turn_on_color_effect}"
       - light.turn_on:
           id: "${snack_light_strip_id}"
@@ -151,8 +150,7 @@ script:
           red: 0.5
           green: 0.25
           blue: 1.0
-#          cold_white: 0.5
-#          warm_white: 0.75
+          white: 0
           effect: "${default_turn_on_color_effect}"
       - logger.log: 'Done with turn on color lights'
 
