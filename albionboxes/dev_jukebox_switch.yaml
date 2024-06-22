@@ -6,8 +6,8 @@ substitutions:
   box_config_file_name: dev_jukebox_switch
   relay_1_pin: GPIO22
   relay_2_pin: GPIO19
-#  turntable_spin_script_delay_seconds: "1200" # 60s*20m
-  turntable_spin_script_delay_seconds: "10" # 60s*20m
+  turntable_spin_script_delay_seconds: "1200" # 60s*20m
+#  turntable_spin_script_delay_seconds: "10" # 60s*20m
 
 packages:
   esphome: !include common/default_esphome.yaml
