@@ -38,18 +38,26 @@ script:
     parameters:
       delay_seconds: int
     then:
-      - logger.log: "Start turntable motor with timer countdown"
-      - lambda: |-
-          ESP_LOGD("turntable_motor_timer_script", "First turn on switch");
-      - switch.turn_on: turntable_motor_relay
-      - lambda: |-
-          ESP_LOGD("turntable_motor_timer_script", "Now count down delay_seconds: %d", delay_seconds);
-      # The param delay_seconds is accessible using a lambda
-      - delay: !lambda return (1000 * delay_seconds);
-      - lambda: |-
-          ESP_LOGD("turntable_motor_timer_script", "Timer done and %d has elapsed, stop turntable", delay_seconds);
-      - switch.turn_off: turntable_motor_relay
-      - logger.log: "Fully done with turntable timer script!"
+      - if:
+          condition:
+            switch.is_off: enable_motor_switch
+          then:
+            - lambda: |-
+                ESP_LOGD("turntable_motor_timer_script", "Skipping real work because motor is off");
+          else:
+            # Here we do the real script work
+            - logger.log: "Start turntable motor with timer countdown"
+            - lambda: |-
+                ESP_LOGD("turntable_motor_timer_script", "First turn on switch");
+            - switch.turn_on: turntable_motor_relay
+            - lambda: |-
+                ESP_LOGD("turntable_motor_timer_script", "Now count down delay_seconds: %d", delay_seconds);
+            # The param delay_seconds is accessible using a lambda
+            - delay: !lambda return (1000 * delay_seconds);
+            - lambda: |-
+                ESP_LOGD("turntable_motor_timer_script", "Timer done and %d has elapsed, stop turntable", delay_seconds);
+            - switch.turn_off: turntable_motor_relay
+            - logger.log: "Fully done with turntable timer script!"
 
 # https://devices.esphome.io/devices/Generic-Relay
 switch:
@@ -61,6 +69,28 @@ switch:
     name: "${friendly_name} Relay 2"
     id: relay_2
     pin: ${relay_2_pin}
+
+  # https://esphome.io/components/switch/template.html
+  - platform: template
+    name: "${friendly_name} Enable Motor Switch"
+    id: enable_motor_switch
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    assumed_state: true
+    turn_off_action:
+      - switch.turn_off: turntable_motor_relay
+
+# https://esphome.io/components/button/index.html
+button:
+  - platform: template
+    name: "${friendly_name} Spin Turntable Timer Script"
+    id: spin_turntable_timer_script_button
+    icon: "mdi:emoticon-outline"
+    on_press:
+      - logger.log: "${friendly_name} Virtual Button pressed"
+      - script.execute:
+          id: spin_turntable_timer_script
+          delay_seconds: "${turntable_spin_script_delay_seconds}"
 
 binary_sensor:
   - platform: gpio
