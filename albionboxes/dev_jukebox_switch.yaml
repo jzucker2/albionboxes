@@ -76,7 +76,7 @@ switch:
     id: enable_motor_switch
     restore_mode: RESTORE_DEFAULT_ON
     optimistic: true
-    assumed_state: true
+    assumed_state: false
     turn_off_action:
       - switch.turn_off: turntable_motor_relay
 
