@@ -6,6 +6,8 @@ substitutions:
   box_config_file_name: dev_jukebox_switch
   relay_1_pin: GPIO22
   relay_2_pin: GPIO19
+#  turntable_spin_script_delay_seconds: "1200" # 60s*20m
+  turntable_spin_script_delay_seconds: "10" # 60s*20m
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -29,11 +31,57 @@ packages:
 
 ## Device-specific
 
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: spin_turntable_timer_script
+    mode: restart
+    parameters:
+      delay_seconds: int
+    then:
+      - logger.log: "Start turntable motor with timer countdown"
+      - lambda: |-
+          ESP_LOGD("turntable_motor_timer_script", "First turn on switch");
+      - switch.turn_on: turntable_motor_relay
+      - lambda: |-
+          ESP_LOGD("turntable_motor_timer_script", "Now count down delay_seconds: %d", delay_seconds);
+      # The param delay_seconds is accessible using a lambda
+      - delay: !lambda return (1000 * delay_seconds);
+      - lambda: |-
+          ESP_LOGD("turntable_motor_timer_script", "Timer done and %d has elapsed, stop turntable", delay_seconds);
+      - switch.turn_off: turntable_motor_relay
+      - logger.log: "Fully done with turntable timer script!"
+
 # https://devices.esphome.io/devices/Generic-Relay
 switch:
   - platform: gpio
     name: "${friendly_name} Relay 1"
+    id: turntable_motor_relay
     pin: ${relay_1_pin}
   - platform: gpio
     name: "${friendly_name} Relay 2"
+    id: relay_2
     pin: ${relay_2_pin}
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 26
+      inverted: true
+    name: "${friendly_name} Red Button"
+    on_press:
+      then:
+        - logger.log: "Red Button Clicked"
+        - script.stop: spin_turntable_timer_script
+        - switch.turn_off: turntable_motor_relay
+
+  - platform: gpio
+    pin:
+      number: 32
+      inverted: true
+    name: "${friendly_name} Blue Button"
+    on_press:
+      then:
+        - logger.log: "Blue Button Clicked"
+        - script.execute:
+            id: spin_turntable_timer_script
+            delay_seconds: "${turntable_spin_script_delay_seconds}"
