@@ -5,10 +5,9 @@ substitutions:
   comment: "For controlling the ShowerSpeakerz direct playing playlists to them"
   box_config_file_name: prod_full_bath_shower_speakerz_buttons_v2
   rufus_url: !secret rufus_url
-  media_id: "spotify://playlist/3vu293xS1ylb47xzKYLHTE"
-  target_device_id: "734c8ec57cac79d8899f1e2b7d95b9af"
+  media_id: "spotify://album/2AlPRfYeskAMxhJS00xjeP"
+  media_type: "album"
   target_device_entity_id: "media_player.showerspeakerz_upnp_2"
-
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -55,7 +54,6 @@ binary_sensor:
         - homeassistant.service:
             service: media_player.turn_off
             data:
-#              device_id: "${target_device_id}"
               entity_id: "${target_device_entity_id}"
         - logger.log: "Red Button Clicked done"
 
@@ -77,7 +75,6 @@ binary_sensor:
             service: mass.play_media
             data:
               entity_id: "${target_device_entity_id}"
-#              device_id: "${target_device_id}"
               media_id: "${media_id}"
-              media_type: playlist
+              media_type: "${media_type}"
         - logger.log: "Blue Button Clicked done"

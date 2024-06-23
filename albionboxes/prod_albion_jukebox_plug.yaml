@@ -10,6 +10,10 @@ substitutions:
   comment: "This is the prototype for the next Burning Man jukebox"
   box_config_file_name: prod_albion_jukebox_plug
   relay_pin: GPIO23
+  red_button_pin: "26"
+  blue_button_pin: "32"
+  media_id: "spotify://playlist/3vu293xS1ylb47xzKYLHTE"
+  target_device_entity_id: "media_player.showerspeakerz_upnp_2"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -42,4 +46,42 @@ packages:
 switch:
   - platform: gpio
     name: "${friendly_name} Plug Relay"
+    id: plug_relay_switch
     pin: ${relay_pin}
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: "${red_button_pin}"
+      inverted: true
+    name: "${friendly_name} Red Button"
+    on_press:
+      then:
+        - logger.log: "Red Button Clicked started"
+        - switch.turn_off: plug_relay_switch
+        # https://esphome.io/components/api.html#homeassistant-service-action
+        # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
+        - homeassistant.service:
+            service: media_player.turn_off
+            data:
+              entity_id: "${target_device_entity_id}"
+        - logger.log: "Red Button Clicked done"
+
+  - platform: gpio
+    pin:
+      number: "${blue_button_pin}"
+      inverted: true
+    name: "${friendly_name} Blue Button"
+    on_press:
+      then:
+        - logger.log: "Blue Button Clicked started"
+        - switch.turn_on: plug_relay_switch
+        # https://esphome.io/components/api.html#homeassistant-service-action
+        # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
+        - homeassistant.service:
+            service: mass.play_media
+            data:
+              entity_id: "${target_device_entity_id}"
+              media_id: "${media_id}"
+              media_type: playlist
+        - logger.log: "Blue Button Clicked done"
