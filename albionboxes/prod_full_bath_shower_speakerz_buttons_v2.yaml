@@ -7,7 +7,7 @@ substitutions:
   rufus_url: !secret rufus_url
   media_id: "spotify://album/2AlPRfYeskAMxhJS00xjeP"
   media_type: "album"
-  target_device_entity_id: "media_player.showerspeakerz_upnp_2"
+  target_device_entity_id: "media_player.showerspeakerz_upnp_3"
 
 packages:
   esphome: !include common/default_esphome.yaml
