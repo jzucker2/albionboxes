@@ -13,7 +13,7 @@ substitutions:
   red_button_pin: "26"
   blue_button_pin: "32"
   media_id: "spotify://playlist/3vu293xS1ylb47xzKYLHTE"
-  target_device_entity_id: "media_player.showerspeakerz_upnp_2"
+  target_device_entity_id: "media_player.albionjukebox_upnp_2"
 
 packages:
   esphome: !include common/default_esphome.yaml
