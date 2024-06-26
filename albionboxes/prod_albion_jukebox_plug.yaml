@@ -14,6 +14,7 @@ substitutions:
   blue_button_pin: "32"
   media_id: "spotify://playlist/3vu293xS1ylb47xzKYLHTE"
   target_device_entity_id: "media_player.albionjukebox_upnp_2"
+  media_type: "album"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -41,6 +42,18 @@ packages:
 # * https://esphome.io/components/sensor/hlw8012.html
 # * https://esphome.io/components/sensor/cse7766.html
 # * https://community.home-assistant.io/t/multifunctional-smart-home-controller-atom-on-esp32/297606/8
+
+text_sensor:
+  # https://esphome.io/components/text_sensor/homeassistant.html
+  - platform: homeassistant
+    name: "${friendly_name} Media Type"
+    id: media_type_text_sensor
+    entity_id: input_text.albionjukebox_media_type
+  # https://esphome.io/components/text_sensor/homeassistant.html
+  - platform: homeassistant
+    name: "${friendly_name} Media ID"
+    id: media_id_text_sensor
+    entity_id: input_text.albionjukebox_media_id
 
 # https://devices.esphome.io/devices/Generic-Relay
 switch:
@@ -80,8 +93,13 @@ binary_sensor:
         # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
         - homeassistant.service:
             service: mass.play_media
-            data:
+            data_template:
               entity_id: "${target_device_entity_id}"
-              media_id: "${media_id}"
-              media_type: playlist
+              media_id: "{{ my_media_id }}"
+              media_type: "{{ my_media_type }}"
+            variables:
+              my_media_id: |-
+                return id(media_id_text_sensor).state;
+              my_media_type: |-
+                return id(media_type_text_sensor).state;
         - logger.log: "Blue Button Clicked done"

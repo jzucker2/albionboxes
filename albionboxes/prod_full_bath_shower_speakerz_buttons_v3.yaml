@@ -47,14 +47,6 @@ text_sensor:
     name: "${friendly_name} Media ID"
     id: media_id_text_sensor
     entity_id: input_text.showerspeakerz_media_id
-#  # https://esphome.io/components/text_sensor/template.html
-#  - platform: template
-#    name: "${friendly_name} Media Type"
-#    id: media_type_text_sensor
-#  # https://esphome.io/components/text_sensor/template.html
-#  - platform: template
-#    name: "${friendly_name} Media ID"
-#    id: media_id_text_sensor
 
 binary_sensor:
   - platform: gpio
@@ -91,12 +83,6 @@ binary_sensor:
             activity: "full-bath-music-lights"
         # https://esphome.io/components/api.html#homeassistant-service-action
         # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
-#        - homeassistant.service:
-#            service: mass.play_media
-#            data:
-#              entity_id: "${target_device_entity_id}"
-#              media_id: "${media_id}"
-#              media_type: "${media_type}"
         - homeassistant.service:
             service: mass.play_media
             data_template:
@@ -106,8 +92,6 @@ binary_sensor:
             variables:
               my_media_id: |-
                 return id(media_id_text_sensor).state;
-#                return id(media_id_text_sensor).c_str();
               my_media_type: |-
                 return id(media_type_text_sensor).state;
-#                return id(media_type_text_sensor).c_str();
         - logger.log: "Blue Button Clicked done"
