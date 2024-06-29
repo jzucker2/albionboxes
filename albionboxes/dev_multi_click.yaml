@@ -1,0 +1,53 @@
+substitutions:
+  node_name: devmulticlickbutton
+  friendly_name: Dev Multi Click Button
+  area: Dev
+  comment: "This a dev device for testing multi click recognition"
+  box_config_file_name: dev_multi_click
+  button_pin: "39"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+#  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: ${button_pin}
+      inverted: true
+    name: "${friendly_name} Button"
+    # https://esphome.io/components/binary_sensor/index.html#on-multi-click
+    on_multi_click:
+      - timing:
+          - ON for at most 1s
+          - OFF for at most 1s
+          - ON for at most 1s
+          - OFF for at least 0.2s
+        then:
+          - logger.log: "Double Clicked"
+      - timing:
+          - ON for 1s to 2s
+          - OFF for at least 0.5s
+        then:
+          - logger.log: "Single Long Clicked"
+      - timing:
+          - ON for at most 1s
+          - OFF for at least 0.5s
+        then:
+          - logger.log: "Single Short Clicked"
