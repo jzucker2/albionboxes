@@ -43,6 +43,7 @@ binary_sensor:
         # https://esphome.io/components/api#homeassistant-event-action
         - homeassistant.event:
             event: esphome.shower_speakerz_red_button_pressed
+#            event: esphome.button_pressed
             data:
               message: Button was pressed
         - logger.log: "Red Button Clicked done"
@@ -58,6 +59,7 @@ binary_sensor:
         # https://esphome.io/components/api#homeassistant-event-action
         - homeassistant.event:
             event: esphome.shower_speakerz_blue_button_pressed
+#            event: esphome.button_pressed
             data:
               message: Button was pressed
         - logger.log: "Blue Button Clicked done"

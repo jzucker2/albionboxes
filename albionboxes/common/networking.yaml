@@ -11,5 +11,8 @@ api:
   encryption:
     key: !secret encryption_key
 
+# TODO: break this out into a separate file
+# https://esphome.io/components/ota/esphome.html
 ota:
-  password: !secret ota_password
+  - platform: esphome
+    password: !secret ota_password
