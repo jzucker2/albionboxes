@@ -16,7 +16,6 @@ script:
             return final_url;
           headers:
             Content-Type: application/json
-          verify_ssl: false
           on_response:
             then:
               - lambda: |-
