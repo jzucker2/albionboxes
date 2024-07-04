@@ -32,8 +32,17 @@ sensor:
     unit_of_measurement: "°C"
     device_class: "temperature"
     state_class: "measurement"
-    # TODO: only monitor if control switch is enabled
     lambda: |-
+      ESP_LOGD("volcano_temp", "First check if control switch is enabled");
+      if (id(enable_control_switch).state) {
+        // Switch is ON, do something here
+        ESP_LOGD("volcano_temp", "Control switch is on so fetch data");
+      } else {
+        // Switch is OFF, do something else here
+        ESP_LOGD("volcano_temp", "Control switch is off so return 0.0");
+        // TODO: double check return values
+        return 0.0;
+      }
       float converted_read_value = encode_uint16(x[1], x[0]);
       ESP_LOGD("volcano_temp", "Got converted_read_value: %f", converted_read_value);
       float final_read_temp = converted_read_value / 10.0;
@@ -54,8 +63,17 @@ sensor:
     name: "${friendly_name} Primary Info Sensor"
     service_uuid: ${primary_info_service_uuid}
     characteristic_uuid: ${current_primary_info_char_uuid}
-    # TODO: only monitor if control switch is enabled
     lambda: |-
+      ESP_LOGD("volcano_primary_info", "First check if control switch is enabled");
+      if (id(enable_control_switch).state) {
+        // Switch is ON, do something here
+        ESP_LOGD("volcano_primary_info", "Control switch is on so fetch data");
+      } else {
+        // Switch is OFF, do something else here
+        ESP_LOGD("volcano_primary_info", "Control switch is off so return 0.0");
+        // TODO: double check return values
+        return 0.0;
+      }
       uint16_t reverse_extra_encoded = encode_uint16(x[1], x[0]);
       ESP_LOGD("volcano_primary_info", "Got reverse_extra_encoded: %u", reverse_extra_encoded);
       bool final_heat_status = false;
