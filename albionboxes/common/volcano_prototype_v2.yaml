@@ -181,8 +181,6 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     assumed_state: false
-#    turn_off_action:
-#      - switch.turn_off: turntable_motor_relay
 
 # https://esphome.io/components/esp32_ble_tracker
 #esp32_ble_tracker:
