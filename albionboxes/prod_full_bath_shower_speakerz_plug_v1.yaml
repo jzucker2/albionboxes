@@ -8,7 +8,7 @@ substitutions:
   friendly_name: ShowerSpeakerz Plug V1
   area: Full Bath
   comment: "This is the next ShowerSpeakerz as a combined unit"
-  box_config_file_name: prod_full_bath_shower_speakerz_v1
+  box_config_file_name: prod_full_bath_shower_speakerz_plug_v1
   rufus_url: !secret rufus_url
   relay_pin: GPIO23
   red_button_pin: "26"
