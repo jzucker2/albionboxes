@@ -108,7 +108,27 @@ binary_sensor:
           - OFF for at least 0.2s
         then:
           - logger.log: "Blue => Double Clicked"
-          - logger.log: "Blue Button Clicked started"
+          - logger.log: "Blue Button Double Clicked started"
+          # https://esphome.io/components/api.html#homeassistant-service-action
+          # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
+          - homeassistant.service:
+              service: mass.play_media
+              data_template:
+                entity_id: "${target_device_entity_id}"
+                media_id: "{{ my_media_id }}"
+                media_type: "{{ my_media_type }}"
+              variables:
+                my_media_id: |-
+                  return id(media_id_text_sensor).state;
+                my_media_type: |-
+                  return id(media_type_text_sensor).state;
+          - logger.log: "Blue Button Double Clicked done"
+      - timing:
+          - ON for 1s to 2s
+          - OFF for at least 0.5s
+        then:
+          - logger.log: "Blue => Single Long Clicked"
+          - logger.log: "Blue Button Long Clicked started"
           - switch.turn_on: plug_relay_switch
           # https://esphome.io/components/api.html#homeassistant-service-action
           # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
@@ -127,30 +147,12 @@ binary_sensor:
               id: rufus_activity_request
               rufus_url: "${rufus_url}"
               activity: "the-mood"
-          - logger.log: "Blue Button Clicked done"
-      - timing:
-          - ON for 1s to 2s
-          - OFF for at least 0.5s
-        then:
-          - logger.log: "Blue => Single Long Clicked"
+          - logger.log: "Blue Button Long Clicked done"
       - timing:
           - ON for at most 1s
           - OFF for at least 0.5s
         then:
           - logger.log: "Blue => Single Short Clicked"
-          - logger.log: "Blue Button Clicked started"
+          - logger.log: "Blue Button Single Clicked started"
           - switch.turn_on: plug_relay_switch
-          # https://esphome.io/components/api.html#homeassistant-service-action
-          # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
-          - homeassistant.service:
-              service: mass.play_media
-              data_template:
-                entity_id: "${target_device_entity_id}"
-                media_id: "{{ my_media_id }}"
-                media_type: "{{ my_media_type }}"
-              variables:
-                my_media_id: |-
-                  return id(media_id_text_sensor).state;
-                my_media_type: |-
-                  return id(media_type_text_sensor).state;
-          - logger.log: "Blue Button Clicked done"
+          - logger.log: "Blue Button Single Clicked done"
