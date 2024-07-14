@@ -9,6 +9,7 @@
 * Particulate tracking
   * M5 Stack Air Quality Kit
     * https://shop.m5stack.com/products/air-quality-kit-w-m5stamps3-sen55-scd40
+    * https://www.reddit.com/r/Esphome/comments/1e2q8jj/m5_stack_airq_air_quality_sensor/
     * https://www.reddit.com/r/Esphome/comments/19597ot/m5stack_airq_with_esphome/
     * https://github.com/koenvervloesem/M5Stack-Air-Quality-ESPHome/blob/main/m5stack-air-quality-kit.yaml
     * Seems like the rtc clock isn't officially supported yet
