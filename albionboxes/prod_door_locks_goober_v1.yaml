@@ -1,0 +1,91 @@
+substitutions:
+  node_name: doorlocksgoober
+  friendly_name: Door Locks Goober
+  area: Dan Room
+  comment: "This is the first attempt at converting door lock functionality to ESPHome at Albion"
+  box_config_file_name: prod_door_locks_goober_v1
+  battery_sensor_update_interval: "60s"
+  front_door_lock_url: !secret front_door_lock_url
+  back_door_lock_url: !secret back_door_lock_url
+
+packages:
+  esphome: !include common/default_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+# https://esphome.io/components/lock/index.html
+# https://esphome.io/components/lock/template
+
+sensor:
+  # https://esphome.io/components/sensor/template
+  - platform: template
+    name: "Front Door Lock Battery Sensor"
+    id: front_door_lock_battery_sensor
+    unit_of_measurement: "%"
+    device_class: "battery"
+    icon: mdi:battery-50-bluetooth
+#    lambda: |-
+#      if (id(some_binary_sensor).state) {
+#        return 42.0;
+#      } else {
+#        return 0.0;
+#      }
+#    update_interval: "${battery_sensor_update_interval}"
+  # https://esphome.io/components/sensor/template
+  - platform: template
+    name: "Back Door Lock Battery Sensor"
+    id: back_door_lock_battery_sensor
+    unit_of_measurement: "%"
+    device_class: "battery"
+    icon: mdi:battery-50-bluetooth
+#    lambda: |-
+#      if (id(some_binary_sensor).state) {
+#        return 42.0;
+#      } else {
+#        return 0.0;
+#      }
+#    update_interval: "${battery_sensor_update_interval}"
+
+# https://esphome.io/components/interval.html
+interval:
+  - interval: "${battery_sensor_update_interval}"
+    then:
+      - logger.log:
+          format: "Starting check on front door lock battery"
+          level: DEBUG
+      - http_request.get:
+          url: "${front_door_lock_url}"
+          headers:
+            Content-Type: application/json
+          capture_response: true
+          on_response:
+            then:
+              - logger.log:
+                  format: 'Front door response status: %d, Duration: %u ms'
+                  level: DEBUG
+                  args:
+                    - response->status_code
+                    - response->duration_ms
+#              - lambda: |-
+#                  json::parse_json(body, [](JsonObject root) -> bool {
+#                      id(front_door_lock_battery_sensor).publish_state(root["vol"]);
+#                      return true;
+#                  });
+      - logger.log:
+          format: "Finishing check on front door lock battery"
+          level: DEBUG
