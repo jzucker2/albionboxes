@@ -1,7 +1,7 @@
 # https://community.home-assistant.io/t/what-am-i-doing-wrong-parsing-json/496038/3
 substitutions:
-  node_name: doorlocksgoober
-  friendly_name: Door Locks Goober
+  node_name: doorlocksgooberv1
+  friendly_name: Door Locks Goober V1
   area: Dan Room
   comment: "This is the first attempt at converting door lock functionality to ESPHome at Albion"
   box_config_file_name: prod_door_locks_goober_v1
@@ -33,6 +33,17 @@ packages:
 
 # https://esphome.io/components/lock/index.html
 # https://esphome.io/components/lock/template
+
+switch:
+  # https://esphome.io/components/switch/template.html
+  - platform: template
+    name: "${friendly_name} Enable Lock Pings Switch"
+    id: enable_lock_pings_switch
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    assumed_state: false
+#    turn_off_action:
+#      - switch.turn_off: turntable_motor_relay
 
 sensor:
   # https://esphome.io/components/sensor/template
@@ -68,61 +79,75 @@ sensor:
 interval:
   - interval: "${battery_sensor_update_interval}"
     then:
-      - logger.log:
-          format: "Starting check on front door lock battery"
-          level: DEBUG
-      # https://esphome.io/components/http_request.html
-      - http_request.post:
-          url: "${front_door_lock_url}"
-          headers:
-            Content-Type: application/json
-          json:
-            username: "${milanais_username}"
-            password: "${milanais_password}"
-          capture_response: true
-          on_response:
-            then:
-              - logger.log:
-                  format: 'Front door response status: %d, Duration: %u ms'
-                  level: DEBUG
-                  args:
-                    - response->status_code
-                    - response->duration_ms
-              - lambda: |-
-                  json::parse_json(body, [](JsonObject root) -> bool {
-                      id(front_door_lock_battery_sensor).publish_state(root["wyze_response"]["battery"]);
-                      return true;
-                  });
-      - logger.log:
-          format: "Finishing check on front door lock battery"
-          level: DEBUG
+      - if:
+          condition:
+            switch.is_off: enable_lock_pings_switch
+          then:
+            - lambda: |-
+                ESP_LOGD("front_door_sensor_interval_ping", "Skipping real work because ping flag is off");
+          else:
+            - logger.log:
+                format: "Starting check on front door lock battery"
+                level: DEBUG
+            # https://esphome.io/components/http_request.html
+            - http_request.post:
+                url: "${front_door_lock_url}"
+                headers:
+                  Content-Type: application/json
+                json:
+                  username: "${milanais_username}"
+                  password: "${milanais_password}"
+                capture_response: true
+                on_response:
+                  then:
+                    - logger.log:
+                        format: 'Front door response status: %d, Duration: %u ms'
+                        level: DEBUG
+                        args:
+                          - response->status_code
+                          - response->duration_ms
+                    - lambda: |-
+                        json::parse_json(body, [](JsonObject root) -> bool {
+                            id(front_door_lock_battery_sensor).publish_state(root["wyze_response"]["battery"]);
+                            return true;
+                        });
+            - logger.log:
+                format: "Finishing check on front door lock battery"
+                level: DEBUG
   - interval: "${battery_sensor_update_interval}"
     then:
-      - logger.log:
-          format: "Starting check on back door lock battery"
-          level: DEBUG
-      # https://esphome.io/components/http_request.html
-      - http_request.post:
-          url: "${back_door_lock_url}"
-          headers:
-            Content-Type: application/json
-          json:
-            username: "${milanais_username}"
-            password: "${milanais_password}"
-          capture_response: true
-          on_response:
-            then:
-              - logger.log:
-                  format: 'Back door response status: %d, Duration: %u ms'
-                  level: DEBUG
-                  args:
-                    - response->status_code
-                    - response->duration_ms
-              - lambda: |-
-                  json::parse_json(body, [](JsonObject root) -> bool {
-                      id(back_door_lock_battery_sensor).publish_state(root["wyze_response"]["battery"]);
-                      return true;
-                  });
-      - logger.log:
-          format: "Finishing check on back door lock battery"
-          level: DEBUG
+      - if:
+          condition:
+            switch.is_off: enable_lock_pings_switch
+          then:
+            - lambda: |-
+                ESP_LOGD("back_door_sensor_interval_ping", "Skipping real work because ping flag is off");
+          else:
+            - logger.log:
+                format: "Starting check on back door lock battery"
+                level: DEBUG
+            # https://esphome.io/components/http_request.html
+            - http_request.post:
+                url: "${back_door_lock_url}"
+                headers:
+                  Content-Type: application/json
+                json:
+                  username: "${milanais_username}"
+                  password: "${milanais_password}"
+                capture_response: true
+                on_response:
+                  then:
+                    - logger.log:
+                        format: 'Back door response status: %d, Duration: %u ms'
+                        level: DEBUG
+                        args:
+                          - response->status_code
+                          - response->duration_ms
+                    - lambda: |-
+                        json::parse_json(body, [](JsonObject root) -> bool {
+                            id(back_door_lock_battery_sensor).publish_state(root["wyze_response"]["battery"]);
+                            return true;
+                        });
+            - logger.log:
+                format: "Finishing check on back door lock battery"
+                level: DEBUG
