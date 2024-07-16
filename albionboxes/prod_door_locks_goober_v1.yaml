@@ -1,3 +1,4 @@
+# https://community.home-assistant.io/t/what-am-i-doing-wrong-parsing-json/496038/3
 substitutions:
   node_name: doorlocksgoober
   friendly_name: Door Locks Goober
@@ -7,6 +8,8 @@ substitutions:
   battery_sensor_update_interval: "60s"
   front_door_lock_url: !secret front_door_lock_url
   back_door_lock_url: !secret back_door_lock_url
+  milanais_username: !secret milanais_username
+  milanais_password: !secret milanais_password
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -68,10 +71,14 @@ interval:
       - logger.log:
           format: "Starting check on front door lock battery"
           level: DEBUG
-      - http_request.get:
+      # https://esphome.io/components/http_request.html
+      - http_request.post:
           url: "${front_door_lock_url}"
           headers:
             Content-Type: application/json
+          json:
+            username: "${milanais_username}"
+            password: "${milanais_password}"
           capture_response: true
           on_response:
             then:
@@ -81,11 +88,41 @@ interval:
                   args:
                     - response->status_code
                     - response->duration_ms
-#              - lambda: |-
-#                  json::parse_json(body, [](JsonObject root) -> bool {
-#                      id(front_door_lock_battery_sensor).publish_state(root["vol"]);
-#                      return true;
-#                  });
+              - lambda: |-
+                  json::parse_json(body, [](JsonObject root) -> bool {
+                      id(front_door_lock_battery_sensor).publish_state(root["wyze_response"]["battery"]);
+                      return true;
+                  });
       - logger.log:
           format: "Finishing check on front door lock battery"
+          level: DEBUG
+  - interval: "${battery_sensor_update_interval}"
+    then:
+      - logger.log:
+          format: "Starting check on back door lock battery"
+          level: DEBUG
+      # https://esphome.io/components/http_request.html
+      - http_request.post:
+          url: "${back_door_lock_url}"
+          headers:
+            Content-Type: application/json
+          json:
+            username: "${milanais_username}"
+            password: "${milanais_password}"
+          capture_response: true
+          on_response:
+            then:
+              - logger.log:
+                  format: 'Back door response status: %d, Duration: %u ms'
+                  level: DEBUG
+                  args:
+                    - response->status_code
+                    - response->duration_ms
+              - lambda: |-
+                  json::parse_json(body, [](JsonObject root) -> bool {
+                      id(back_door_lock_battery_sensor).publish_state(root["wyze_response"]["battery"]);
+                      return true;
+                  });
+      - logger.log:
+          format: "Finishing check on back door lock battery"
           level: DEBUG
