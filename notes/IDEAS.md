@@ -18,3 +18,7 @@
   * There's another M5Stack device here: https://shop.m5stack.com/products/pm2-5-air-quality-kit-pmsa003-sht30
     * https://www.reddit.com/r/Esphome/comments/kcwo39/esphome_configuration_for_the_m5stack_pm25_air/
     * https://github.com/koenvervloesem/M5Stack-Air-Quality-ESPHome
+* Air pressure
+  * https://github.com/gcormier/esphome-pressure/
+  * https://www.reddit.com/r/homeassistant/comments/1e77ez5/using_an_esp32_to_monitor_the_filter_status_of_my/
+  * https://esphome.io/components/sensor/xgzp68xx.html
