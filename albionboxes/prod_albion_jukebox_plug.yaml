@@ -14,6 +14,7 @@ substitutions:
   red_button_pin: "26"
   blue_button_pin: "32"
   target_device_entity_id: "media_player.albionjukebox_upnp_2"
+  airplay_device_entity_id: "media_player.albionjukebox_airplay"
   primary_media_id: "spotify://playlist/3vu293xS1ylb47xzKYLHTE"
   primary_media_type: "album"
   secret_media_id: "spotify://playlist/3vu293xS1ylb47xzKYLHTE"
@@ -88,10 +89,15 @@ binary_sensor:
         - switch.turn_off: plug_relay_switch
         # https://esphome.io/components/api.html#homeassistant-service-action
         # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
+        # TODO: only turn off if playing
         - homeassistant.service:
             service: media_player.turn_off
             data:
               entity_id: "${target_device_entity_id}"
+        - homeassistant.service:
+            service: media_player.turn_off
+            data:
+              entity_id: "${airplay_device_entity_id}"
         - logger.log: "Red Button Clicked done"
 
   - platform: gpio
