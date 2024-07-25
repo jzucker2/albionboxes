@@ -13,10 +13,11 @@ substitutions:
   relay_pin: GPIO23
   red_button_pin: "26"
   blue_button_pin: "32"
-  target_device_entity_id: "media_player.showerspeakerz_upnp_3"
+  target_device_entity_id: "media_player.showerspeakerz_upnp"
   airplay_device_entity_id: "media_player.showerspeakerz_airplay"
   primary_media_id: "spotify://album/2AlPRfYeskAMxhJS00xjeP"
   primary_media_type: "album"
+  default_autoplay_volume_level: "0.75"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -125,6 +126,11 @@ binary_sensor:
                   return id(media_id_text_sensor).state;
                 my_media_type: |-
                   return id(media_type_text_sensor).state;
+          - homeassistant.service:
+              service: media_player.volume_set
+              data:
+                entity_id: "${target_device_entity_id}"
+                volume_level: "${default_autoplay_volume_level}"
       - timing:
           - ON for 1s to 2s
           - OFF for at least 0.5s
