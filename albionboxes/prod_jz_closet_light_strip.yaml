@@ -2,7 +2,7 @@ substitutions:
   node_name: jzclosetlightstrip
   friendly_name: JZ Bedroom Closet Light Strip
   area: JZ Bedroom
-  comment: "This powers a light strip in the JZ Closet"
+  comment: "This powers a light strip in the JZ Bedroom Closet"
   box_config_file_name: prod_jz_closet_light_strip
   choc_light_strip_name: "Chocolate"
   choc_light_strip_id: "chocolate_light_strip"
