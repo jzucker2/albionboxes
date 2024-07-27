@@ -1,0 +1,189 @@
+substitutions:
+  node_name: jzclosetlightstrip
+  friendly_name: JZ Bedroom Closet Light Strip
+  area: JZ Bedroom
+  comment: "This powers a light strip in the JZ Closet"
+  box_config_file_name: prod_jz_closet_light_strip
+  choc_light_strip_name: "Chocolate"
+  choc_light_strip_id: "chocolate_light_strip"
+  choc_light_strip_data_pin: "19"
+  choc_light_strip_rmt_channel: "0"
+  choc_light_strip_icon: "mdi:led-strip-variant"
+  snack_light_strip_name: "Snack"
+  snack_light_strip_id: "snack_light_strip"
+  snack_light_strip_data_pin: "22"
+  snack_light_strip_rmt_channel: "1"
+  snack_light_strip_icon: "mdi:led-strip"
+  # 26 for 2 long sides and 19 for the short side
+  light_strip_num_leds: "71"
+  cabinet_light_sensor_update_interval: "1s"
+  atom_button_pin: "39"
+  red_button_name: "Snack"
+  red_button_pin: "23"
+  blue_button_name: "Chocolate"
+  blue_button_pin: "33"
+  default_turn_on_color_effect: "Rainbow"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  logging: !include common/default_logger.yaml
+#  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  i2c_bus: !include common/default_i2c.yaml
+
+sensor:
+  - <<: !include { file: common/ambient_light_sensor.yaml, vars: { light_sensor_update_interval: "${cabinet_light_sensor_update_interval}" } }
+
+light:
+  - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${choc_light_strip_name}", led_strip_id: "${choc_light_strip_id}", light_data_pin: "${choc_light_strip_data_pin}", rmt_channel: "${choc_light_strip_rmt_channel}", led_strip_icon: "${choc_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
+  - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${snack_light_strip_name}", led_strip_id: "${snack_light_strip_id}", light_data_pin: "${snack_light_strip_data_pin}", rmt_channel: "${snack_light_strip_rmt_channel}", led_strip_icon: "${snack_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
+
+# https://esphome.io/components/button/index.html
+button:
+  - platform: template
+    name: "${friendly_name} White Lights On"
+    id: turn_on_white_lights_button
+    icon: "mdi:emoticon-outline"
+    on_press:
+      - logger.log: "${friendly_name} Virtual Button pressed"
+      - script.execute:
+          id: turn_on_good_white_lights
+  - platform: template
+    name: "${friendly_name} Turn Off Lights"
+    id: turn_off_lights_button
+    icon: "mdi:emoticon-outline"
+    on_press:
+      - logger.log: "${friendly_name} Virtual Button pressed"
+      - script.execute:
+          id: turn_off_lights
+  - platform: template
+    name: "${friendly_name} Color Lights On"
+    id: turn_on_color_lights_button
+    icon: "mdi:emoticon-outline"
+    on_press:
+      - logger.log: "${friendly_name} Virtual Button pressed"
+      - script.execute:
+          id: turn_on_color_lights
+
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: turn_off_lights
+    then:
+      - light.turn_off:
+          id: "${choc_light_strip_id}"
+      - light.turn_off:
+          id: "${snack_light_strip_id}"
+      - logger.log: 'Done with turn off lights'
+
+  # I don't actually like this look, it's kind of purple for some reason
+  - id: turn_on_actual_white_lights
+    then:
+      - light.turn_on:
+          id: "${choc_light_strip_id}"
+          transition_length: 500ms
+          brightness: 1.0 # 1.0 is full brightness
+          color_mode: WHITE
+          white: 1.0
+      - light.turn_on:
+          id: "${snack_light_strip_id}"
+          transition_length: 500ms
+          brightness: 1.0 # 1.0 is full brightness
+          color_mode: WHITE
+          white: 1.0
+      - logger.log: 'Done with turn on white lights'
+
+  # I **actually** like this look better than true white
+  - id: turn_on_good_white_lights
+    then:
+      - light.turn_on:
+          id: "${choc_light_strip_id}"
+          brightness: 1.0 # 1.0 is full brightness
+          color_mode: RGB_WHITE
+          # the following is actually white
+          red: 1.0
+          green: 1.0
+          blue: 0.98
+          white: 1.0
+          effect: None
+      - light.turn_on:
+          id: "${snack_light_strip_id}"
+          brightness: 1.0 # 1.0 is full brightness
+          color_mode: RGB_WHITE
+          # the following is actually white
+          red: 1.0
+          green: 1.0
+          blue: 0.98
+          white: 1.0
+          effect: None
+      - logger.log: 'Done with turn on white lights'
+
+  - id: turn_on_color_lights
+    then:
+      - light.turn_on:
+          id: "${choc_light_strip_id}"
+          brightness: 1.0 # 1.0 is full brightness
+          color_mode: RGB_WHITE
+          # the following is purple
+          red: 0.5
+          green: 0.25
+          blue: 1.0
+          white: 0
+          effect: "${default_turn_on_color_effect}"
+      - light.turn_on:
+          id: "${snack_light_strip_id}"
+          brightness: 1.0 # 1.0 is full brightness
+          color_mode: RGB_WHITE
+          # the following is purple
+          red: 0.5
+          green: 0.25
+          blue: 1.0
+          white: 0
+          effect: "${default_turn_on_color_effect}"
+      - logger.log: 'Done with turn on color lights'
+
+binary_sensor:
+  # built in button
+  - platform: gpio
+    pin:
+      number: "${atom_button_pin}"
+      inverted: true
+    name: "${friendly_name} Button"
+    on_release:
+      then:
+        - logger.log: "${friendly_name} Button tapped"
+        - light.toggle: "${snack_light_strip_id}"
+        - light.toggle: "${choc_light_strip_id}"
+        - logger.log: "Done with ${friendly_name} button tapped!"
+  # extended buttons
+  - platform: gpio
+    pin:
+      number: "${red_button_pin}"
+      inverted: true
+    name: "${friendly_name} ${red_button_name} Red Button"
+    on_press:
+      then:
+        - logger.log: "Red Button Clicked"
+        - light.toggle: "${snack_light_strip_id}"
+
+  - platform: gpio
+    pin:
+      number: "${blue_button_pin}"
+      inverted: true
+    name: "${friendly_name} ${blue_button_name} Blue Button"
+    on_press:
+      then:
+        - logger.log: "Blue Button Clicked"
+        - light.toggle: "${choc_light_strip_id}"
