@@ -14,8 +14,8 @@ substitutions:
   ceiling_light_strip_data_pin: "19"
   ceiling_light_strip_rmt_channel: "1"
   ceiling_light_strip_icon: "mdi:led-strip"
-  # 26 for 2 long sides and 19 for the short side
-  light_strip_num_leds: "71"
+  # 74 for long back under shelf
+  light_strip_num_leds: "74"
   cabinet_light_sensor_update_interval: "1s"
   atom_button_pin: "39"
   red_button_name: "Ceiling"
