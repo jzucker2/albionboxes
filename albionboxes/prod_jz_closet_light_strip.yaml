@@ -6,21 +6,21 @@ substitutions:
   box_config_file_name: prod_jz_closet_light_strip
   under_shelf_light_strip_name: "Under Shelf"
   under_shelf_light_strip_id: "under_shelf_light_strip"
-  under_shelf_light_strip_data_pin: "26"
+  under_shelf_light_strip_data_pin: "22"
   under_shelf_light_strip_rmt_channel: "0"
   under_shelf_light_strip_icon: "mdi:led-strip-variant"
   ceiling_light_strip_name: "Ceiling"
   ceiling_light_strip_id: "ceiling_light_strip"
-  ceiling_light_strip_data_pin: "32"
+  ceiling_light_strip_data_pin: "19"
   ceiling_light_strip_rmt_channel: "1"
   ceiling_light_strip_icon: "mdi:led-strip"
   # 26 for 2 long sides and 19 for the short side
   light_strip_num_leds: "71"
   cabinet_light_sensor_update_interval: "1s"
   atom_button_pin: "39"
-  red_button_name: "Snack"
+  red_button_name: "Ceiling"
   red_button_pin: "23"
-  blue_button_name: "Chocolate"
+  blue_button_name: "Under Shelf"
   blue_button_pin: "33"
   default_turn_on_color_effect: "Rainbow"
 
@@ -42,10 +42,10 @@ packages:
   internal_temp: !include common/internal_temp.yaml
   dashboard_import: !include common/default_dashboard_import.yaml
   albion_boxes_info: !include common/albionboxes_info.yaml
-#  i2c_bus: !include common/default_i2c.yaml
+  i2c_bus: !include common/default_i2c.yaml
 
-#sensor:
-#  - <<: !include { file: common/ambient_light_sensor.yaml, vars: { light_sensor_update_interval: "${cabinet_light_sensor_update_interval}" } }
+sensor:
+  - <<: !include { file: common/ambient_light_sensor.yaml, vars: { light_sensor_update_interval: "${cabinet_light_sensor_update_interval}" } }
 
 light:
   - <<: !include { file: common/light_strip.yaml, vars: { led_strip_name: "${under_shelf_light_strip_name}", led_strip_id: "${under_shelf_light_strip_id}", light_data_pin: "${under_shelf_light_strip_data_pin}", rmt_channel: "${under_shelf_light_strip_rmt_channel}", led_strip_icon: "${under_shelf_light_strip_icon}",num_leds: "${light_strip_num_leds}" } }
@@ -168,22 +168,22 @@ binary_sensor:
         - light.toggle: "${under_shelf_light_strip_id}"
         - logger.log: "Done with ${friendly_name} button tapped!"
   # extended buttons
-#  - platform: gpio
-#    pin:
-#      number: "${red_button_pin}"
-#      inverted: true
-#    name: "${friendly_name} ${red_button_name} Red Button"
-#    on_press:
-#      then:
-#        - logger.log: "Red Button Clicked"
-#        - light.toggle: "${ceiling_light_strip_id}"
-#
-#  - platform: gpio
-#    pin:
-#      number: "${blue_button_pin}"
-#      inverted: true
-#    name: "${friendly_name} ${blue_button_name} Blue Button"
-#    on_press:
-#      then:
-#        - logger.log: "Blue Button Clicked"
-#        - light.toggle: "${under_shelf_light_strip_id}"
+  - platform: gpio
+    pin:
+      number: "${red_button_pin}"
+      inverted: true
+    name: "${friendly_name} ${red_button_name} Red Button"
+    on_press:
+      then:
+        - logger.log: "Red Button Clicked"
+        - light.toggle: "${ceiling_light_strip_id}"
+
+  - platform: gpio
+    pin:
+      number: "${blue_button_pin}"
+      inverted: true
+    name: "${friendly_name} ${blue_button_name} Blue Button"
+    on_press:
+      then:
+        - logger.log: "Blue Button Clicked"
+        - light.toggle: "${under_shelf_light_strip_id}"
