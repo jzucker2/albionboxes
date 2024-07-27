@@ -1,9 +1,9 @@
 substitutions:
-  node_name: jzclosetlightstrip
-  friendly_name: JZ Bedroom Closet Light Strip
+  node_name: jzclosetlightsv2
+  friendly_name: JZ Bedroom Closet Lights V2
   area: JZ Bedroom
-  comment: "This powers a light strip in the JZ Bedroom Closet"
-  box_config_file_name: prod_jz_closet_light_strip
+  comment: "This powers a fancier lighting set up in JZ Closet"
+  box_config_file_name: prod_jz_closet_lights_v2
   under_shelf_light_strip_name: "Under Shelf"
   under_shelf_light_strip_id: "under_shelf_light_strip"
   under_shelf_light_strip_data_pin: "22"
