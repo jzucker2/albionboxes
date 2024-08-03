@@ -7,6 +7,7 @@ substitutions:
   vornado_restore_mode: RESTORE_DEFAULT_OFF
   ir_rc_on_code:  "00000111000110000000000110110111"
   ir_rc_off_code: "00000111000110000000000110010111"
+  ir_rc_on_off_code: "11011000010"
   ir_rc_protocol: "1"
   repeat_times: "10"
   repeat_wait_time: 0s
@@ -38,6 +39,23 @@ packages:
 remote_transmitter:
   pin: GPIO26
   carrier_duty_percent: 50%
+
+# https://esphome.io/components/button/index.html
+button:
+  - platform: template
+    name: "${friendly_name} Transmit On/Off Blast"
+    id: transmit_on_off_blast
+    icon: "mdi:light-switch"
+    on_press:
+      - logger.log: "${friendly_name} Virtual Button pressed"
+      - remote_transmitter.transmit_rc_switch_raw:
+          code: ${ir_rc_on_off_code}
+          protocol: ${ir_rc_protocol}
+          repeat:
+            times: ${repeat_times}
+            wait_time: ${repeat_wait_time}
+#      - script.execute:
+#          id: turn_on_good_white_lights
 
 # https://esphome.io/components/switch/template
 switch:
