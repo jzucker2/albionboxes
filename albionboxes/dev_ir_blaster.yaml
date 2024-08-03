@@ -15,7 +15,7 @@ substitutions:
 
 packages:
   esphome: !include common/default_esphome.yaml
-  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5atom_device.yaml
   light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
@@ -33,45 +33,56 @@ packages:
 
 ## Device-specific
 # https://esphome.io/components/remote_transmitter.html#remote-setting-up-rf
+# https://github.com/Chill-Division/M5Stack-ESPHome/blob/main/Mini%20Infrared%20Emitter%20%26%20Receiver%20Unit.md
+
+remote_receiver:
+  pin:
+    number: GPIO32
+    inverted: true
+  dump: all
 
 remote_transmitter:
   pin: GPIO26
-  # RF uses a 100% carrier signal
-  carrier_duty_percent: 100%
+  carrier_duty_percent: 50%
+
+#remote_transmitter:
+#  pin: GPIO26
+#  # RF uses a 100% carrier signal
+#  carrier_duty_percent: 100%
 
 # https://esphome.io/components/switch/template
-switch:
-  - platform: template
-    name: ${friendly_name} Power Tx Switch
-    id: "rf_tx_power_button"
-    restore_mode: ${pantry_restore_mode}
-    optimistic: true
-    assumed_state: true
-    turn_on_action:
-      - remote_transmitter.transmit_rc_switch_raw:
-          code: ${rf_rc_on_code}
-          protocol: ${rf_rc_protocol}
-          repeat:
-            times: ${repeat_times}
-            wait_time: ${repeat_wait_time}
-    turn_off_action:
-      - remote_transmitter.transmit_rc_switch_raw:
-          code: ${rf_rc_off_code}
-          protocol: ${rf_rc_protocol}
-          repeat:
-            times: ${repeat_times}
-            wait_time: ${repeat_wait_time}
-
-# TODO: consider disabling and replacing with default button
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: 39
-    name: ${friendly_name} RF Transmitter Button
-    on_press:
-      then:
-        - logger.log: "Transmitter button press started"
-        - logger.log: "Transmit RF rc_switch code"
-        # this is toggling the lights sometimes https://community.m5stack.com/topic/3955/atom-button-at-gpio39-without-pullup/4
-        - switch.toggle: rf_tx_power_button
-        - logger.log: "Done with transmitter button pressed!"
+#switch:
+#  - platform: template
+#    name: ${friendly_name} Power Tx Switch
+#    id: "rf_tx_power_button"
+#    restore_mode: ${pantry_restore_mode}
+#    optimistic: true
+#    assumed_state: true
+#    turn_on_action:
+#      - remote_transmitter.transmit_rc_switch_raw:
+#          code: ${rf_rc_on_code}
+#          protocol: ${rf_rc_protocol}
+#          repeat:
+#            times: ${repeat_times}
+#            wait_time: ${repeat_wait_time}
+#    turn_off_action:
+#      - remote_transmitter.transmit_rc_switch_raw:
+#          code: ${rf_rc_off_code}
+#          protocol: ${rf_rc_protocol}
+#          repeat:
+#            times: ${repeat_times}
+#            wait_time: ${repeat_wait_time}
+#
+## TODO: consider disabling and replacing with default button
+#binary_sensor:
+#  - platform: gpio
+#    pin:
+#      number: 39
+#    name: ${friendly_name} RF Transmitter Button
+#    on_press:
+#      then:
+#        - logger.log: "Transmitter button press started"
+#        - logger.log: "Transmit RF rc_switch code"
+#        # this is toggling the lights sometimes https://community.m5stack.com/topic/3955/atom-button-at-gpio39-without-pullup/4
+#        - switch.toggle: rf_tx_power_button
+#        - logger.log: "Done with transmitter button pressed!"
