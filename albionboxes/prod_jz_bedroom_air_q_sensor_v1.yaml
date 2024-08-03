@@ -10,8 +10,8 @@ substitutions:
 
 packages:
   esphome: !include common/air_q_sensor/utils/default_air_q_esphome.yaml
-#  logging: !include common/default_logger.yaml
-  logging: !include common/debug_logger.yaml
+  logging: !include common/default_logger.yaml
+#  logging: !include common/debug_logger.yaml
   wifi: !include common/wifi.yaml
   esp32: !include common/m5stamps3_device.yaml
   reset_button: !include common/reset_button.yaml
