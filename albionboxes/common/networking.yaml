@@ -1,5 +1,6 @@
 # Example configuration entry
 web_server:
+  include_internal: true
 
 # Activates prometheus /metrics endpoint
 prometheus:
