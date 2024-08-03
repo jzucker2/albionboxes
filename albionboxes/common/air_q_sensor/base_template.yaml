@@ -1,0 +1,329 @@
+# https://www.reddit.com/r/Esphome/comments/1e2q8jj/m5_stack_airq_air_quality_sensor/
+
+output:
+  - platform: gpio
+    pin: GPIO10
+    id: enable
+
+i2c:
+  sda: GPIO11
+  scl: GPIO12
+  scan: true
+  frequency: 100kHz
+  id: bus_a
+
+spi:
+  clk_pin: GPIO05
+  mosi_pin: GPIO06
+
+time:
+  - platform: pcf8563
+    address: 0x51
+    update_interval: 10min
+  - platform: sntp
+    id: sntp_time
+    servers:
+      - 192.168.1.1
+    on_time_sync:
+      then:
+        pcf8563.write_time:
+
+light:
+  - platform: esp32_rmt_led_strip
+    rgb_order: GRB
+    pin: GPIO21
+    num_leds: 1
+    rmt_channel: 0
+    chipset: SK6812
+    name: "LED"
+    restore_mode: ALWAYS_OFF
+    id: id_led
+
+text_sensor:
+  - platform: template
+    name: "VOC IAQ Classification"
+    id: iaq_voc
+    icon: "mdi:checkbox-marked-circle-outline"
+    lambda: |-
+      if (int(id(voc).state) < 100.0) {
+        return {"Great"};
+      }
+      else if (int(id(voc).state) <= 200.0) {
+        return {"Good"};
+      }
+      else if (int(id(voc).state) <= 300.0) {
+        return {"Light"};
+      }
+      else if (int(id(voc).state) <= 400.0) {
+        return {"Moderate"};
+      }
+      else if (int(id(voc).state) <= 500.0) {
+        return {"Heavy"};
+      }
+      else {
+        return {"unknown"};
+      }
+
+  - platform: template
+    name: "NOX IAQ Classification"
+    id: iaq_nox
+    icon: "mdi:checkbox-marked-circle-outline"
+    lambda: |-
+      if (int(id(nox).state) < 100.0) {
+        return {"Great"};
+      }
+      else if (int(id(nox).state) <= 200.0) {
+        return {"Good"};
+      }
+      else if (int(id(nox).state) <= 300.0) {
+        return {"Light"};
+      }
+      else if (int(id(nox).state) <= 400.0) {
+        return {"Moderate"};
+      }
+      else if (int(id(nox).state) <= 500.0) {
+        return {"Heavy"};
+      }
+      else {
+        return {"unknown"};
+      }
+
+sensor:
+  - platform: scd4x
+    co2:
+      name: CO2
+      id: CO2
+      filters:
+        - lambda: |-
+            float MIN_VALUE = 300.0;
+            float MAX_VALUE = 2500.0;
+            if (MIN_VALUE <= x && x <= MAX_VALUE) return x;
+            else return {};
+    temperature:
+      name: CO2 Temperature
+      id: CO2_temperature
+      filters:
+        - lambda: |-
+            float MIN_VALUE = -40.0;
+            float MAX_VALUE = 100.0;
+            if (MIN_VALUE <= x && x <= MAX_VALUE) return x;
+            else return {};
+    humidity:
+      name: CO2 Humidity
+      id: CO2_humidity
+      filters:
+        - lambda: |-
+            float MIN_VALUE = 0.0;
+            float MAX_VALUE = 100.0;
+            if (MIN_VALUE <= x && x <= MAX_VALUE) return x;
+            else return {};
+    altitude_compensation: 0m
+    address: 0x62
+    update_interval: "${sensor_interval}"
+
+  - platform: sen5x
+    id: sen55
+    pm_1_0:
+      name: "PM 1"
+      id: PM1_0
+      accuracy_decimals: 2
+    pm_2_5:
+      name: "PM 2.5"
+      id: PM2_5
+      accuracy_decimals: 2
+    pm_4_0:
+      name: "PM 4"
+      id: PM4_0
+      accuracy_decimals: 2
+    pm_10_0:
+      name: "PM 10"
+      id: PM10_0
+      accuracy_decimals: 2
+    temperature:
+      name: "SEN55 Temperature"
+      id: sen55_temperature
+      accuracy_decimals: 2
+    humidity:
+      name: "SEN55 Humidity"
+      id: sen55_humidity
+      accuracy_decimals: 2
+    voc:
+      name: VOC
+      id: voc
+      accuracy_decimals: 2
+      algorithm_tuning:
+        index_offset: 100
+        learning_time_offset_hours: 12
+        learning_time_gain_hours: 12
+        gating_max_duration_minutes: 180
+        std_initial: 50
+        gain_factor: 230
+    nox:
+      name: NOX
+      id: nox
+      accuracy_decimals: 2
+      algorithm_tuning:
+        index_offset: 100
+        learning_time_offset_hours: 12
+        learning_time_gain_hours: 12
+        gating_max_duration_minutes: 180
+        std_initial: 50
+        gain_factor: 230
+    temperature_compensation:
+      offset: 0
+      normalized_offset_slope: 0
+      time_constant: 0
+    acceleration_mode: low
+    store_baseline: true
+    address: 0x69
+    update_interval: "${sensor_interval}"
+
+  - platform: template
+    name: Temperature
+    id: temperature
+    lambda: |-
+      return (( id(sen55_temperature).state + id(CO2_temperature).state ) / 2 ) - id(temperature_offset).state;
+    unit_of_measurement: "°C"
+    icon: "mdi:thermometer"
+    device_class: "temperature"
+    state_class: "measurement"
+    update_interval: "${sensor_interval}"
+    accuracy_decimals: 2
+
+  - platform: template
+    name: Humidity
+    id: humidity
+    lambda: |-
+      return (( id(sen55_humidity).state + id(CO2_humidity).state ) / 2) - id(humidity_offset).state;
+    unit_of_measurement: "%"
+    icon: "mdi:water-percent"
+    device_class: "humidity"
+    state_class: "measurement"
+    update_interval: "${sensor_interval}"
+    accuracy_decimals: 2
+
+binary_sensor:
+  - platform: gpio
+    name: Button A
+    pin:
+      number: GPIO0
+      ignore_strapping_warning: true
+      mode:
+        input: true
+      inverted: true
+    on_press:
+      then:
+        - component.update: disp
+
+  - platform: gpio
+    pin:
+      number: GPIO08
+#      ignore_strapping_warning: true
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    name: Button B
+
+  - platform: gpio
+    pin:
+      number: GPIO46
+      ignore_strapping_warning: true
+    name: Button Hold
+
+  - platform: gpio
+    pin:
+      number: GPIO42
+#      ignore_strapping_warning: true
+    name: Button Power
+
+button:
+  - platform: restart
+    name: Restart
+
+  - platform: template
+    name: "CO2 Force Manual Calibration"
+    entity_category: "config"
+    on_press:
+      then:
+        - scd4x.perform_forced_calibration:
+            value: !lambda 'return id(co2_cal).state;'
+
+  - platform: template
+    name: "SEN55 Force Manual Clean"
+    entity_category: "config"
+    on_press:
+      then:
+        - sen5x.start_fan_autoclean: sen55
+
+number:
+  - platform: template
+    name: "CO2 Calibration Value"
+    optimistic: true
+    min_value: 400
+    max_value: 1000
+    step: 5
+    id: co2_cal
+    icon: "mdi:molecule-co2"
+    entity_category: "config"
+
+  - platform: template
+    name: Humidity Offset
+    id: humidity_offset
+    restore_value: true
+    initial_value: 0.0
+    min_value: -70.0
+    max_value: 70.0
+    entity_category: "CONFIG"
+    unit_of_measurement: "%"
+    optimistic: true
+    update_interval: never
+    step: 0.1
+    mode: box
+
+  - platform: template
+    name: Temperature Offset
+    id: temperature_offset
+    restore_value: true
+    initial_value: 0.0
+    min_value: -70.0
+    max_value: 70.0
+    entity_category: "CONFIG"
+    unit_of_measurement: "°C"
+    optimistic: true
+    update_interval: never
+    step: 0.1
+    mode: box
+
+display:
+  - platform: waveshare_epaper
+    model: 1.54inv2
+    id: disp
+    cs_pin: GPIO04
+    dc_pin: GPIO03
+    reset_pin: GPIO02
+    busy_pin:
+      number: GPIO01
+      inverted: false
+    full_update_every: 6
+    reset_duration: 2ms
+    update_interval: 10s
+    lambda: |-
+      auto now = id(sntp_time).now().strftime("%H:%M %d/%m/%y").c_str();
+      it.printf(it.get_width()/2, 0, id(f12), TextAlign::TOP_CENTER, "${display_location} @ %s", now);
+
+      it.print(0, 23, id(f24), TextAlign::TOP_LEFT, "PM 1: "); 
+      it.print(0, 48, id(f24), TextAlign::TOP_LEFT, "PM 2.5: "); 
+      it.print(0, 73, id(f24), TextAlign::TOP_LEFT, "PM 4: "); 
+      it.print(0, 98, id(f24), TextAlign::TOP_LEFT, "PM 10: "); 
+      it.print(0, 123, id(f24), TextAlign::TOP_LEFT, "CO2: "); 
+      it.print(0, 148, id(f24), TextAlign::TOP_LEFT, "VOC: ");
+      it.print(0, 173, id(f24), TextAlign::TOP_LEFT, "NOX: ");
+
+      it.printf(it.get_width(), 23, id(f24), TextAlign::TOP_RIGHT, "%.0f", id(PM1_0).state);
+      it.printf(it.get_width(), 48, id(f24), TextAlign::TOP_RIGHT, "%.0f", id(PM2_5).state);
+      it.printf(it.get_width(), 73, id(f24), TextAlign::TOP_RIGHT, "%.0f", id(PM4_0).state); 
+      it.printf(it.get_width(), 98, id(f24), TextAlign::TOP_RIGHT, "%.0f", id(PM10_0).state);
+      it.printf(it.get_width(), 123, id(f24), TextAlign::TOP_RIGHT, "%.0fppm", id(CO2).state);
+      it.printf(it.get_width(), 148, id(f24), TextAlign::TOP_RIGHT, "%.0f", id(voc).state);
+      it.printf(it.get_width(), 173, id(f24), TextAlign::TOP_RIGHT, "%.0f", id(nox).state);
