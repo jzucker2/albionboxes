@@ -24,3 +24,6 @@
   * https://esphome.io/components/sensor/xgzp68xx.html
 * `HomeKit` on `ESPHome`
   * https://www.reddit.com/r/Esphome/comments/1ejtu0m/homekit_on_esphome/
+* `ESPHome` powered fan for computer cabinet
+  * https://www.reddit.com/r/Esphome/comments/sm89wk/esphome_speedcontrolled_fan_to_cool_computer/
+  * https://github.com/patrickcollins12/esphome-fan-controller
