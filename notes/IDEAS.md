@@ -22,3 +22,5 @@
   * https://github.com/gcormier/esphome-pressure/
   * https://www.reddit.com/r/homeassistant/comments/1e77ez5/using_an_esp32_to_monitor_the_filter_status_of_my/
   * https://esphome.io/components/sensor/xgzp68xx.html
+* `HomeKit` on `ESPHome`
+  * https://www.reddit.com/r/Esphome/comments/1ejtu0m/homekit_on_esphome/
