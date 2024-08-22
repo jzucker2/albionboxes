@@ -27,3 +27,4 @@
 * `ESPHome` powered fan for computer cabinet
   * https://www.reddit.com/r/Esphome/comments/sm89wk/esphome_speedcontrolled_fan_to_cool_computer/
   * https://github.com/patrickcollins12/esphome-fan-controller
+* Cool repo of home assistant and ESPHome projects

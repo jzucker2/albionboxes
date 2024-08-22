@@ -4,7 +4,7 @@ substitutions:
   friendly_name: Icarus AirQ Sensor V1
   area: Icarus
   comment: "This is Hack-a-Cola device for using an M5Stack AirQ sensor kit"
-  box_config_file_name: gerlack_icarus_air_q_sensor_v1
+  box_config_file_name: playa_icarus_air_q_sensor_v1
   display_location: "Icarus"
   sensor_interval: "10s"
 
