@@ -28,3 +28,5 @@
   * https://www.reddit.com/r/Esphome/comments/sm89wk/esphome_speedcontrolled_fan_to_cool_computer/
   * https://github.com/patrickcollins12/esphome-fan-controller
 * Cool repo of home assistant and ESPHome projects
+  * https://github.com/landonr/esphome-components
+* https://www.reddit.com/r/Esphome/comments/1eyd4wv/finally_properly_launched_the_pd_stepper_a_usb_pd/
