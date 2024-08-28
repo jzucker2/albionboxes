@@ -10,6 +10,7 @@ substitutions:
   comment: "This is the prototype for Burning Man simple lights control"
   box_config_file_name: playa_kitchen_lights_plug
   relay_pin: GPIO23
+  relay_restore_mode: "ALWAYS_ON"
 
 packages:
   esphome: !include common/default_esphome.yaml
@@ -44,3 +45,4 @@ switch:
     name: "${friendly_name} Plug Relay"
     id: plug_relay_switch
     pin: ${relay_pin}
+    restore_mode: ${relay_restore_mode}
