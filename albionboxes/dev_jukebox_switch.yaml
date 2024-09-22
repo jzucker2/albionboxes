@@ -1,0 +1,117 @@
+substitutions:
+  node_name: devjukeboxswitch
+  friendly_name: Dev Jukebox Switch
+  area: Dev
+  comment: "This is a dev device for the jukebox functionality"
+  box_config_file_name: dev_jukebox_switch
+  relay_1_pin: GPIO22
+  relay_2_pin: GPIO19
+  turntable_spin_script_delay_seconds: "1200" # 60s*20m
+#  turntable_spin_script_delay_seconds: "10" # 60s*20m
+
+packages:
+  esphome: !include common/default_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+## Device-specific
+
+# https://esphome.io/guides/automations.html#script-component
+script:
+  - id: spin_turntable_timer_script
+    mode: restart
+    parameters:
+      delay_seconds: int
+    then:
+      - if:
+          condition:
+            switch.is_off: enable_motor_switch
+          then:
+            - lambda: |-
+                ESP_LOGD("turntable_motor_timer_script", "Skipping real work because motor is off");
+          else:
+            # Here we do the real script work
+            - logger.log: "Start turntable motor with timer countdown"
+            - lambda: |-
+                ESP_LOGD("turntable_motor_timer_script", "First turn on switch");
+            - switch.turn_on: turntable_motor_relay
+            - lambda: |-
+                ESP_LOGD("turntable_motor_timer_script", "Now count down delay_seconds: %d", delay_seconds);
+            # The param delay_seconds is accessible using a lambda
+            - delay: !lambda return (1000 * delay_seconds);
+            - lambda: |-
+                ESP_LOGD("turntable_motor_timer_script", "Timer done and %d has elapsed, stop turntable", delay_seconds);
+            - switch.turn_off: turntable_motor_relay
+            - logger.log: "Fully done with turntable timer script!"
+
+# https://devices.esphome.io/devices/Generic-Relay
+switch:
+  - platform: gpio
+    name: "${friendly_name} Relay 1"
+    id: turntable_motor_relay
+    pin: ${relay_1_pin}
+  - platform: gpio
+    name: "${friendly_name} Relay 2"
+    id: relay_2
+    pin: ${relay_2_pin}
+
+  # https://esphome.io/components/switch/template.html
+  - platform: template
+    name: "${friendly_name} Enable Motor Switch"
+    id: enable_motor_switch
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    assumed_state: false
+    turn_off_action:
+      - switch.turn_off: turntable_motor_relay
+
+# https://esphome.io/components/button/index.html
+button:
+  - platform: template
+    name: "${friendly_name} Spin Turntable Timer Script"
+    id: spin_turntable_timer_script_button
+    icon: "mdi:emoticon-outline"
+    on_press:
+      - logger.log: "${friendly_name} Virtual Button pressed"
+      - script.execute:
+          id: spin_turntable_timer_script
+          delay_seconds: "${turntable_spin_script_delay_seconds}"
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 26
+      inverted: true
+    name: "${friendly_name} Red Button"
+    on_press:
+      then:
+        - logger.log: "Red Button Clicked"
+        - script.stop: spin_turntable_timer_script
+        - switch.turn_off: turntable_motor_relay
+
+  - platform: gpio
+    pin:
+      number: 32
+      inverted: true
+    name: "${friendly_name} Blue Button"
+    on_press:
+      then:
+        - logger.log: "Blue Button Clicked"
+        - script.execute:
+            id: spin_turntable_timer_script
+            delay_seconds: "${turntable_spin_script_delay_seconds}"

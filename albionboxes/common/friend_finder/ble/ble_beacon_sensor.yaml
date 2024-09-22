@@ -5,4 +5,5 @@
   name: "${ibeacon_friendly_name} iBeacon Presence Detected"
   id: "${ibeacon_sensor_id_prefix}_ble_presence_binary_sensor"
 #  min_rssi: -80db
-  timeout: 15s
+  # mostly set for debug, at the Burn seems like 2m or 5m might be much better
+  timeout: 10s

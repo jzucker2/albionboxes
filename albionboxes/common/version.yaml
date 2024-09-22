@@ -4,11 +4,15 @@ text_sensor:
     # example => `2024.3.2 Apr 12 2024, 16:46:11`
     name: "ESPHome Version Detailed"
     id: esphome_version_text_detailed
+    entity_category: "diagnostic"
+
   - platform: version
     # example => `2024.3.2`
     name: "ESPHome Version"
     id: esphome_version_text_short
+    entity_category: "diagnostic"
     hide_timestamp: true
+
   - platform: copy
     source_id: esphome_version_text_short
     id: esphome_version_text_sanitized

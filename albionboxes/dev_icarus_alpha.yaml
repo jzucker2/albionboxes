@@ -1,0 +1,60 @@
+# based around https://community.home-assistant.io/t/modbus-data-from-sma-inverter/122425/229?page=9
+# https://community.home-assistant.io/t/best-way-to-connect-sma-sb-4000tl-20-to-ha/390754
+# https://files.sma.de/downloads/EDMx-Modbus-TI-en-16.pdf
+substitutions:
+  node_name: devicarusalpha
+  friendly_name: Dev Icarus Alpha
+  area: Dev
+  comment: "This is the first dev device for interacting with Icarus"
+  box_config_file_name: dev_icarus_alpha
+  uart_baud_rate: "1200"
+  modbus_controller_address: "0x1"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+# https://esphome.io/components/uart.html
+uart:
+  id: modbus_uart
+  tx_pin: GPIO19
+  rx_pin: GPIO22
+  baud_rate: "${uart_baud_rate}"
+
+# https://esphome.io/components/modbus
+modbus:
+  id: modbus_1
+  uart_id: modbus_uart
+
+# https://esphome.io/components/modbus_controller.html
+modbus_controller:
+- id: modbus_device
+  address: "${modbus_controller_address}"   ## address of the Modbus slave device on the bus
+  modbus_id: modbus_1
+  setup_priority: -10
+
+sensor:
+- platform: modbus_controller
+  modbus_controller_id: modbus_device
+  name: "Battery Capacity"
+  register_type: holding
+#  address: 0x9001    ## address of the register inside the Modbus slave device
+  address: 30001
+  unit_of_measurement: "AH"
+  value_type: U_DWORD

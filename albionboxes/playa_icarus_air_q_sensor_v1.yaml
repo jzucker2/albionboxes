@@ -1,0 +1,29 @@
+# https://www.reddit.com/r/Esphome/comments/1e2q8jj/m5_stack_airq_air_quality_sensor/
+substitutions:
+  node_name: icarusairqsensorv1
+  friendly_name: Icarus AirQ Sensor V1
+  area: Icarus
+  comment: "This is Hack-a-Cola device for using an M5Stack AirQ sensor kit"
+  box_config_file_name: playa_icarus_air_q_sensor_v1
+  display_location: "Icarus"
+  sensor_interval: "10s"
+
+packages:
+  esphome: !include common/air_q_sensor/utils/default_air_q_esphome.yaml
+  logging: !include common/default_logger.yaml
+#  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5stamps3_device.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  fonts: !include common/air_q_sensor/utils/fonts.yaml
+  air_template: !include common/air_q_sensor/base_template.yaml

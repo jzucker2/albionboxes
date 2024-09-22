@@ -1,0 +1,20 @@
+# https://esphome.io/components/esphome
+esphome:
+  name: ${node_name}
+#  friendly_name: Paper1Screen
+  area: ${area}
+  comment: ${comment}
+  project: !include ../../default_project.yaml
+  platformio_options:
+    board_build.mcu: esp32s3
+    board_build.name: "M5Stack StampS3"
+    board_build.upload.flash_size: 8MB
+    board_build.upload.maximum_size: 8388608
+    board_build.vendor: M5Stack
+  on_boot:
+    - priority: 800
+      then:
+        - output.turn_on: enable
+    - priority: 800
+      then:
+        - pcf8563.read_time

@@ -1,0 +1,47 @@
+
+substitutions:
+  node_name: devwaveshareboard
+  friendly_name: Dev Waveshare Board
+  area: Dev
+  comment: "Developing a replacement waveshare board"
+  box_config_file_name: dev_waveshare_board
+
+packages:
+#  esphome: !include common/default_esphome.yaml
+  esphome: !include common/waveshare_esphome.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+#  esp32: !include common/m5atom_device.yaml
+  esp32: !include common/waveshare_device.yaml
+#  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  fonts: !include common/fonts.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+#  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+# https://blog.wijman.net/e-ink-weather-frame-with-esphome-and-home-assistant/
+
+spi:
+  clk_pin: 13
+  mosi_pin: 14
+
+# https://esphome.io/components/display/waveshare_epaper.html
+display:
+  - platform: waveshare_epaper
+    cs_pin: 15
+    dc_pin: 27
+    busy_pin: 25
+    reset_pin: 26
+    model: 7.50in-bV2
+#    full_update_every: 30
+    lambda: |-
+      it.print(0, 0, id(roboto), "Hello World!");

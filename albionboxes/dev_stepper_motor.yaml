@@ -1,0 +1,97 @@
+substitutions:
+  node_name: devsteppermotor
+  friendly_name: Dev Stepper Motor
+  area: Dev
+  comment: "This is the first attempt at controlling a stepper motor"
+  box_config_file_name: dev_stepper_motor
+  stepper_pin_a: GPIO23
+  stepper_pin_b: GPIO33
+  stepper_pin_c: GPIO19
+  stepper_pin_d: GPIO22
+  stepper_max_speed: "250 steps/s"
+  stepper_acceleration: "inf"
+  stepper_deceleration: "inf"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+# https://esphome.io/components/stepper/index.html
+stepper:
+  - platform: uln2003
+    id: stepper_motor
+    pin_a: "${stepper_pin_a}"
+    pin_b: "${stepper_pin_b}"
+    pin_c: "${stepper_pin_c}"
+    pin_d: "${stepper_pin_d}"
+    max_speed: "${stepper_max_speed}"
+
+    # Optional:
+    acceleration: "${stepper_acceleration}"
+    deceleration: "${stepper_deceleration}"
+
+# https://esphome.io/components/button/index.html
+button:
+  - platform: template
+    name: "${friendly_name} Simple Stepper Motor Test"
+    id: simple_stepper_motor_test_button
+    # Optional variables:
+    icon: "mdi:engine"
+    on_press:
+      - logger.log: "Simple Stepper Motor Test Button pressed"
+      - stepper.set_target:
+          id: stepper_motor
+          target: 250
+
+  - platform: template
+    name: "${friendly_name} Move Stepper"
+    id: move_stepper_button
+    # Optional variables:
+    icon: "mdi:engine"
+    on_press:
+      - logger.log: "Move Stepper Button pressed"
+      - stepper.set_target:
+          id: stepper_motor
+          target: 250
+
+  - platform: template
+    name: "${friendly_name} Reset Stepper Position"
+    id: reset_stepper_position_button
+    # Optional variables:
+    icon: "mdi:engine"
+    on_press:
+      - logger.log: "Reset Stepper Position Button pressed"
+      - stepper.set_target:
+          id: stepper_motor
+          target: 0
+
+  - platform: template
+    name: "${friendly_name} Stepper Motor Report Position"
+    id: stepper_motor_report_position_button
+    # Optional variables:
+    icon: "mdi:map-marker-outline"
+    on_press:
+      - logger.log: "Report Position Button pressed"
+      - stepper.report_position:
+          id: stepper_motor
+          position: 250
+      # It's best to call set_target directly after report_position, so that the stepper doesn't move
+      - stepper.set_target:
+          id: stepper_motor
+          target: 250

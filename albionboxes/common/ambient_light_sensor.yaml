@@ -1,0 +1,7 @@
+# https://esphome.io/components/sensor/bh1750.html
+# https://www.aliexpress.us/item/3256803586230219.html
+- platform: bh1750
+  name: "${friendly_name} Illuminance"
+  id: ambient_light_sensor
+  address: 0x23
+  update_interval: "${light_sensor_update_interval}"

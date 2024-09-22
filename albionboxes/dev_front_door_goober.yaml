@@ -1,0 +1,88 @@
+# Still want to convert to ethernet at some point
+# pattern for naming
+# https://devices.esphome.io/devices/M5Stack-M5StickC-PLUS2
+substitutions:
+  node_name: devfrontdoorgoober
+  friendly_name: Dev Front Door Goober
+  area: Dev
+  comment: "Developing a M5StickC Plus2 for front door lock control"
+  box_config_file_name: dev_front_door_goober
+  front_door_nfc_card_uid: !secret front_door_nfc_card_uid
+
+packages:
+  esphome: !include common/m5stickcplus2/m5stickcplus2_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5stickcplus2/m5stickcplus2_device.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  internal_i2c: !include common/m5stickcplus2/internal_i2c.yaml
+  display: !include common/m5stickcplus2/display.yaml
+  fonts_and_colors: !include common/m5stickcplus2/fonts_and_colors.yaml
+  i2s_audio: !include common/m5stickcplus2/i2s_audio.yaml
+  lights: !include common/m5stickcplus2/lights.yaml
+  mic: !include common/m5stickcplus2/mic.yaml
+  outputs: !include common/m5stickcplus2/outputs.yaml
+  spi: !include common/m5stickcplus2/spi.yaml
+  external_i2c: !include common/m5stickcplus2/external_i2c.yaml
+  short_buzzer_script: !include common/m5stickcplus2/scripts/short_buzzer.yaml
+  flash_red_light_script: !include common/m5stickcplus2/scripts/flash_red_light.yaml
+  flash_and_buzz_script: !include common/m5stickcplus2/scripts/flash_and_buzz.yaml
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/chill-Division/M5Stack-ESPHome/
+      ref: main
+    components: mfrc522_i2c
+
+mfrc522_i2c:
+  i2c_id: external_bus_b
+  address: 0x28 # I2C adress
+  update_interval: 200ms # It seems happiest with 200ms minimum
+  on_tag:
+    then:
+      - logger.log: "Found tag!"
+      - homeassistant.tag_scanned: !lambda 'return x;'
+      - script.execute:
+          id: flash_and_buzz
+          delay_ms: 750
+
+sensor:
+  - <<: !include common/m5stickcplus2/battery_sensor.yaml
+
+binary_sensor:
+  # Turn on display backlight while Button A is pressed
+  - platform: gpio
+    pin:
+      number: GPIO37
+      inverted: true
+    name: "${friendly_name} Button A"
+    on_release:
+      - light.toggle: display_bl
+
+  # Play 1000Hz tone through buzzer while Button B is pressed
+  - platform: gpio
+    pin:
+      number: GPIO39
+      inverted: true
+    name: "${friendly_name} Button B"
+    on_release:
+      then:
+        - script.execute:
+            id: short_buzzer
+            delay_ms: 750
+
+  - platform: rc522
+    uid: "${front_door_nfc_card_uid}"
+    name: "${friendly_name} Front Door NFC Card"

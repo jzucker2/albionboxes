@@ -4,7 +4,7 @@ substitutions:
   node_name: devbledebugtracker
   friendly_name: Dev BLE Debug Tracker
   area: Dev
-  comment: "Developing a rumbling friend finder (alpha instance)"
+  comment: "This is used for looking for BLE devices like iBeacon and such"
   box_config_file_name: dev_ble_debug_tracker
 
 packages:

@@ -1,0 +1,8 @@
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  framework:
+    type: arduino
+    # fix for internal temp (version is currently at 2.0.5)
+    # https://github.com/esphome/issues/issues/4271
+    version: 2.0.7

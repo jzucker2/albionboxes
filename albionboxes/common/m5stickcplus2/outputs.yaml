@@ -1,0 +1,15 @@
+output:
+  - platform: ledc
+    pin: 19
+    inverted: false
+    id: builtin_led
+
+  - platform: ledc
+    pin: 2
+    inverted: true
+    id: buzzer
+
+  - platform: ledc
+    pin: 27
+    inverted: true
+    id: backlight

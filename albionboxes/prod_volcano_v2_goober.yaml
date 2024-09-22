@@ -1,0 +1,44 @@
+# https://github.com/wifwucite/esphome-ble-controller
+substitutions:
+  node_name: volcanov2goober
+  friendly_name: Volcano V2 Goober
+  area: Living Room
+  comment: "Trying to redo the Volcano goober on a ESP32-S3"
+  box_config_file_name: prod_volcano_v2_goober
+  # FIXME: need to fill this out a bit
+  volcano_mac_address: !secret volcano_mac_address
+  autoconnect: "true"
+  heat_icon: "mdi:fire"
+  fan_icon: "mdi:fan"
+  volcano_switch_restore_mode: DISABLED
+  # shorter than 60s seems to cause issues right now
+  temperature_sensor_update_interval: "60s"
+  main_service_uuid: "10110000-5354-4f52-5a26-4249434b454c"
+  primary_info_service_uuid: "10100000-5354-4f52-5a26-4249434b454c"
+  heat_turn_on_char_uuid: "1011000f-5354-4f52-5a26-4249434b454c"
+  heat_turn_off_char_uuid: "10110010-5354-4f52-5a26-4249434b454c"
+  fan_turn_on_char_uuid: "10110013-5354-4f52-5a26-4249434b454c"
+  fan_turn_off_char_uuid: "10110014-5354-4f52-5a26-4249434b454c"
+  current_primary_info_char_uuid: "1010000c-5354-4f52-5a26-4249434b454c"
+  current_temperature_char_uuid: "10110001-5354-4f52-5a26-4249434b454c"
+  write_temperature_char_uuid: "10110003-5354-4f52-5a26-4249434b454c"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  logging: !include common/s3_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atoms3lite_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 35 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 41 } }
+  volcano_prototype: !include common/volcano_prototype_v1.yaml

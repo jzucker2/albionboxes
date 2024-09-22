@@ -1,5 +1,6 @@
 # Example configuration entry
 web_server:
+  include_internal: true
 
 # Activates prometheus /metrics endpoint
 prometheus:
@@ -11,5 +12,8 @@ api:
   encryption:
     key: !secret encryption_key
 
+# TODO: break this out into a separate file
+# https://esphome.io/components/ota/esphome.html
 ota:
-  password: !secret ota_password
+  - platform: esphome
+    password: !secret ota_password

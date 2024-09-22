@@ -1,0 +1,26 @@
+substitutions:
+  node_name: ghgarage-bluetooth-proxy
+  friendly_name: Guest House Garage Bluetooth Proxy
+  area: Guest House Garage
+  comment: "This is a stopover iteration"
+  box_config_file_name: gerlack_guest_house_garage_bt_proxy
+
+packages:
+  esphome: !include common/default_esphome.yaml
+  logging: !include common/default_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  bluetooth_proxy: !include common/bluetooth_proxy.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }

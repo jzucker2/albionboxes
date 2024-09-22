@@ -2,6 +2,7 @@
 - platform: rotary_encoder
   name: "${friendly_name} Rotary Encoder"
   id: rotaryencoder
+  internal: true
   max_value: 100
   min_value: 0
   resolution: 1

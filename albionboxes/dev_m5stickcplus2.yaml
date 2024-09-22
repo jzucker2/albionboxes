@@ -1,0 +1,64 @@
+# Still want to convert to ethernet at some point
+# pattern for naming
+# https://devices.esphome.io/devices/M5Stack-M5StickC-PLUS2
+substitutions:
+  node_name: devm5stickcplus2
+  friendly_name: Dev M5StickC Plus2
+  area: Dev
+  comment: "Developing the M5StickC Plus2 for basic usage"
+  box_config_file_name: dev_m5stickcplus2
+  front_door_nfc_card_uid: !secret front_door_nfc_card_uid
+
+packages:
+  esphome: !include common/m5stickcplus2/m5stickcplus2_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5stickcplus2/m5stickcplus2_device.yaml
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  internal_i2c: !include common/m5stickcplus2/internal_i2c.yaml
+  display: !include common/m5stickcplus2/display.yaml
+  fonts_and_colors: !include common/m5stickcplus2/fonts_and_colors.yaml
+  i2s_audio: !include common/m5stickcplus2/i2s_audio.yaml
+  lights: !include common/m5stickcplus2/lights.yaml
+  mic: !include common/m5stickcplus2/mic.yaml
+  outputs: !include common/m5stickcplus2/outputs.yaml
+  spi: !include common/m5stickcplus2/spi.yaml
+  external_i2c: !include common/m5stickcplus2/external_i2c.yaml
+  short_buzzer_script: !include common/m5stickcplus2/scripts/short_buzzer.yaml
+
+sensor:
+  - <<: !include common/m5stickcplus2/battery_sensor.yaml
+  - <<: !include common/m5stickcplus2/motion_sensor.yaml
+
+binary_sensor:
+  # Turn on display backlight while Button A is pressed
+  - platform: gpio
+    pin:
+      number: GPIO37
+      inverted: true
+    name: "${friendly_name} Button A"
+    on_release:
+      - light.toggle: display_bl
+
+  # Play 1000Hz tone through buzzer while Button B is pressed
+  - platform: gpio
+    pin:
+      number: GPIO39
+      inverted: true
+    name: "${friendly_name} Button B"
+    on_release:
+      then:
+        - script.execute:
+            id: short_buzzer
+            delay_ms: 750

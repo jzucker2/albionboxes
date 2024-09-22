@@ -3,6 +3,7 @@
   id: receiver_zone_volume
   entity_id: ${receiver_zone_media_player_entity}
   attribute: volume_level
+  internal: true
   on_value:
     - logger.log:
         format: "The media_player volume sensor reports value %f"

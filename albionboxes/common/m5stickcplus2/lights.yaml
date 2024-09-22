@@ -1,0 +1,12 @@
+light:
+  - platform: monochromatic
+    output:  builtin_led
+    name: ${friendly_name} Led
+    id: led1
+    restore_mode: RESTORE_DEFAULT_OFF
+
+  - platform: monochromatic
+    output:  backlight
+    name: ${friendly_name} Backlight
+    id: display_bl
+    restore_mode: RESTORE_DEFAULT_OFF

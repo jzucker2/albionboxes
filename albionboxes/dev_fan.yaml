@@ -1,0 +1,71 @@
+substitutions:
+  node_name: devfan
+  friendly_name: Dev Fan
+  area: Dev
+  comment: "This is the first dev device for using a simple fan with a DC motor"
+  box_config_file_name: dev_fan
+  fan_motor_speed_percentage: "40%"
+
+# TODO: make sure fan is off on boot
+
+packages:
+  esphome: !include common/default_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+# https://esphome.io/components/output/ledc.html
+# Configure the output
+output:
+  - platform: ledc
+    ######################################################
+    # One buzzer leg connected to GPIO12, the other to GND
+    ######################################################
+    pin: GPIO26
+    id: fan_motor
+    inverted: false
+
+# https://esphome.io/components/fan/speed.html
+fan:
+  - platform: speed
+    output: fan_motor
+    name: "${friendly_name} Fan"
+
+# TODO: make fan speed variable
+
+# template switch
+# https://esphome.io/components/switch/template
+switch:
+  - platform: template
+    name: "${friendly_name} Fan Switch"
+    id: fan_switch
+    restore_mode: ALWAYS_OFF
+    assumed_state: true
+    optimistic: true
+#    lambda: |-
+#      if (id(fan_motor).state) {
+#        return true;
+#      } else {
+#        return false;
+#      }
+    turn_on_action:
+      - output.turn_on: fan_motor
+      - output.set_level:
+          id: fan_motor
+          level: "${fan_motor_speed_percentage}"
+    turn_off_action:
+      - output.turn_off: fan_motor

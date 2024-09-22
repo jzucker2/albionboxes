@@ -1,0 +1,38 @@
+# Still want to convert to ethernet at some point
+# pattern for naming
+substitutions:
+  node_name: devbles3debugtracker
+  friendly_name: Dev BLE S3 Debug Tracker
+  area: Dev
+  comment: "This is used for looking for BLE devices like iBeacon and such (with AtomS3)"
+  box_config_file_name: dev_ble_debug_tracker
+
+packages:
+  esphome: !include common/default_esphome.yaml
+#  logging: !include common/s3_debug_logger.yaml
+  logging: !include common/s3_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atoms3lite_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 35 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 41 } }
+
+# https://esphome.io/components/esp32_ble_tracker
+esp32_ble_tracker:
+
+logger:
+  level: VERY_VERBOSE
+
+text_sensor:
+  - platform: ble_scanner
+    name: "BLE Devices Scanner"

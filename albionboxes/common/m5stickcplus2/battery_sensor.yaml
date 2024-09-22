@@ -1,0 +1,9 @@
+# Battery voltage measured through ADC1_CH2. PLUS2 has a voltage divider,
+# so reading needs to be multiplied by 2
+- platform: adc
+  pin: GPIO38
+  attenuation: 11db
+  update_interval: 60s
+  name: "${friendly_name} Battery Voltage"
+  filters:
+    - multiply: 2.0
