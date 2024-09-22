@@ -10,7 +10,7 @@ wifi_password: supersecretpassword
 encryption_key: "9zgsw5h/VOhDmsTWB1QvEQgMY3/GxGDSnQrSxv6fs90="
 # https://esphome.io/components/ota.html
 ota_password: albionboxes
-# for albionboxes/prod_volcano_goober.yaml
+# for albionboxes/prod_volcano_v3_goober.yaml
 volcano_mac_address: "C9:C9:C4:C4:D3:8F"
 # for albionboxes/prod_gaggia_timer.yaml
 gaggia_timer_alarm_media_file_path: "http://10.0.1.121:8123/local/simple_alarm.mp3"
