@@ -4,7 +4,7 @@
   id: my_lcd
   cs_pin: GPIO7
   dc_pin: GPIO4
-  invert_colors: false
+  invert_colors: true
   rotation: ${display_rotation}
   # default is 5s
 #  update_interval: 2s
