@@ -50,6 +50,8 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 * Internal temp issues
   * https://github.com/esphome/issues/issues/4271
   * https://github.com/espressif/esp-idf/issues/8088
+* M5Stack PoE W5500 chip has issues with ESPHome
+  * https://github.com/esphome/esphome/pull/7503
 
 ## Concepts
 
