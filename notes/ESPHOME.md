@@ -54,6 +54,8 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
   * https://github.com/esphome/esphome/pull/7503
 * LoRa M5Stack support
   * https://github.com/esphome/esphome/pull/7490
+* ESPHome powered audio dac
+  * https://github.com/esphome/esphome/pull/7505
 
 ## Concepts
 
