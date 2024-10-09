@@ -1,0 +1,40 @@
+substitutions:
+  node_name: devirreceiverlogger
+  friendly_name: Dev IR Receiver Logger
+  area: Dev
+  comment: "This is a simple set up to log received IR blasts"
+  box_config_file_name: dev_ir_receiver_logger
+  remote_receiver_pin: "GPIO32"
+  remote_receiver_dump_type: "raw"
+
+packages:
+  esphome: !include common/default_esphome.yaml
+#  logging: !include common/default_logger.yaml
+  logging: !include common/debug_logger.yaml
+  wifi: !include common/wifi.yaml
+  esp32: !include common/m5atom_device.yaml
+  light: !include { file: common/atom_light.yaml, vars: { light_pin: 27 } }
+  reset_button: !include common/reset_button.yaml
+  networking: !include common/networking.yaml
+  http: !include common/http.yaml
+  version: !include common/version.yaml
+  wifi_info: !include common/wifi_info.yaml
+  uptime: !include common/uptime.yaml
+  wifi_signal_sensor: !include common/wifi_signal_sensor.yaml
+  status_sensor: !include common/status_sensor.yaml
+  internal_temp: !include common/internal_temp.yaml
+  dashboard_import: !include common/default_dashboard_import.yaml
+  albion_boxes_info: !include common/albionboxes_info.yaml
+  button: !include { file: common/default_atom_button.yaml, vars: { button_pin: 39 } }
+
+## Device-specific
+# https://esphome.io/guides/setting_up_rmt_devices#remote-setting-up-infrared
+# https://docs.m5stack.com/en/unit/ir
+# https://github.com/Chill-Division/M5Stack-ESPHome/blob/main/Mini%20Infrared%20Emitter%20%26%20Receiver%20Unit.md
+
+# https://esphome.io/components/remote_receiver
+remote_receiver:
+  pin:
+    number: "${remote_receiver_pin}"
+    inverted: true
+  dump: "${remote_receiver_dump_type}"
