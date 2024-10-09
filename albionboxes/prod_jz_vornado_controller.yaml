@@ -95,28 +95,28 @@ button:
   - platform: template
     name: "${friendly_name} On/Off"
     id: transmit_on_off_blast
-    icon: "mdi:light-switch"
+    icon: "mdi:fan"
     on_press:
       - logger.log: "${friendly_name} on/off pressed"
       - script.execute: send_on_off_ir_blast
   - platform: template
     name: "${friendly_name} Change Direction"
     id: transmit_change_direction_blast
-    icon: "mdi:light-switch"
+    icon: "mdi:swap-horizontal"
     on_press:
       - logger.log: "${friendly_name} change direction pressed"
       - script.execute: send_change_direction_ir_blast
   - platform: template
     name: "${friendly_name} Increase Fans"
     id: transmit_increase_fans_blast
-    icon: "mdi:light-switch"
+    icon: "mdi:fan-plus"
     on_press:
       - logger.log: "${friendly_name} increase fans pressed"
       - script.execute: send_increase_fans_ir_blast
   - platform: template
     name: "${friendly_name} Decrease Fans"
     id: transmit_decrease_fans_blast
-    icon: "mdi:light-switch"
+    icon: "mdi:fan-minus"
     on_press:
       - logger.log: "${friendly_name} decrease fans pressed"
       - script.execute: send_decrease_fans_ir_blast
