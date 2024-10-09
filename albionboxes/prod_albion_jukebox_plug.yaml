@@ -116,6 +116,7 @@ binary_sensor:
         then:
           - logger.log: "Blue => Double Clicked"
           - logger.log: "Blue Button Double Clicked started"
+          - switch.turn_on: plug_relay_switch
           # https://esphome.io/components/api.html#homeassistant-service-action
           # https://community.home-assistant.io/t/service-calls-through-native-api/374038/2
           - homeassistant.service:
