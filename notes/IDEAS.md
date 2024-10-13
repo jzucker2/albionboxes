@@ -34,3 +34,9 @@
   * https://github.com/swoboda1337/acurite-esphome
 * wake words!
   * https://www.home-assistant.io/voice_control/s3_box_voice_assistant/
+* Jesse's projects (main contributor/owner of ESPHome)
+  * https://github.com/jesserockz/esphome-components
+    * https://github.com/jesserockz/esphome-components/tree/main/components/file
+      * allows you to inject any random file, like a `sound.wav` file, into a config
+  * https://github.com/jesserockz/esphome-configs
+    * His personal configs
