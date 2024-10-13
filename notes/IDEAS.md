@@ -32,3 +32,5 @@
 * https://www.reddit.com/r/Esphome/comments/1eyd4wv/finally_properly_launched_the_pd_stepper_a_usb_pd/
 * Accurate tracker
   * https://github.com/swoboda1337/acurite-esphome
+* wake words!
+  * https://www.home-assistant.io/voice_control/s3_box_voice_assistant/
