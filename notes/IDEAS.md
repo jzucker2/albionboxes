@@ -40,3 +40,6 @@
       * allows you to inject any random file, like a `sound.wav` file, into a config
   * https://github.com/jesserockz/esphome-configs
     * His personal configs
+* Home Assistant voice assistant project
+  * https://github.com/esphome/home-assistant-voice-pe
+  * This seems like a great sample repo, not sure where the instructions are
