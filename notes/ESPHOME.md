@@ -19,6 +19,8 @@ pip install --upgrade -r upgrade-requirements.txt
 
 * https://github.com/esphome/feature-requests/issues/2476
 * https://community.home-assistant.io/t/how-is-friendly-name-supposed-to-behave/542570/9
+* https://github.com/esphome/esphome/pull/7606
+  * Option to include `vars` in remote packages
 
 Turns out that it will shove `friendly_name` in front of an 
 entity, _even_ if that entity is already prepended with the 
