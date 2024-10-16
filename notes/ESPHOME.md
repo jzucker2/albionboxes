@@ -35,6 +35,10 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 * https://www.youtube.com/watch?v=0t12tRsphlM
 * https://community.home-assistant.io/t/what-is-dashboard-import/422519/4
 
+## GitHub Actions
+
+* https://github.com/esphome/build-action
+
 ## Framework: Arduino vs. ESP-IDF
 
 * Explains the difference between the 2 frameworks
