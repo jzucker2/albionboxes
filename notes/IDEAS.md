@@ -43,3 +43,4 @@
 * Home Assistant voice assistant project
   * https://github.com/esphome/home-assistant-voice-pe
   * This seems like a great sample repo, not sure where the instructions are
+* https://github.com/crankyoldgit/IRremoteESP8266
