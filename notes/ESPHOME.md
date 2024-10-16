@@ -73,6 +73,8 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
     * https://github.com/esphome/esphome/blob/dev/esphome/components/ble_client/sensor/ble_sensor.cpp
 * Functions and import stuff
   * https://community.home-assistant.io/t/reusable-function-for-lambdas/296435/9
+* Examples for making custom components
+  * https://github.com/jesserockz/esphome-external-component-examples
 
 ## General Resources
 
