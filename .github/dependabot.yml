@@ -41,6 +41,3 @@ updates:
     allow:
       # allow updates for specific clients
       - dependency-name: "esphome"
-      # Note: esphome pins specific Pillow versions
-      - dependency-name: "Pillow"
-      - dependency-name: "CairoSVG"
