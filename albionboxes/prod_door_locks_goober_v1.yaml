@@ -3,7 +3,7 @@ substitutions:
   node_name: doorlocksgooberv1
   friendly_name: Door Locks Goober V1
   area: Dan Room
-  comment: "This is the first attempt at converting door lock functionality to ESPHome at Albion"
+  comment: "This is an improved attempt at converting door lock functionality to ESPHome at Albion"
   box_config_file_name: prod_door_locks_goober_v1
   battery_sensor_update_interval: "60s"
   front_door_lock_url: !secret front_door_lock_url
@@ -42,8 +42,20 @@ switch:
     restore_mode: RESTORE_DEFAULT_ON
     optimistic: true
     assumed_state: false
-#    turn_off_action:
-#      - switch.turn_off: turntable_motor_relay
+  # https://esphome.io/components/switch/template.html
+  - platform: template
+    name: "${friendly_name} Enable Front Door Pings"
+    id: enable_front_door_lock_pings_switch
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    assumed_state: false
+  # https://esphome.io/components/switch/template.html
+  - platform: template
+    name: "${friendly_name} Enable Back Door Pings"
+    id: enable_back_door_lock_pings_switch
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    assumed_state: false
 
 sensor:
   # https://esphome.io/components/sensor/template
@@ -81,11 +93,10 @@ interval:
     then:
       - if:
           condition:
-            switch.is_off: enable_lock_pings_switch
+            and:
+              - switch.is_on: enable_lock_pings_switch
+              - switch.is_on: enable_front_door_lock_pings_switch
           then:
-            - lambda: |-
-                ESP_LOGD("front_door_sensor_interval_ping", "Skipping real work because ping flag is off");
-          else:
             - logger.log:
                 format: "Starting check on front door lock battery"
                 level: DEBUG
@@ -114,15 +125,15 @@ interval:
             - logger.log:
                 format: "Finishing check on front door lock battery"
                 level: DEBUG
+
   - interval: "${battery_sensor_update_interval}"
     then:
       - if:
           condition:
-            switch.is_off: enable_lock_pings_switch
+            and:
+              - switch.is_on: enable_lock_pings_switch
+              - switch.is_on: enable_back_door_lock_pings_switch
           then:
-            - lambda: |-
-                ESP_LOGD("back_door_sensor_interval_ping", "Skipping real work because ping flag is off");
-          else:
             - logger.log:
                 format: "Starting check on back door lock battery"
                 level: DEBUG

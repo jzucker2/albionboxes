@@ -30,3 +30,17 @@
 * Cool repo of home assistant and ESPHome projects
   * https://github.com/landonr/esphome-components
 * https://www.reddit.com/r/Esphome/comments/1eyd4wv/finally_properly_launched_the_pd_stepper_a_usb_pd/
+* Accurate tracker
+  * https://github.com/swoboda1337/acurite-esphome
+* wake words!
+  * https://www.home-assistant.io/voice_control/s3_box_voice_assistant/
+* Jesse's projects (main contributor/owner of ESPHome)
+  * https://github.com/jesserockz/esphome-components
+    * https://github.com/jesserockz/esphome-components/tree/main/components/file
+      * allows you to inject any random file, like a `sound.wav` file, into a config
+  * https://github.com/jesserockz/esphome-configs
+    * His personal configs
+* Home Assistant voice assistant project
+  * https://github.com/esphome/home-assistant-voice-pe
+  * This seems like a great sample repo, not sure where the instructions are
+* https://github.com/crankyoldgit/IRremoteESP8266

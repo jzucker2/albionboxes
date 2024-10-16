@@ -1,9 +1,9 @@
 substitutions:
-  node_name: jzvornadoblaster
-  friendly_name: JZ Vornado IR Blaster
-  area: JZ Bedroom
-  comment: "Controlling the Vornado window fan in JZ Bedroom via IR"
-  box_config_file_name: prod_jz_vornado_controller
+  node_name: danroomvornadoblaster
+  friendly_name: Dan Room Vornado IR Blaster
+  area: Dan Room
+  comment: "Controlling the Vornado window fan in Dan Room via IR"
+  box_config_file_name: prod_danroom_vornado_controller
   remote_transmitter_pin: "GPIO26"
   vornado_restore_mode: RESTORE_DEFAULT_OFF
   repeat_times: "3"

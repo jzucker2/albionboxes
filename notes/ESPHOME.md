@@ -19,6 +19,8 @@ pip install --upgrade -r upgrade-requirements.txt
 
 * https://github.com/esphome/feature-requests/issues/2476
 * https://community.home-assistant.io/t/how-is-friendly-name-supposed-to-behave/542570/9
+* https://github.com/esphome/esphome/pull/7606
+  * Option to include `vars` in remote packages
 
 Turns out that it will shove `friendly_name` in front of an 
 entity, _even_ if that entity is already prepended with the 
@@ -50,6 +52,12 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
 * Internal temp issues
   * https://github.com/esphome/issues/issues/4271
   * https://github.com/espressif/esp-idf/issues/8088
+* M5Stack PoE W5500 chip has issues with ESPHome
+  * https://github.com/esphome/esphome/pull/7503
+* LoRa M5Stack support
+  * https://github.com/esphome/esphome/pull/7490
+* ESPHome powered audio dac
+  * https://github.com/esphome/esphome/pull/7505
 
 ## Concepts
 
@@ -65,6 +73,8 @@ instead of just simply `Dan Desk Temp Sensor Uptime Sensor`.
     * https://github.com/esphome/esphome/blob/dev/esphome/components/ble_client/sensor/ble_sensor.cpp
 * Functions and import stuff
   * https://community.home-assistant.io/t/reusable-function-for-lambdas/296435/9
+* Examples for making custom components
+  * https://github.com/jesserockz/esphome-external-component-examples
 
 ## General Resources
 
